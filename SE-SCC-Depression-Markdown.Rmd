@@ -1,8 +1,32 @@
 ---
-title: "SE-SCC-Depression"
-author: "Gabriella Bann"
-date: "2025-02-08"
+title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: 
+Connection with Self-Concept Clarity"
+author: 
+  name: "Gabriella Bann"
+  affiliation: "University of Chicago"
+date: "`r format(Sys.Date(), '%B %d, %Y')`"
+format:
+  pdf:
+    documentclass: article
+    keep_tex: true
+    toc: true
+    number-sections: true
+    citation-package: natbib
+    latex-engine: pdflatex
+    includes:
+      in-header: preamble.tex
+    bibliography: references.bib
+    
+    html:
+      toc: true
+      number-sections: true
+      theme: cerulean
+      css: styles.css
+csl: apa.csl
+editor: visual
 output: html_document
+
+quarto render SE-SCC-Depression-Markdown.qmd
 ---
 
 ```{r setup, include=FALSE}
