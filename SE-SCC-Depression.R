@@ -85,7 +85,9 @@ wave1_cohort1_clean <- wave1_cohort1 %>%
 # SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
 
 #scoring Self-IAT
-install.packages("iatgen")
+available.packages("iatgen")
+install.packages("remotes")
+remotes::install_github("iatgen/iatgen", force = TRUE)
 library(iatgen)
 
 dat <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
@@ -116,27 +118,27 @@ clean <- cleanIAT(prac1=dat$compatible.prac,
                   error.penalty=TRUE, 
                   error.penalty.ms=600)
 
-sum(!clean$skipped) #how many participants completed the IAT
-clean$timeout.rate #timeout drop rate (% of trials)
-clean$fastprt.count #fast participant drop count and rate (% of sample)
-clean$fastprt.rate #"
-clean$drop.participant #if individual participants were dropped or not
-clean$error.rate #error rate
-clean$error.rate.pt
-clean$error.rate.prac1 #error rate of practice combined block
-clean$error.rate.crit1 #error rate of critical combined block
-clean$error.rate.prac2
-clean$error.rate.crit2
+sum(!clean$skipped) #how many participants completed the IAT (14)
+clean$timeout.rate #timeout drop rate (% of trials) (0.004761905)
+clean$fastprt.count #fast participant drop count and rate (% of sample) (0)
+clean$fastprt.rate #" (0)
+clean$drop.participant #if individual participants were dropped or not (All FALSE)
+clean$error.rate #error rate (0.08911483)
+clean$error.rate.pt #(NULL)
+clean$error.rate.prac1 #error rate of practice combined block (0.05357143)
+clean$error.rate.crit1 #error rate of critical combined block (0.06822262)
+clean$error.rate.prac2 #(0.1223022)
+clean$error.rate.crit2 #(0.1113106)
 names(clean)
-IATreliability(clean)$reliability #internal consistency
-IATalpha(clean)$alpha.total #reliability of IAT D-score
+IATreliability(clean)$reliability #internal consistency (0.8902007)
+IATalpha(clean)$alpha.total #reliability of IAT D-score (raw_alpha = 0.7397427)
 
 dat$D <- clean$D
-mean(clean$D, na.rm=T)
-sd(clean$D, na.rm=T)
-t.test(clean$D) #one sample t-test
+mean(clean$D, na.rm=T) #(0.7055081)
+sd(clean$D, na.rm=T) #(0/3755495)
+t.test(clean$D) #one sample t-test (t = 7.0291, df = 13, p-value = 8.945e-06, CI(0.4886723, 0.9223440), mean of x = 0.7055081)
 
-mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d
+mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 
 library(ggplot2)
 ggplot(dat, aes(x=D))+
@@ -146,11 +148,11 @@ ggplot(dat, aes(x=D))+
 write.csv(clean$D, "SelfIATOutput.csv")
 
 #reaction time descriptives by block
-mean(clean$clean.means.crit1, na.rm=T)
-mean(clean$clean.means.crit2, na.rm=T)
-mean(clean$clean.means.prac1, na.rm=T)
-mean(clean$clean.means.prac2, na.rm=T)
-sd(clean$clean.means.crit1, na.rm=T)
-sd(clean$clean.means.crit2, na.rm=T)
-sd(clean$clean.means.prac1, na.rm=T)
-sd(clean$clean.means.prac2, na.rm=T)
+mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
+mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
+mean(clean$clean.means.prac1, na.rm=T) #(1114.787)
+mean(clean$clean.means.prac2, na.rm=T) #(1487.6)
+sd(clean$clean.means.crit1, na.rm=T) #(280.7861)
+sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
+sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
+sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
