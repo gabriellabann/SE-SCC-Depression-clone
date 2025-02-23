@@ -81,10 +81,10 @@ wave1_cohort1_clean <- wave1_cohort1 %>%
          CESDQ13 = `CES-D Q1_13`, CESDQ14 = `CES-D Q1_14`, CESDQ15 = `CES-D Q1_15`, 
          CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
          CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
-# make sure to also clean self-IAT, SCC, and CES-D
-# SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
+#make sure to also clean self-IAT, SCC, and CES-D
+#SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
 
-#scoring Self-IAT
+#| label: cleaning and scoring self-IAT
 available.packages("iatgen")
 install.packages("remotes")
 remotes::install_github("iatgen/iatgen", force = TRUE)
@@ -92,15 +92,15 @@ library(iatgen)
 
 dat <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
 
-#Collapsing IAT data down
+#collapsing IAT data down
 dat$compatible.crit <- combineIATfourblocks(dat$Q4.RP4, dat$Q18.LP4, dat$Q14.RN7, dat$Q28.LN7)
 dat$incompatible.crit <- combineIATfourblocks(dat$Q7.RP7, dat$Q21.LP7, dat$Q11.RN4, dat$Q25.LN4)
 
-#Collapsing IAT practice blocks
+#collapsing IAT practice blocks
 dat$compatible.prac<- combineIATfourblocks(dat$Q3.RP3, dat$Q17.LP3, dat$Q13.RN6, dat$Q27.LN6)
 dat$incompatible.prac <- combineIATfourblocks(dat$Q6.RP6, dat$Q20.LP6, dat$Q10.RN3, dat$Q24.LN3)
 
-#Cleaning the IAT
+#cleaning the IAT
 clean <- cleanIAT(prac1=dat$compatible.prac, 
                   crit1=dat$compatible.crit, 
                   prac2=dat$incompatible.prac, 
@@ -157,32 +157,71 @@ sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
 sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
 sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 
-#Cleaning CES-D
+#| label: cleaning and scoring the CES-D
 library(dplyr)
 
+str(wave1_cohort1_clean$CESDQ2)
+unique(wave1_cohort1_clean$CESDQ2)
+table(wave1_cohort1_clean$CESDQ2, useNA = "always")
+
+
+#recoding character responses to numeric values
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(starts_with("CESDQ"), ~ case_when(
-    . == "Rarely or None of the Time (Less than 1 Day)" ~ 0,
-    . == "Some or a Little of the Time (1–2 Days)" ~ 1,
-    . == "Occasionally or a Moderate Amount of the Time (3–4 Days)" ~ 2,
-    . == "Most or All of the Time (5–7 Days)" ~ 3,
-    TRUE ~ NA_real_))) #recoding character responses to numeric values
+    trimws(.) == "Rarely or none of the time (less than 1 day)" ~ 0,
+    trimws(.) == "Some or a little of the time (1–2 days)" ~ 1,
+    trimws(.) == "Occasionally or a moderate amount of time (3–4 days)" ~ 2,
+    trimws(.) == "Most or all of the time (5–7 days)" ~ 3,
+    is.na(.) ~ NA_real_,
+    TRUE ~ NA_real_))) 
 
+#reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .)) #reverse scoring positive items
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .)) 
 
+#calculate total score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(CESD_Total = sum(c_across(starts_with("CESDQ")), na.rm = TRUE)) %>%
-  ungroup() #calculate total score
+  ungroup() 
 
+#interpreting score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
     CESD_Total >= 24 ~ "High Depression",
-    TRUE ~ NA_character_)) #interpreting score
+    TRUE ~ NA_character_)) 
 
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])  #viewing the totaled scores
 write.csv(wave1_cohort1_clean, "CESD_Scored.csv", row.names = FALSE)  #saving as a CSV
 
+#| label: cleaning and scoring the RSES
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("RosenbergQ"), ~ case_when(
+    . == "Strongly Agree" ~ 3,
+    . == "Agree" ~ 2,
+    . == "Disagree" ~ 1,
+    . == "Strongly Disagree" ~ 0,
+    TRUE ~ NA_real_)))
+
+#reverse scoring negative items
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), ~ 3 - .)) 
+
+#calculate total score
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rowwise() %>%
+  mutate(Rosenberg_Total = sum(c_across(starts_with("RosenbergQ")), na.rm = TRUE)) %>%
+  ungroup() 
+
+#interpreting score
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(Explicit_SE_Level = case_when(
+    Rosenberg_Total < 15 ~ "Low Self-Esteem",
+    Rosenberg_Total >= 15 & Rosenberg_Total <= 25 ~ "Normal Self-Esteem",
+    Rosenberg_Total > 25 ~ "High Self-Esteem",
+    TRUE ~ NA_character_)) 
+
+head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])  #viewing the totaled scores
+write.csv(wave1_cohort1_clean, "RSES_Scored.csv", row.names = FALSE)  #saving as a CSV
