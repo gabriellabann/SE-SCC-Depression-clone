@@ -113,3 +113,42 @@ clean <- cleanIAT(prac1=dat$compatible.prac,
                   
                   error.penalty=TRUE, 
                   error.penalty.ms=600)
+
+sum(!clean$skipped) #how many participants completed the IAT
+clean$timeout.rate #timeout drop rate (% of trials)
+clean$fastprt.count #fast participant drop count and rate (% of sample)
+clean$fastprt.rate #"
+clean$drop.participant #if individual participants were dropped or not
+clean$error.rate #error rate
+clean$error.rate.pt
+clean$error.rate.prac1 #error rate of practice combined block
+clean$error.rate.crit1 #error rate of critical combined block
+clean$error.rate.prac2
+clean$error.rate.crit2
+names(clean)
+IATreliability(clean)$reliability #internal consistency
+IATalpha(clean)$alpha.total #reliability of IAT D-score
+
+dat$D <- clean$D
+mean(clean$D, na.rm=T)
+sd(clean$D, na.rm=T)
+t.test(clean$D) #one sample t-test
+
+mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d
+
+library(ggplot2)
+ggplot(dat, aes(x=D))+
+  geom_density(color="black", fill="light blue")+
+  theme_light()
+
+write.csv(clean$D, "SelfIATOutput.csv")
+
+#reaction time descriptives by block
+mean(clean$clean.means.crit1, na.rm=T)
+mean(clean$clean.means.crit2, na.rm=T)
+mean(clean$clean.means.prac1, na.rm=T)
+mean(clean$clean.means.prac2, na.rm=T)
+sd(clean$clean.means.crit1, na.rm=T)
+sd(clean$clean.means.crit2, na.rm=T)
+sd(clean$clean.means.prac1, na.rm=T)
+sd(clean$clean.means.prac2, na.rm=T)
