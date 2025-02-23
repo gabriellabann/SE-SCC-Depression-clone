@@ -156,3 +156,33 @@ sd(clean$clean.means.crit1, na.rm=T) #(280.7861)
 sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
 sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
 sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
+
+#Cleaning CES-D
+library(dplyr)
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("CESDQ"), ~ case_when(
+    . == "Rarely or None of the Time (Less than 1 Day)" ~ 0,
+    . == "Some or a Little of the Time (1–2 Days)" ~ 1,
+    . == "Occasionally or a Moderate Amount of the Time (3–4 Days)" ~ 2,
+    . == "Most or All of the Time (5–7 Days)" ~ 3,
+    TRUE ~ NA_real_))) #recoding character responses to numeric values
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .)) #reverse scoring positive items
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rowwise() %>%
+  mutate(CESD_Total = sum(c_across(starts_with("CESDQ")), na.rm = TRUE)) %>%
+  ungroup() #calculate total score
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(Depression_Level = case_when(
+    CESD_Total < 16 ~ "No Depression",
+    CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
+    CESD_Total >= 24 ~ "High Depression",
+    TRUE ~ NA_character_)) #interpreting score
+
+head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])  #viewing the totaled scores
+write.csv(wave1_cohort1_clean, "CESD_Scored.csv", row.names = FALSE)  #saving as a CSV
+
