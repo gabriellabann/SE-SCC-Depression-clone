@@ -62,7 +62,54 @@ glimpse(wave1_cohort1)
 wave1_cohort1_clean <- wave1_cohort1
 
 colnames(wave1_cohort1)
+
+colnames(wave1_cohort1_clean)
   
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  select(RosenbergQ1 = `Rosenberg Q1_1`, RosenbergQ2 = `Rosenberg Q1_2`, RosenbergQ3 = `Rosenberg Q1_3`, RosenbergQ4 = `Rosenberg Q1_4`, RosenbergQ5 = `Rosenberg Q1_5`, RosenbergQ6 = `Rosenberg Q1_6`, RosenbergQ7 = `Rosenberg Q1_7`, RosenbergQ8 = `Rosenberg Q1_8`, RosenbergQ9 = `Rosenberg Q1_9`, RosenbergQ10 = `Rosenberg Q1_10`)
+  rename(RosenbergQ1 = `Rosenberg Q1_1`, RosenbergQ2 = `Rosenberg Q1_2`, 
+         RosenbergQ3 = `Rosenberg Q1_3`, RosenbergQ4 = `Rosenberg Q1_4`, 
+         RosenbergQ5 = `Rosenberg Q1_5`, RosenbergQ6 = `Rosenberg Q1_6`, 
+         RosenbergQ7 = `Rosenberg Q1_7`, RosenbergQ8 = `Rosenberg Q1_8`, 
+         RosenbergQ9 = `Rosenberg Q1_9`, RosenbergQ10 = `Rosenberg Q1_10`)
+wave1_cohort1_clean <- wave1_cohort1 %>%
+  rename(CESDQ1 = `CES-D Q1_1`, CESDQ2 = `CES-D Q1_2`, CESDQ3 = `CES-D Q1_3`, 
+         CESDQ4 = `CES-D Q1_4`, CESDQ5 = `CES-D Q1_5`, CESDQ6 = `CES-D Q1_6`, 
+         CESDQ7 = `CES-D Q1_7`, CESDQ8 = `CES-D Q1_8`, CESDQ9 = `CES-D Q1_9`, 
+         CESDQ10 = `CES-D Q1_10`, CESDQ11 = `CES-D Q1_11`, CESDQ12 = `CES-D Q1_12`, 
+         CESDQ13 = `CES-D Q1_13`, CESDQ14 = `CES-D Q1_14`, CESDQ15 = `CES-D Q1_15`, 
+         CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
+         CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
 # make sure to also clean self-IAT, SCC, and CES-D
+# SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
+
+#scoring Self-IAT
+install.packages(iatgen)
+library(iatgen)
+
+dat <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
+
+#Collapsing IAT data down
+dat$compatible.crit <- combineIATfourblocks(dat$Q4.RP4, dat$Q18.LP4, dat$Q14.RN7, dat$Q28.LN7)
+dat$incompatible.crit <- combineIATfourblocks(dat$Q7.RP7, dat$Q21.LP7, dat$Q11.RN4, dat$Q25.LN4)
+
+#Collapsing IAT practice blocks
+dat$compatible.prac<- combineIATfourblocks(dat$Q3.RP3, dat$Q17.LP3, dat$Q13.RN6, dat$Q27.LN6)
+dat$incompatible.prac <- combineIATfourblocks(dat$Q6.RP6, dat$Q20.LP6, dat$Q10.RN3, dat$Q24.LN3)
+
+#Cleaning the IAT
+clean <- cleanIAT(prac1=dat$compatible.prac, 
+                  crit1=dat$compatible.crit, 
+                  prac2=dat$incompatible.prac, 
+                  crit2=dat$incompatible.crit, 
+                  
+                  timeout.drop=TRUE, 
+                  timeout.ms=10000, 
+                  
+                  fasttrial.drop=FALSE, 
+                  
+                  fastprt.drop=TRUE, 
+                  fastprt.percent=.10, 
+                  fastprt.ms=300, 
+                  
+                  error.penalty=TRUE, 
+                  error.penalty.ms=600)
