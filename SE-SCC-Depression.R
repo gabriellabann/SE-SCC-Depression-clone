@@ -38,6 +38,8 @@
 # ran install.packages("flextable") in console
 # ran library(flextable) in console
 
+###below is beginning of final project
+
 #| label: setup
 
 library(tidyverse)
