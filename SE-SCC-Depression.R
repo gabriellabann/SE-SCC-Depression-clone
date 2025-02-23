@@ -85,7 +85,7 @@ wave1_cohort1_clean <- wave1_cohort1 %>%
 # SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
 
 #scoring Self-IAT
-install.packages(iatgen)
+install.packages("iatgen")
 library(iatgen)
 
 dat <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
