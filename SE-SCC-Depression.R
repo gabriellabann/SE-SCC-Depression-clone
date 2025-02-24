@@ -225,3 +225,14 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 
 head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])  #viewing the totaled scores
 write.csv(wave1_cohort1_clean, "RSES_Scored.csv", row.names = FALSE)  #saving as a CSV
+
+#| label: Analyzing Data(?)
+
+#Points Need To Hit: (8) Parse and write conditional statements 
+#and/or loops, use readr functions, and tidyr functions, use 
+#stringr functions, use forcats functions
+#Data Viz Points To Hit: geom_* layers, dynamic aes(), use facets 
+#(at least 2 ways), create publication quality plots
+#Data An Points To Hit: Simple Descriptive Analyses (non-numeric),
+#perform hypothesis testing (numeric and factor), present and interpret in manuscript narrative
+#BibTeX: 
