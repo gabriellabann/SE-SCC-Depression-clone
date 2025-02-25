@@ -1,58 +1,67 @@
-# ran install.packages("quarto") in console
-# ran library(quarto) in console
-
-# verified getwd() in console
+#| label: loading required libraries
 
 # ran quarto::quarto_use_template("wjschne/apaquarto", no_prompt = T) in console
 
-# ran install.packages("tidyverse") in console
-# ran library(tidyverse) in console
+if (!requireNamespace("quarto", quietly = TRUE)) install.packages("tidyverse")
+if(!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
+if (!requireNamespace("readr", quietly = TRUE)) install.packages("readr")
+if (!requireNamespace("forcats", quietly = TRUE)) install.packages("forcats")
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")
+if (!requireNamespace("quarto", quietly = TRUE)) install.packages("quarto")
+if (!requireNamespace("knitr", quietly = TRUE)) install.packages("knitr")
+if (!requireNamespace("stringr", quietly = TRUE)) install.packages("stringr")
+if (!requireNamespace("dplyr", quietly = TRUE)) install.packages("dplyr")
+if (!requireNamespace("tidyr", quietly = TRUE)) install.packages("tidyr")
+if(!requireNamespace("scales", quietly = TRUE)) install.packages("scales")
+if (!requireNamespace("psych", quietly = TRUE)) install.packages("psych")
+if (!requireNamespace("stats", quietly = TRUE)) install.packages("stats")
+if (!requireNamespace("lme4", quietly = TRUE)) install.packages("lme4")
+if (!requireNamespace("patchwork", quietly = TRUE)) install.packages("patchwork")
+if (!requireNamespace("kableExtra", quietly = TRUE)) install.packages("kableExtra")
+if (!requireNamespace("rempsyc", quietly = TRUE)) install.packages("rempsyc")
+if (!requireNamespace("broom", quietly = TRUE)) install.packages("broom")
+if (!requireNamespace("papaja", quietly = TRUE)) install.packages("papaja")
+if (!requireNamespace("flextable", quietly = TRUE))install.packages("flextable")
 
-# ran install.packages("scales") in console
-# ran library(scales) in console
-
-# ran install.packages("psych") in console
-# ran library(psych) in console
-
-# ran install.packages("stats") in console
-# ran library(stats) in console
-
-# ran install.packages("lme4") in console
-# ran library(lme4) in console
-
-# ran install.packages("patchwork") in console
-# ran library(patchwork) in console
-
-# ran install.packages("kableExtra") in console
-# ran library(kableExtra) in console
-
-# ran install.packages("rempsyc") in console
-# ran library(rempsyc) in console
-
-# ran install.packages("broom") in console
-# ran library(broom) in console
-
-# ran install.packages("papaja") in console
-# ran library(papaja) in console
-
-# ran install.packages("flextable") in console
-# ran library(flextable) in console
-
-###below is beginning of final project
+library(quarto)
+library(tidyverse)
+library(readr)
+library(forcats)
+library(ggplot2)
+library(quarto)
+library(knitr)
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(scales)
+library(psych)
+library(stats)
+library(lme4)
+library(patchwork)
+library(kableExtra)
+library(rempsyc)
+library(broom)
+library(papaja)
+library(flextable)
 
 #| label: setup
 
 library(tidyverse)
 set.seed(1:10000, 1)
 
+#| label: setting working directory
+
+setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
+getwd()
+
 #| label: reading in data
 
 library(readr)
-setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
 wave1_cohort1 <- readr::read_csv("Wave1_Cohort1.csv",
                           trim_ws = FALSE, 
                           name_repair = "minimal", 
                           col_types = cols(.default = col_character()))
+
 #| label: inspecting the data
 
 head(wave1_cohort1)
@@ -61,7 +70,9 @@ glimpse(wave1_cohort1)
 
 #| label: cleaning the data
 
-wave1_cohort1_clean <- wave1_cohort1
+wave1_cohort1_clean <- wave1_cohort1 %>%
+  rename_with(~ str_replace_all(., " ", "_")) %>%
+  mutate(across(everything(), trimws))
 
 colnames(wave1_cohort1)
 
@@ -73,6 +84,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
          RosenbergQ5 = `Rosenberg Q1_5`, RosenbergQ6 = `Rosenberg Q1_6`, 
          RosenbergQ7 = `Rosenberg Q1_7`, RosenbergQ8 = `Rosenberg Q1_8`, 
          RosenbergQ9 = `Rosenberg Q1_9`, RosenbergQ10 = `Rosenberg Q1_10`)
+
 wave1_cohort1_clean <- wave1_cohort1 %>%
   rename(CESDQ1 = `CES-D Q1_1`, CESDQ2 = `CES-D Q1_2`, CESDQ3 = `CES-D Q1_3`, 
          CESDQ4 = `CES-D Q1_4`, CESDQ5 = `CES-D Q1_5`, CESDQ6 = `CES-D Q1_6`, 
@@ -81,10 +93,11 @@ wave1_cohort1_clean <- wave1_cohort1 %>%
          CESDQ13 = `CES-D Q1_13`, CESDQ14 = `CES-D Q1_14`, CESDQ15 = `CES-D Q1_15`, 
          CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
          CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
-#make sure to also clean self-IAT, SCC, and CES-D
-#SCC was forgotton for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
+#make sure to also clean SCC
+#SCC was forgotten for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
 
 #| label: cleaning and scoring self-IAT
+
 available.packages("iatgen")
 install.packages("remotes")
 remotes::install_github("iatgen/iatgen", force = TRUE)
@@ -158,6 +171,7 @@ sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
 sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 
 #| label: cleaning and scoring the CES-D
+
 library(dplyr)
 
 str(wave1_cohort1_clean$CESDQ2)
@@ -183,8 +197,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
                                                    "0" = "Rarely or none of the time (less than 1 day)",
                                                    "1" = "Some or a little of the time (1-2 days)",
                                                    "2" = "Occasionally or a moderate amount of time (3-4 days)",
-                                                   "3" = "Most or all of the time (5-7 days)"
-  )) %>% as.numeric())
+                                                   "3" = "Most or all of the time (5-7 days)")) %>% as.numeric())
 
 
 #reverse scoring positive items
@@ -238,13 +251,39 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])  #viewing the totaled scores
 write.csv(wave1_cohort1_clean, "RSES_Scored.csv", row.names = FALSE)  #saving as a CSV
 
-#| label: Analyzing Data(?)
+#| label: data visualization
 
-#Points Need To Hit: (8) Parse and write conditional statements 
-#and/or loops, use readr functions, and tidyr functions, use 
-#stringr functions, use forcats functions
-#Data Viz Points To Hit: geom_* layers, dynamic aes(), use facets 
-#(at least 2 ways), create publication quality plots
-#Data An Points To Hit: Simple Descriptive Analyses (non-numeric),
-#perform hypothesis testing (numeric and factor), present and interpret in manuscript narrative
-#BibTeX: 
+ggplot(wave1_cohort1_clean, aes(x = CESD_Total, fill = Depression_Level)) +
+  geom_histogram(binwidth = 2, color = "black") +
+  facet_wrap(~Depression_Level) +
+  labs(title = "CES-D Score Distribution", x = "CES-D Total Score", y = "Count", fill = "Depression Level") +
+  theme_minimal()
+
+ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Rosenberg Self-Esteem Scale Distribution", x = "RSE Total Score", y = "Count") +
+  theme_minimal()
+
+ggplot(wave1_cohort1_clean, aes(x = IAT_Score)) +
+  geom_density(fill = "red", alpha = 0.5) +
+  labs(title = "Implicit Association Test Score Distribution", x = "IAT Score", y = "Density") +
+  theme_minimal()
+
+#| label: decriptive statistics
+
+  descriptive_stats <- wave1_cohort1_clean %>%
+  summarise(
+    Mean_CESD = mean(CESD_Total, na.rm = TRUE),
+    SD_CESD = sd(CESD_Total, na.rm = TRUE),
+    Mean_RSE = mean(RSE_Total, na.rm = TRUE),
+    SD_RSE = sd(RSE_Total, na.rm = TRUE),
+    Mean_IAT = mean(IAT_Score, na.rm = TRUE),
+    SD_IAT = sd(IAT_Score, na.rm = TRUE))
+
+#| label: hypothesis testing
+
+t_test_result <- t.test(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
+t_test_result
+
+cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
+cor_test_result
