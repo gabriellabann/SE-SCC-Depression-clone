@@ -175,6 +175,18 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     is.na(.) ~ NA_real_,
     TRUE ~ NA_real_))) 
 
+library(tidyverse)
+
+#second option converting CES-D responses using forcats
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("CESDQ"), ~ fct_recode(as.factor(.),
+                                                   "0" = "Rarely or none of the time (less than 1 day)",
+                                                   "1" = "Some or a little of the time (1-2 days)",
+                                                   "2" = "Occasionally or a moderate amount of time (3-4 days)",
+                                                   "3" = "Most or all of the time (5-7 days)"
+  )) %>% as.numeric())
+
+
 #reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .)) 
