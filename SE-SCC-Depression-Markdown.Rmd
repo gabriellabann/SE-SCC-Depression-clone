@@ -1,6 +1,5 @@
 ---
-title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: 
-Connection with Self-Concept Clarity"
+title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: Connection with Self-Concept Clarity"
 author: 
   name: "Gabriella Bann"
   affiliation: "University of Chicago"
