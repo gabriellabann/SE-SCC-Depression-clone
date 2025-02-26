@@ -1,7 +1,6 @@
 #| label: loading required libraries
 
 # ran quarto::quarto_use_template("wjschne/apaquarto", no_prompt = T) in console
-
 if (!requireNamespace("quarto", quietly = TRUE)) install.packages("tidyverse")
 if(!requireNamespace("tidyverse", quietly = TRUE)) install.packages("tidyverse")
 if (!requireNamespace("readr", quietly = TRUE)) install.packages("readr")
