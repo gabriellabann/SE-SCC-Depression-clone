@@ -18,9 +18,6 @@ format:
 bibliography: references.bib
 csl: apa.csl
 editor: visual
-#output:
- #papaja::apa6_pdf:
-    #keep_tex: true
 ---
 
 ```{r}
@@ -32,7 +29,7 @@ setwd("C:/Users/gabri/repos/SE-SCC-Depression")
 ```{r}
 #| label: knitting to pdf 
 #| echo: FALSE
-quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
+#quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
 ```
 
 ```{r}
@@ -41,6 +38,13 @@ quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = 
 install.packages("tinytex")
 tinytex::install_tinytex()
 install.packages(c("tidyverse", "papaja", "rmarkdown"))
+```
+
+```{r}
+#| label: loading data
+#| echo: FALSE
+library(readr)
+wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Scored_Measures.csv")
 ```
 
 # Introduction
@@ -53,7 +57,13 @@ Depression is a highly common mental health condition impacting 18.4% of the adu
 
 ## Participants
 
-Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included 14 participants. In total, `r nrow(wave1_cohort1_clean)` participants completed the measures.
+Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included 14 participants. In total,
+
+```         
+`r nrow(wave1_cohort1_clean)`
+```
+
+participants completed the measures.
 
 ## Procedures & Measures
 
@@ -61,7 +71,13 @@ Demographic information, questionnaires, and online testing assessments will be 
 
 # Results
 
-The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
+The mean CES-D score was
+
+```         
+`r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`
+```
+
+.
 
 ```{r}
 #| label: writing results into .csv 
@@ -94,11 +110,18 @@ knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```{r}
 #| label: t-test 
 #| echo: FALSE
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(Depression_Level = case_when(
+    CESD_Total < 16 ~ "No Depression",
+    CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
+    CESD_Total >= 24 ~ "High Depression"))
+
 t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
 print(t_test_result)
 ```
 
-The p-value was `r t_test_result$p.value`.
+The p-value was `` `r t_test_result$p.value` ``.
 
 # Discussion
 
@@ -107,7 +130,7 @@ The results suggest a significant relationship between depression and self-estee
 ```{r}
 #| label: rendering pdf
 #| echo: FALSE
-quarto::quarto_render("manuscript.qmd", output_format = "pdf")
+#quarto::quarto_render("manuscript.qmd", output_format = "pdf")
 ```
 
 # References
