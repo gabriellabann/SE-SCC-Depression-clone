@@ -47,7 +47,7 @@ library(flextable)
 #| label: setup
 
 library(tidyverse)
-set.seed(1:10000, 1)
+set.seed(1234)
 
 #| label: setting working directory
 
@@ -70,20 +70,20 @@ glimpse(wave1_cohort1)
 
 #| label: cleaning the data
 
-wave1_cohort1_clean <- wave1_cohort1 %>%
-  rename_with(~ str_replace_all(., " ", "_")) %>%
-  mutate(across(everything(), trimws))
+#wave1_cohort1_clean <- wave1_cohort1 %>%
+  #rename_with(~ str_replace_all(., " ", "_")) %>%
+  #mutate(across(everything(), trimws))
 
 colnames(wave1_cohort1)
 
 colnames(wave1_cohort1_clean)
   
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  rename(RosenbergQ1 = `Rosenberg Q1_1`, RosenbergQ2 = `Rosenberg Q1_2`, 
-         RosenbergQ3 = `Rosenberg Q1_3`, RosenbergQ4 = `Rosenberg Q1_4`, 
-         RosenbergQ5 = `Rosenberg Q1_5`, RosenbergQ6 = `Rosenberg Q1_6`, 
-         RosenbergQ7 = `Rosenberg Q1_7`, RosenbergQ8 = `Rosenberg Q1_8`, 
-         RosenbergQ9 = `Rosenberg Q1_9`, RosenbergQ10 = `Rosenberg Q1_10`)
+  rename(RosenbergQ1 = `Rosenberg_Q1_1`, RosenbergQ2 = `Rosenberg_Q1_2`, 
+         RosenbergQ3 = `Rosenberg_Q1_3`, RosenbergQ4 = `Rosenberg_Q1_4`, 
+         RosenbergQ5 = `Rosenberg_Q1_5`, RosenbergQ6 = `Rosenberg_Q1_6`, 
+         RosenbergQ7 = `Rosenberg_Q1_7`, RosenbergQ8 = `Rosenberg_Q1_8`, 
+         RosenbergQ9 = `Rosenberg_Q1_9`, RosenbergQ10 = `Rosenberg_Q1_10`)
 
 wave1_cohort1_clean <- wave1_cohort1 %>%
   rename(CESDQ1 = `CES-D Q1_1`, CESDQ2 = `CES-D Q1_2`, CESDQ3 = `CES-D Q1_3`, 
