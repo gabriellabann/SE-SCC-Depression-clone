@@ -25,7 +25,7 @@ format:
 csl: apa.csl
 editor: visual
 output:
-  papaja::apa7_pdf:
+  papaja::apa6_pdf:
     keep_tex: true
 bibliography: references.bib
 ---
