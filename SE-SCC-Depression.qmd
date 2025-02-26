@@ -1,6 +1,5 @@
 ---
-title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: 
-Connection with Self-Concept Clarity"
+title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem:Connection with Self-Concept Clarity"
 author: 
   name: "Gabriella Bann"
   affiliation: "University of Chicago"
@@ -33,18 +32,14 @@ setwd("C:/Users/gabri/repos/SE-SCC-Depression")
 ```
 
 ```{r}
-#| label: downloading tinytex 
+#| label: installing packages
 #| echo: FALSE
-install.packages("tinytex")
-tinytex::install_tinytex()
-install.packages(c("tidyverse", "papaja", "rmarkdown"))
-```
 
-```{r}
-#| label: loading data
-#| echo: FALSE
-library(readr)
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Scored_Measures.csv")
+#options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+#install.packages("tinytex")
+#tinytex::install_tinytex()
+#install.packages(c("tidyverse", "papaja", "rmarkdown"))
 ```
 
 # Introduction
@@ -83,6 +78,12 @@ The mean CES-D score was
 #| label: writing results into .csv 
 #| echo: FALSE
 write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Scored_Measures.csv")
+```
+
+```{r}
+#| label: loading data 
+#| echo: FALSE 
+library(readr) wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Scored_Measures.csv")
 ```
 
 ```{r}
