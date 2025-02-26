@@ -24,33 +24,33 @@ To complete this assessment:
 
 ## Basic information
 
-Name:
+Name: Gabriella Bann
 
-CNetID:
+CNetID: gabriellabann
 
-Section:
+Section: 2
 
-Research project title:
+Research project title: SE-SCC-Depression
 
-Submission date:
+Submission date: 2/26
 
-Submission number (1-4):
+Submission number (1-4): 1
 
-Project GitHub repository URL:
+Project GitHub repository URL: https://github.com/gabriellabann/SE-SCC-Depression.git
 
-Filename of manuscript .qmd:
+Filename of manuscript .qmd: SE-SCC-Depression.qmd
 
-Filename of knitted .pdf:
-
+Filename of knitted .pdf: experincing significant difficulties knitting to pdf, would appreciate support on this, will be coming to office hours
 
 ## AI Statement
 
 Describe whether and how you used AI/LLMs when completing this project: 
+I used ChatGPT and Deepseek to help with writing code after parsing the class presentations/notes/provided readings, especially when it came to de-bugging.
 
 Optionally (for engagement points) reflect on your use of AI:
-
-
-
+This was the first time I heavily engaged with AI tools. Prior to this class I'm not sure if I've ever used AI, for sure never for school work. This was an additional learning curve as it is yet another tool to learn.
+I was a bit frustrated by how much I had to use it since coding is very new to me, never having used R before this course. I wish we had been given more instruction on best practices with AI tools, and further tips on how to debug 
+to lessen reliance on this tool.
 
 
 ## Overall requirements
@@ -100,7 +100,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2.  Uses relative paths correctly
     3.  Does not have duplicate/redundant elements
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: 
 
@@ -109,7 +109,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1.  Includes description of repo purpose, data use, research questions, etc.
     2.  Outlines the repo structure with file tree or similar
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -118,7 +118,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1.  All scripts run and all notebooks render if the repo is cloned to another location
     2.  .gitingore comprehensively excludes unnecessary, private, and very large files and are commented appropriately
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -127,7 +127,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1.  Used frequent, informative commit messages
     2.  Relies on document revisions rather than manually created new versions
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -140,18 +140,18 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         2. When a reader opts-in to installing packages by uncommenting the code, it runs without errors 
     2. Uses more than one function to install/load/require packages (including those used in commented code)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
         
 6.  Use arithmetic, comparison, and logical operators
 
     1. Uses all three types of operators
     2. Uses multiple operators in data transformation pipelines and/or inline R code
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
 
 7.  Parse and define functions and arguments
 
@@ -159,18 +159,18 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. User-defined function(s) run(s) without error and produces expected output in at least 2 contexts
     3. Functions are well-documented with comments
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
 
 8.  Parse and write conditional statements and/or loops
 
     1. Uses conditional in multiple contexts, including dplyr pipelines
     2. Uses multiple types of conditional/loop functions (e.g., `if_else()`, `case_when()`, `for`, `while`)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
         
 
 9.  Use `readr` functions to read in and write out data
@@ -179,9 +179,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Writes out intermediate and/or final datasets in code chunks or sourced scripts
     3. Uses only relative paths that run without error when repo is cloned
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
 
 10. Use `dplyr` and `tidyr` functions to transform data
 
@@ -189,18 +189,18 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses at least 1 `tidyr` function in a data transformation pipeline
     3. Combines `dplyr` and `tidyr` functions in a data transformation pipeline
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
 
 11. Use `stringr` functions to work with string variables
 
     1. Uses ate least 2 unique `stringr` functions 
     2. Uses `stringr` functions in a data transformation pipeline
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
 
 12. Use `forcats` functions to work with factor variables
 
@@ -208,9 +208,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses `forcats` functions in a data transformation pipeline
     - NOTE: Though they are base R functions, `factor()` and `levels()` can be used to meet this objective as long as they are used in a way that demonstrates the same skills as `forcats` functions, which should involve including optional arguments
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 ### Data visualization with ggplot2
 
@@ -219,17 +219,17 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1. Creates at least 2 figures with different `geom_*` layers (e.g., a scatter plot and a bar plot)
     2. At least one plot is multi-variable
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 14. Use dynamic aesthetics to group data
 
     1. Uses at least 2 unique data-mapped `aes()` arguments (e.g., color, shape, size) to group data in a plot in one or multiple plots
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
         
 15. Use facets to create parallel plots
 
@@ -239,9 +239,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Combines facets with other dynamic grouping aesthetics
       1. If data only includes 1 sensible grouping variable, it may be used for both the faceting and groupin aes.  
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in SE-SCC-Depression.R
         
 16. Create publication-quality plots using `theme` and `labs` layers
 
@@ -250,9 +250,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Variables and labels display in plain English (e.g., "Age (years)" not "child_age_yrs"
     4. Uses at least 1 static aesthetic (e.g., color, shape, size) that improves visual clarity without mapping to data
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 ### Data analysis
 
@@ -263,9 +263,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Presents results in narrative text, table, or plot
     - NOTE: This objective may be met with only numeric or non-numeric summaries if they are sufficiently complex (at Dr. Dowling's discretion)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 18. Perform simple hypothesis testing analyses for multiple data types
 
@@ -274,9 +274,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Presents results in narrative text, table, or plot
     - NOTE: This objective may be met with only numeric or factor data analyses if they are sufficiently complex (at Dr. Dowling's discretion)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 19. Present and interpret statistics in manuscript narrative
 
@@ -285,7 +285,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Discriminates between informative and non-informative statistics and presents only the former in narrative text
     4. Uses dynamic inline R code to render data-dependent text
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -297,7 +297,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses at least 2 citation forms (e.g., (Author, Year), Author (Year), etc.)
     3. May use `cite_r()` to cite R and R packages
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -309,7 +309,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. May include R and R package citations with `cite_r()`
     5. May include references not cited in-text
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -322,7 +322,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3.  Follows the "1-chunk-1-thing" rule
     4.  Chunks are distributed throughout the manuscript, sensibly placed near the text they support
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: 
         
@@ -333,7 +333,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Sets preferences/options in at least 1 code chunk
     4. Organizes setup chunks sensibly
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
         
@@ -346,7 +346,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     5. References render without error and link to the correct table/figure in pdf/html output
     - NOTE: Ideally your table(s) should be produced in APA7 style, but this is not a strict requirement. At a minimum, they should render as formatted tables (not raw output), have readable and correctly formatted text (e.g., column headers should be capitalized and in plain english, not literal variable names), and the table must be dynamically referenced in the text.
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -358,7 +358,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. Results are not displayed as raw R output
     5. Chunks are organized sensibly and appear near the text they support
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
 
@@ -368,9 +368,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     
     1. Includes all necessary metadata, output options, and formatting options necessary to render an APA styled document (or other specified style if appropriate for the project)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
         
 27. Use quarto R Markdown to compose an academic manuscript
 
@@ -380,9 +380,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. Includes at least 1 footnote
     - NOTE: This is going to be one of the most flexible objectives to demonstrate.  You need to demonstrate a range of markdown skills and use them to make a readable, informative manuscript. Hitting the four points above should do that, but you can use your judgment about what kind of markdown features will best serve your project. No matter what, you should use markdown to follow APA7 guidelines.
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
 
 28. Use inline R variables to replace static text
 
@@ -390,17 +390,17 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Replaces static text with inline R references in at least 1 character context
     3. Ideally, uses inline R references for *all* data-dependent text
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
 
 29. Run inline R functions to render dynamic data-dependent text
 
     1. Uses inline R functions to render at least 3 unique data-dependent text outputs (e.g., performs rounding, calculates means, subtracts one list length from another, etc. -- inline rather than in a code chunk)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:
+        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
         
 30. Use `knitr` and quarto to produce an APA7 formatted 1-click PDF manuscript
 
@@ -409,9 +409,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. PDF renders without error and includes all text, tables, and figures
     4. No additional steps are needed (e.g., finding data, determining necessary packages to install and load, running unsourced scripts, correcting aboslute paths)
 
-        -   [ ] Objective attempt
+        -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments:        
+        -   Grader comments: Need help with this, I'm completely lost       
    
 
 ## Reflection (Optional)
@@ -434,8 +434,21 @@ Alternatively/additionally in mind some of the suggested ways to earn engagement
 - Having a maximally reproducible and dynamic manuscript
 - Fully committing to best practices for version control and GitHub integration/organization
 
+The most challenging aspect of this porject was most definetly the debugging, I also needed heavy assistance in writing the code itself but that in itself wasn't so difficult. The debugging took by far the most time and was the
+most nerve-racking. The most rewarding aspect of this project would probably be the finished project, however I ran into so many bugs that I was unable to render the pdf properly, and am completely lost as to how to achieve this.
+I've already exhausted every resource I can imagine and am on the brink of defeat. If I were to start over, I would definitely have attempted this project earlier in the quarter as to recieve more ongoing feedback. My biggest
+regret in this course is letting things slide till the second half of the quarter. From this project, I learned many coding skills like data cleaning, wrangling, visualization, and especially how to use Quarto to create 
+manuscripts. This latter skill was most emphasized since the others I had used in prior mini-projects but not this one. What I am most proud of in this project is the scripts I have written to code/score different psychological
+measures. These will be very useful for other work given to me by the lab I am in.
 
-
+Creating figures and tables was complicated, the code itself wasn't so bad since the data visualization went fairly well in the mini project, however in this final project I ran into significant issues with scoring the CES-D. For 
+some reason it kept giving me errors or telling me all participant's values were 0 when I know for a fact by looking at the raw data it is not. I'm at the point where I might comment out this coding to show I did the work and 
+manually code the responses in excel so that the scoring and onward may run more smoothly. Weirdly enough too even though the IAT and Rosenberg Self-Esteem Scale went perfectly the first time around I ran the functions, every time 
+I've tried to since it keeps giving me errors which doesn't make sense. To be completely honest due to courseload among other extracurricular responsibilities I did not have sufficient time to write any new content for the narrative of my literature review or discussion section, all that is included is copy paste from my thesis proposal. The statistical analysis techniques were ~somewhat~ fun to use, definetely important, however due to the many 
+issues I experienced I may go back to just using SPSS for further thesis work since that is what my lab uses in the first place. To be completely honest I'm not sure what else I could use in terms of markdown features to create 
+more of a polished final product. Once the bugs are worked out, if they even can be, this manuscript will be beneficial if reproducible and dynamic since the data I'm using is coming from cohort one of wave one of an ongoing 
+study. Feeding in the data from cohort one wave 2 and 3, and the next/final cohort would be greatly beneficial to saving time in data analysis. One thing I do feel I have the hang of it fully comitting to best practices for 
+version control and GitHub integration/organization. In general I feel I'm a highly organized person, so I greatly appreciate the level of version control given by GitHub, being someone who often goes back into GoogleDocs history or keeps a running extra document with changes/deletions.
 
 ## Grading
 
