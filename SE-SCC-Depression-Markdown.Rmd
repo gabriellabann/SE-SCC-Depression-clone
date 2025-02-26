@@ -15,24 +15,33 @@ format:
     latex-engine: pdflatex
     includes:
       in-header: preamble.tex
-    bibliography: references.bib
-    
-    html:
-      toc: true
-      number-sections: true
-      theme: cerulean
-      css: styles.css
+bibliography: references.bib
 csl: apa.csl
 editor: visual
-output:
-  papaja::apa6_pdf:
-    keep_tex: true
-bibliography: references.bib
+#output:
+ #papaja::apa6_pdf:
+    #keep_tex: true
 ---
-
+#| label: setting working directory
+#| echo: FALSE
 ```{r}
-quarto::quarto_render(input = SE-SCC-Depression-Markdown.Rmd, output_format = SE-SCC-Depression-Markdown.qmd)
+setwd("C:/Users/gabri/repos/SE-SCC-Depression")
 ```
+
+#| label: knitting to pdf
+#| echo: FALSE
+```{r}
+quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
+```
+
+#| label: downloading tinytex
+#| echo: FALSE
+```{r}
+install.packages("tinytex")
+tinytex::install_tinytex()
+install.packages(c("tidyverse", "papaja", "rmarkdown"))
+```
+
 # Introduction
 ## Depression
   Depression is a highly common mental health condition impacting 18.4% of the adult US population in 2020, with impact defined as ever having been diagnosed by a healthcare provider (@Lee2023). Currently, the typical treatment for depression is a combination of psychotherapy and medication, or just one of the two. Psychotherapy itself has been shown to have a large impact on the reduction of depression symptom severity and a moderate impact on self-esteem (SE) associated with depression post-treatment (@Bhattacharya2023). This begins to demonstrate the relationship between SE and depressive symptoms. Clinically, in patients with major depressive disorder (MDD) with suicidal ideation (SI), explicit (conscious) SE was significantly lower than in healthy controls and patients with MDD without SI (@Yin2022). It was also demonstrated that both the size and direction of the discrepancy in SE were significantly associated with the severity of depressive symptoms (@Yin2022). These findings demonstrated that diminished SE, meaning high implicit (unconscious) and low explicit SE, was associated with the highest SI scores and thus could aid in the early detection of depression and SI formation. In general, lower SE in individuals with depressive symptoms is often associated with SI (@Franck2007). These results especially make it distinct that the discrepancy between implicit and explicit SE, more specifically high implicit and low explicit SE, might be only shown in currently depressed individuals with SI. Alternatively, low implicit and low explicit SE is shown in currently depressed individuals without SI. Although our current study employs the Center for Epidemiologic Studies Depression Scale (CES-D), which does not test for SI, it will be informative to see how the differences in depressive symptoms as measured impact the discrepancies between implicit and explicit SE. Typically, difference score models have been used to analyze the discrepancy between implicit and explicit SE measures; @Visser2024 used polynomial regression analysis to delve further into these predictors of depressive symptoms. Their results demonstrate that depression increases while explicit SE decreases; however, depressive symptoms are almost unaffected by variations in implicit SE (@Visser2024). This complicates the findings of previous research in terms of the role of implicit SE, we hope to resolve this convolution through the measurement of an additional covariate.
