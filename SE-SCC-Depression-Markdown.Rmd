@@ -33,12 +33,21 @@ bibliography: references.bib
 quarto render SE-SCC-Depression-Markdown.qmd
 
 #| label: writing results into .csv
+#| echo: FALSE
 ```{r}
 write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Scored_Measures.csv")
 ```
 
 In total, `r nrow(wave1_cohort1_clean)` participants completed the measures.
 
+#| label: descriptive statistics
+#| echo: FALSE
+```{r}
+summary(wave1_cohort1_clean$CESD_Total)
+```
+
+#| label: summary of measures
+#| echo: FALSE
 ```{r results='asis'}
 papaja::apa_table(
   wave1_cohort1_clean %>% select(CESD_Total, RSE_Total, IAT_Score, Depression_Level) %>% head(),
@@ -47,10 +56,19 @@ papaja::apa_table(
 
 According to recent research, depression and self-esteem are strongly linked (Smith, 2020).
 
+#| label: data table
+#| echo: FALSE
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```
 
+#| label:
+#| echo:
+```{r}
+knitr::kable(head(wave1_cohort1_clean), caption = "Sample Data")
+```
 
 ## R Markdown
 
