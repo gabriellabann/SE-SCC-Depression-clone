@@ -340,13 +340,13 @@ cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$C
 print(cor_test_result)
 
 
-#| label:
+#| label: presenting statistics
 
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       ". A t-test revealed a significant difference in CES-D scores between depression levels (t =", 
       t_test_result$statistic, ", p =", t_test_result$p.value, ").")
 
-cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{author2020}).")
+cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{Jiang2022}).")
 
 writeLines(readLines("references.bib"))
