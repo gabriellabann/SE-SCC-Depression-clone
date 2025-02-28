@@ -222,7 +222,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
                                                    "0" = "Rarely or none of the time (less than 1 day)",
                                                    "1" = "Some or a little of the time (1-2 days)",
                                                    "2" = "Occasionally or a moderate amount of time (3-4 days)",
-                                                   "3" = "Most or all of the time (5-7 days)")) %>% as.numeric()))
+                                                   "3" = "Most or all of the time (5-7 days)"))))
 
 
 #reverse scoring positive items
