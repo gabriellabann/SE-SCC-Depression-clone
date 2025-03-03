@@ -202,14 +202,14 @@ table(wave1_cohort1_clean$CESDQ2, useNA = "always")
 
 
 #recoding character responses to numeric values
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(starts_with("CESDQ"), ~ case_when(
-    trimws(.) == "Rarely or none of the time (less than 1 day)" ~ 0,
-    trimws(.) == "Some or a little of the time (1–2 days)" ~ 1,
-    trimws(.) == "Occasionally or a moderate amount of time (3–4 days)" ~ 2,
-    trimws(.) == "Most or all of the time (5–7 days)" ~ 3,
-    is.na(.) ~ NA_real_,
-    TRUE ~ NA_real_))) 
+#wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  #mutate(across(starts_with("CESDQ"), ~ case_when(
+    #trimws(.) == "Rarely or none of the time (less than 1 day)" ~ 0,
+    #trimws(.) == "Some or a little of the time (1–2 days)" ~ 1,
+    #trimws(.) == "Occasionally or a moderate amount of time (3–4 days)" ~ 2,
+    #trimws(.) == "Most or all of the time (5–7 days)" ~ 3,
+    #is.na(.) ~ NA_real_,
+    #TRUE ~ NA_real_))) 
 
 library(tidyverse)
 
@@ -288,7 +288,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     TRUE ~ NA_character_)) 
 
 head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])  #viewing the totaled scores
-write_csv(wave1_cohort1_clean, "RSES_Scored.csv", row.names = FALSE)  #saving as a CSV
+write_csv(wave1_cohort1_clean, "RSES_Scored.csv")  #saving as a CSV
 
 #| label: data visualization
 
