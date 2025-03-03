@@ -356,3 +356,7 @@ cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRU
 cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{Jiang2022}).")
 
 writeLines(readLines("references.bib"))
+
+#| label: exporting clean data
+
+write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Clean.csv")
