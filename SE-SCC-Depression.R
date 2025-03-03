@@ -192,6 +192,8 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 
 #| label: cleaning and scoring the CES-D
 
+write.csv(wave1_cohort1_clean, "wave1_cohort1_clean.csv", row.names = FALSE)
+
 library(dplyr)
 
 str(wave1_cohort1_clean$CESDQ2)
