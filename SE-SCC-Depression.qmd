@@ -52,13 +52,7 @@ Depression is a highly common mental health condition impacting 18.4% of the adu
 
 ## Participants
 
-Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included 14 participants. In total,
-
-```         
-`r nrow(wave1_cohort1_clean)`
-```
-
-participants completed the measures.
+Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included 14 participants. In total, `r nrow(wave1_cohort1_clean)` participants completed the measures.
 
 ## Procedures & Measures
 
@@ -66,13 +60,7 @@ Demographic information, questionnaires, and online testing assessments will be 
 
 # Results
 
-The mean CES-D score was
-
-```         
-`r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`
-```
-
-.
+The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 
 ```{r}
 #| label: writing results into .csv 
