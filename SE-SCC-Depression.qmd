@@ -20,14 +20,6 @@ editor: visual
 ---
 
 ```{r}
-#| label: setting working directory
-#| echo: false
-setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
-
-list.files("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
-```
-
-```{r}
 #| label: loading data in
 #| echo: false
 library(readr)
@@ -48,12 +40,48 @@ selfIAT_scored <- read_csv("SelfIATOutput.csv")
 ```{r}
 #| label: installing packages
 #| echo: FALSE
+options(repos = c(CRAN = "https://cloud.r-project.org"))  # Set CRAN mirror
+install.packages("quarto")
+install.packages("tidyverse")
+install.packages("readr")
+install.packages("forcats")
+install.packages("ggplot2")
+install.packages("quarto")
+install.packages("knitr")
+install.packages("stringr")
+install.packages("dplyr")
+install.packages("tidyr")
+install.packages("scales")
+install.packages("psych")
+install.packages("stats")
+install.packages("lme4")
+install.packages("patchwork")
+install.packages("kableExtra")
+install.packages("rempsyc")
+install.packages("broom")
+install.packages("papaja")
+install.packages("flextable")
 
-options(repos = c(CRAN = "https://cloud.r-project.org"))
-
-install.packages("tinytex")
-tinytex::install_tinytex()
-install.packages(c("tidyverse", "papaja", "rmarkdown"))
+library(quarto)
+library(tidyverse)
+library(readr)
+library(forcats)
+library(ggplot2)
+library(quarto)
+library(knitr)
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(scales)
+library(psych)
+library(stats)
+library(lme4)
+library(patchwork)
+library(kableExtra)
+library(rempsyc)
+library(broom)
+library(papaja)
+library(flextable)
 ```
 
 # Introduction
@@ -85,7 +113,14 @@ The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 ```{r}
 #| label: loading data 
 #| echo: FALSE 
-library(readr) wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Scored_Measures.csv")
+library(readr) 
+wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+
+cesd_scored <- read_csv("CESD_Scored.csv")
+
+selfIAT_scored <- read_csv("SelfIATOutput.csv")
+
+RSES_Scored <- read_csv("RSES_Scored.csv")
 ```
 
 ```{r}
@@ -98,9 +133,20 @@ summary(wave1_cohort1_clean$CESD_Total)
 #| label: summary of measures 
 #| echo: FALSE
 papaja::apa_table(
-  wave1_cohort1_clean %>% select(CESD_Total, RSE_Total, IAT_Score, Depression_Level) %>% head(),
-  caption = "Summary of Psychological Measures")
+  cesd_scored %>% select(CESD_Total, Depression_Level) %>% head(),
+  caption = "Summary of Depression Scores")
+  
+#papaja::apa_table(
+ # RSES_Scored %>%
+  #select(RSE_Total)  %>% head(), 
+  #caption = "Summary of Rosenberg Scores")
+  
+#papaja::apa_table(
+  #selfIAT_scored %>%
+  #select(IAT_Score)  %>% head(), 
+  #caption = "Summary of Self-IAT Scores")
 ```
+
 
 ```{r setup, include=FALSE}
 #| label: data table 
@@ -114,13 +160,13 @@ knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 #| label: t-test 
 #| echo: FALSE
 
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
+cesd_scored <- cesd_scored %>%
   mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
     CESD_Total >= 24 ~ "High Depression"))
 
-t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
+t_test_result <- t.test(cesd_scored$CESD_Total ~ cesd_scored$Depression_Level)
 print(t_test_result)
 ```
 
