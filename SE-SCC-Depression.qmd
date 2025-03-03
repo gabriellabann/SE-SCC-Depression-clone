@@ -22,7 +22,21 @@ editor: visual
 ```{r}
 #| label: setting working directory
 #| echo: false
-setwd("C:/Users/gabri/repos/SE-SCC-Depression")
+setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
+
+list.files("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
+```
+
+```{r}
+#| label: loading data in
+#| echo: false
+library(readr)
+
+wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+
+cesd_scored <- read_csv("CESD_Scored.csv")
+
+selfIAT_scored <- read_csv("SelfIATOutput.csv")
 ```
 
 ```{r}
@@ -35,11 +49,11 @@ setwd("C:/Users/gabri/repos/SE-SCC-Depression")
 #| label: installing packages
 #| echo: FALSE
 
-#options(repos = c(CRAN = "https://cloud.r-project.org"))
+options(repos = c(CRAN = "https://cloud.r-project.org"))
 
-#install.packages("tinytex")
-#tinytex::install_tinytex()
-#install.packages(c("tidyverse", "papaja", "rmarkdown"))
+install.packages("tinytex")
+tinytex::install_tinytex()
+install.packages(c("tidyverse", "papaja", "rmarkdown"))
 ```
 
 # Introduction
@@ -65,7 +79,7 @@ The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 ```{r}
 #| label: writing results into .csv 
 #| echo: FALSE
-write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Scored_Measures.csv")
+#write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Scored_Measures.csv") #already did in .R script
 ```
 
 ```{r}
