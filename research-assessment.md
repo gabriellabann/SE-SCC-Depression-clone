@@ -103,6 +103,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: 
+            - Repo should not contain any files unrelated to the project (e.g, files from the example apaquarto manuscript)
+            - Top-level of repo should contain only necessary files (typically the .qmd, .bib., this assessment, the rendered pdf, README, .gitignore); other files should be organized into subdirectories
+            - Your primary manuscript should be the only notebook of any kind (.qmd, .rmd. .rmarkdown)
 
 2.  Maintain an informative and up-to-date README.md
 
@@ -112,6 +115,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - README should minimally contain 1) description of project objective and data and 2) description of repo structure or file tress
 
 3.  integrate a GitHub repo with an R studio project, including .gitignore file
 
@@ -121,6 +125,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - .gitignore should include (minimally) a localonly folder and pdf render files (e.g., the *_files folder, .ttt, .tex., .log, etc.), as well as comments describing the ignored items (in addition to the default ignored items if you’re using a template)
 
 4.  effectively use version control
 
@@ -128,7 +133,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2.  Relies on document revisions rather than manually created new versions
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments:
 
 ### R programming
@@ -143,6 +148,8 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+            - all install/require functions should be commented out; if they run when you render the document it can cause errors. Same for the .R script -- let your user decide whether they want to install the packages.
+            - Refer to the d2mr resources page for a list of the packages you can load without a commented out install line.
         
 6.  Use arithmetic, comparison, and logical operators
 
@@ -150,7 +157,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses multiple operators in data transformation pipelines and/or inline R code
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in SE-SCC-Depression.R
 
 7.  Parse and define functions and arguments
@@ -162,6 +169,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in SE-SCC-Depression.R
+            - needs more documentation in comments
 
 8.  Parse and write conditional statements and/or loops
 
@@ -169,7 +177,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses multiple types of conditional/loop functions (e.g., `if_else()`, `case_when()`, `for`, `while`)
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in SE-SCC-Depression.R
         
 
@@ -182,6 +190,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in SE-SCC-Depression.R
+            - Does not run as written because of absolute paths
 
 10. Use `dplyr` and `tidyr` functions to transform data
 
@@ -190,7 +199,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Combines `dplyr` and `tidyr` functions in a data transformation pipeline
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in SE-SCC-Depression.R
 
 11. Use `stringr` functions to work with string variables
@@ -199,7 +208,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Uses `stringr` functions in a data transformation pipeline
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in SE-SCC-Depression.R
 
 12. Use `forcats` functions to work with factor variables
@@ -209,7 +218,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     - NOTE: Though they are base R functions, `factor()` and `levels()` can be used to meet this objective as long as they are used in a way that demonstrates the same skills as `forcats` functions, which should involve including optional arguments
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 ### Data visualization with ggplot2
@@ -220,7 +229,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. At least one plot is multi-variable
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
 
 14. Use dynamic aesthetics to group data
@@ -228,7 +237,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1. Uses at least 2 unique data-mapped `aes()` arguments (e.g., color, shape, size) to group data in a plot in one or multiple plots
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
         
 15. Use facets to create parallel plots
@@ -242,6 +251,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in SE-SCC-Depression.R
+            - Needs to do one of the two options listed in the first bullet point
         
 16. Create publication-quality plots using `theme` and `labs` layers
 
@@ -253,6 +263,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+            - cannot assess because documents do not run/render
 
 ### Data analysis
 
@@ -266,6 +277,8 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+            - cannot assess because documents do not run/render
+
 
 18. Perform simple hypothesis testing analyses for multiple data types
 
@@ -277,6 +290,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+            - cannot assess because documents do not run/render 
 
 19. Present and interpret statistics in manuscript narrative
 
@@ -288,6 +302,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - cannot assess because documents do not run/render
 
 ### BibTeX
 
@@ -298,7 +313,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. May use `cite_r()` to cite R and R packages
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments:
 
 21. Render an APA7 references page from a .bib file
@@ -312,6 +327,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - cannot assess because documents do not run/render
 
 ### Notebooks and code chunks
 
@@ -325,6 +341,8 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: 
+            - .R scripts are code only, you can't include code chunks so there should not be any chunk options (e.g., label assignment)
+            - chunk labels should not include spaces or special characters except hyphens
         
 23. Use code chunks to set up a quarto document
 
@@ -334,7 +352,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. Organizes setup chunks sensibly
 
         -   [X] Objective attempt
-        -   [ ] Objective met
+        -   [x] Objective met
         -   Grader comments:
         
 24. Render publication-quality tables, figures, and images from code chunks
@@ -349,6 +367,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - cannot assess because documents do not run/render
 
 25. Execute descriptive and inferential analyses in code chunks
 
@@ -361,6 +380,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments:
+            - cannot assess because documents do not run/render
 
 ### R Markdown and Quarto
 
@@ -371,6 +391,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+            - cannot assess because documents do not run/render
         
 27. Use quarto R Markdown to compose an academic manuscript
 
@@ -383,6 +404,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+            - cannot assess because documents do not run/render
 
 28. Use inline R variables to replace static text
 
@@ -393,6 +415,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+            - cannot assess because documents do not run/render
 
 29. Run inline R functions to render dynamic data-dependent text
 
@@ -401,6 +424,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         -   [X] Objective attempt
         -   [ ] Objective met
         -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+            - cannot assess because documents do not run/render
         
 30. Use `knitr` and quarto to produce an APA7 formatted 1-click PDF manuscript
 
@@ -411,7 +435,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
 
         -   [X] Objective attempt
         -   [ ] Objective met
-        -   Grader comments: Need help with this, I'm completely lost       
+        -   Grader comments: Need help with this, I'm completely lost     
+            - cannot assess because documents do not run/render
+            - We'll figure it out!! 
    
 
 ## Reflection (Optional)
@@ -454,8 +480,21 @@ version control and GitHub integration/organization. In general I feel I'm a hig
 
 All final projects are graded by Dr. Dowling. You will see your grade on Canvas separated into two categories: objective points and engagement points.
 
--   **Objective points:** #/30
--   **Engagement points:** #/10
--   **Total points:** #/40
+-   **Objective points:** 10/30
+-   **Engagement points:** 5/10
+-   **Total points:** 15/40
 
 **Comments:**
+
+Submission 1:
+
+This .qmd does not render for several reasons, including:
+
+    1. csl does not exist
+    2. code in t-test chunk does not run without error
+    
+I can disable the t-test chunk, but the csl is a major problem that you'll need to repair for me to render. As a result, I can't give you points for anything that relies on the .pdf rendering, though for some things I can see that they are probably going to meet the objective once you work out the rendering problems. 
+
+Remember that this needs to render with apaquarto, which has special requirements. For example, it should not use a csl file at all and the output format should be `apaquarto-pdf`.
+
+I know you're having trouble with apaquarto, but we'll figure it out! We can work on it in class on Friday, and you can make an office hours appointment with me during my extra hours this week and next if that would be helpful!
