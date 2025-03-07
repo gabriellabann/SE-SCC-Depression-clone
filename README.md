@@ -1,9 +1,9 @@
 # SE-SCC-Depression
 Mini-project: Skeleton repo
 
-This project will both function as a mini-project and as a jumping off point for my thesis research
+This project investigates the relationship between depressive symptoms with self esteem and self concept clarity.
 
-In terms of the thesis project, I am evaluating a multivariate relationship between implicit and explicit 
+I am evaluating a multivariate relationship between implicit and explicit 
 self-esteem (SE), depressive symptoms, and self-concept clarity (SCC). 
 
 Research question: In this current study, we aim to evaluate the relationship between implicit and explicit 
@@ -12,5 +12,4 @@ and SCC among healthy adults across three points in time: baseline, one-week pas
 past baseline. Our aim is that outlining these relationships will lay the groundwork for the investigation 
 of potential treatment options for depressive symptoms. 
 
-In the newer R project, all below where packadges have been installed and read in, feel free to ignore for 
-now. This is the beginning of my final project and not included in the skeleton repo.
+Repo Structure:
