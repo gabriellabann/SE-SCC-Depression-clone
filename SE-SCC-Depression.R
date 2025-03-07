@@ -112,7 +112,7 @@ install.packages("remotes")
 remotes::install_github("iatgen/iatgen", force = TRUE)
 library(iatgen)
 
-wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
+wave1_cohort1_IAT <- read.csv("Wave1_Cohort1.csv", header=T) #trying instead of Wave1_Cohort1_SelfIAT.csv
 
 #collapsing IAT data down
 wave1_cohort1_IAT$compatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q4.RP4, wave1_cohort1_IAT$Q18.LP4, wave1_cohort1_IAT$Q14.RN7, wave1_cohort1_IAT$Q28.LN7)
