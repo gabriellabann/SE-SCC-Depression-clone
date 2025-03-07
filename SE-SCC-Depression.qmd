@@ -1,5 +1,5 @@
 ---
-title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem:Connection with Self-Concept Clarity"
+title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: Connection with Self-Concept Clarity"
 author: 
   name: "Gabriella Bann"
   affiliation: "University of Chicago"
@@ -15,53 +15,41 @@ format:
     includes:
       in-header: preamble.tex
 bibliography: references.bib
-csl: apa.csl
+#csl: apa.csl
 editor: visual
 ---
 
 ```{r}
-#| label: loading data in
+#| label: setting seed
 #| echo: false
-library(readr)
-
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
-
-cesd_scored <- read_csv("CESD_Scored.csv")
-
-selfIAT_scored <- read_csv("SelfIATOutput.csv")
+library(tidyverse)
+set.seed(1234)
 ```
 
 ```{r}
-#| label: knitting to pdf 
-#| echo: FALSE
-#quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
-```
-
-```{r}
-#| label: installing packages
-#| echo: FALSE
+#| label: loading packages
+#| echo: false
 options(repos = c(CRAN = "https://cloud.r-project.org"))  # Set CRAN mirror
-install.packages("quarto")
-install.packages("tidyverse")
-install.packages("readr")
-install.packages("forcats")
-install.packages("ggplot2")
-install.packages("quarto")
-install.packages("knitr")
-install.packages("stringr")
-install.packages("dplyr")
-install.packages("tidyr")
-install.packages("scales")
-install.packages("psych")
-install.packages("stats")
-install.packages("lme4")
-install.packages("patchwork")
-install.packages("kableExtra")
-install.packages("rempsyc")
-install.packages("broom")
-install.packages("papaja")
-install.packages("flextable")
-
+#install.packages("quarto")
+#install.packages("tidyverse")
+#install.packages("readr")
+#install.packages("forcats")
+#install.packages("ggplot2")
+#install.packages("quarto")
+#install.packages("knitr")
+#install.packages("stringr")
+#install.packages("dplyr")
+#install.packages("tidyr")
+#install.packages("scales")
+#install.packages("psych")
+#install.packages("stats")
+#install.packages("lme4")
+#install.packages("patchwork")
+#install.packages("kableExtra")
+#install.packages("rempsyc")
+#install.packages("broom")
+#install.packages("papaja")
+#install.packages("flextable")
 library(quarto)
 library(tidyverse)
 library(readr)
@@ -82,7 +70,26 @@ library(rempsyc)
 library(broom)
 library(papaja)
 library(flextable)
+available.packages("iatgen")
+install.packages("remotes")
+remotes::install_github("iatgen/iatgen", force = TRUE)
+library(iatgen)
 ```
+
+```{r}
+#| label: loading data in
+#| echo: false
+wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+cesd_scored <- read_csv("CESD_Scored.csv")
+selfIAT_scored <- read_csv("SelfIATOutput.csv")
+```
+
+```{r}
+#| label: knitting to pdf 
+#| echo: FALSE
+#quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
+```
+
 
 # Introduction
 
@@ -114,13 +121,162 @@ The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 #| label: loading data 
 #| echo: FALSE 
 library(readr) 
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
 
-cesd_scored <- read_csv("CESD_Scored.csv")
+wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
 
-selfIAT_scored <- read_csv("SelfIATOutput.csv")
+#wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
 
-RSES_Scored <- read_csv("RSES_Scored.csv")
+#cesd_scored <- read_csv("CESD_Scored.csv")
+
+#selfIAT_scored <- read_csv("SelfIATOutput.csv")
+
+#RSES_Scored <- read_csv("RSES_Scored.csv")
+```
+
+```{r}
+#| label: collapsing IAT data down 
+#| echo: FALSE 
+wave1_cohort1_IAT$compatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q4.RP4, wave1_cohort1_IAT$Q18.LP4, wave1_cohort1_IAT$Q14.RN7, wave1_cohort1_IAT$Q28.LN7)
+wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7.RP7, wave1_cohort1_IAT$Q21.LP7, wave1_cohort1_IAT$Q11.RN4, wave1_cohort1_IAT$Q25.LN4)
+
+```
+
+```{r}
+#| label: collapsing IAT practice blocks 
+#| echo: FALSE 
+wave1_cohort1_IAT$compatible.prac<- combineIATfourblocks(wave1_cohort1_IAT$Q3.RP3, wave1_cohort1_IAT$Q17.LP3, wave1_cohort1_IAT$Q13.RN6, wave1_cohort1_IAT$Q27.LN6)
+wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6.RP6, wave1_cohort1_IAT$Q20.LP6, wave1_cohort1_IAT$Q10.RN3, wave1_cohort1_IAT$Q24.LN3)
+
+```
+
+```{r}
+#| label: cleaning the IAT
+#| echo: FALSE
+clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac, 
+                  crit1=wave1_cohort1_IAT$compatible.crit, 
+                  prac2=wave1_cohort1_IAT$incompatible.prac, 
+                  crit2=wave1_cohort1_IAT$incompatible.crit, 
+                  
+                  timeout.drop=TRUE, 
+                  timeout.ms=10000, 
+                  
+                  fasttrial.drop=FALSE, 
+                  
+                  fastprt.drop=TRUE, 
+                  fastprt.percent=.10, 
+                  fastprt.ms=300, 
+                  
+                  error.penalty=TRUE, 
+                  error.penalty.ms=600)
+```
+
+```{r}
+#| label: beginning statistics
+#| echo: FALSE
+IATreliability(clean)$reliability #internal consistency (0.8902007)
+IATalpha(clean)$alpha.total #reliability of IAT D-score (raw_alpha = 0.7397427)
+wave1_cohort1_IAT$D <- clean$D
+mean(clean$D, na.rm=T) #(0.7055081)
+sd(clean$D, na.rm=T) #(0.3755495)
+t.test(clean$D) #one sample t-test (t = 7.0291, df = 13, p-value = 8.945e-06, CI(0.4886723, 0.9223440), mean of x = 0.7055081)
+mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
+```
+
+```{r}
+#| label: reaction time descriptives by block
+#| echo: FALSE
+mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
+mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
+mean(clean$clean.means.prac1, na.rm=T) #(1114.787)
+mean(clean$clean.means.prac2, na.rm=T) #(1487.6)
+sd(clean$clean.means.crit1, na.rm=T) #(280.7861)
+sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
+sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
+sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
+```
+
+```{r}
+#| label: converting CES-D responses using forcats
+#| echo: FALSE
+levels(as.factor(wave1_cohort1_clean$CESDQ1)) 
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
+
+wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
+  mutate(across(starts_with("CESDQ"), ~ as.numeric(fct_recode(as.factor(.),
+                                                   "0" = "Rarely or none of the time (less than 1 day)",
+                                                   "1" = "Some or a little of the time (1-2 days)",
+                                                   "2" = "Occasionally or a moderate amount of time (3-4 days)",
+                                                   "3" = "Most or all of the time (5-7 days)"))))
+```
+
+```{r}
+#| label: reverse scoring positive items
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .))
+```
+
+```{r}
+#| label: calculate total CES-D score
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
+           CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
+           CESDQ11 + CESDQ12 + CESDQ13 + CESDQ14 + CESDQ15 + 
+           CESDQ16 + CESDQ17 + CESDQ18 + CESDQ19 + CESDQ20)
+```
+
+```{r}
+#| label: calculate score per depression level
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>% 
+  {mutate(Depression_Level = case_when(
+    CESD_Total < 16 ~ "No Depression",
+    CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
+    CESD_Total >= 24 ~ "High Depression"))}
+head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
+```
+
+```{r}
+#| label: cleaning and scoring the RSES
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("RosenbergQ"), ~ case_when(
+    . == "Strongly Agree" ~ 3,
+    . == "Agree" ~ 2,
+    . == "Disagree" ~ 1,
+    . == "Strongly Disagree" ~ 0,
+    TRUE ~ NA_real_)))
+```
+
+```{r}
+#| label: reverse scoring RSES negative items
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), ~ 3 - .)) 
+```
+
+```{r}
+#| label: calculate total RSES score
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rowwise() %>%
+  mutate(Rosenberg_Total = sum(c_across(starts_with("RosenbergQ")), na.rm = TRUE)) %>%
+  ungroup()
+  
+```
+
+```{r}
+#| label: interpreting RSES score
+#| echo: FALSE
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(Explicit_SE_Level = case_when(
+    Rosenberg_Total < 15 ~ "Low Self-Esteem",
+    Rosenberg_Total >= 15 & Rosenberg_Total <= 25 ~ "Normal Self-Esteem",
+    Rosenberg_Total > 25 ~ "High Self-Esteem",
+    TRUE ~ NA_character_)) 
 ```
 
 ```{r}
@@ -147,7 +303,6 @@ papaja::apa_table(
   #caption = "Summary of Self-IAT Scores")
 ```
 
-
 ```{r setup, include=FALSE}
 #| label: data table 
 #| echo: FALSE
@@ -159,14 +314,7 @@ knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```{r}
 #| label: t-test 
 #| echo: FALSE
-
-cesd_scored <- cesd_scored %>%
-  mutate(Depression_Level = case_when(
-    CESD_Total < 16 ~ "No Depression",
-    CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
-    CESD_Total >= 24 ~ "High Depression"))
-
-t_test_result <- t.test(cesd_scored$CESD_Total ~ cesd_scored$Depression_Level)
+t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
 print(t_test_result)
 ```
 
