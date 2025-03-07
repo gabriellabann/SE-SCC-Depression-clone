@@ -1,6 +1,7 @@
 /LocalOnly 
 # ignoring identified data on a local folder
 
+# Below are the default ignored items
 # History files
 .Rhistory
 .Rapp.history
