@@ -412,7 +412,9 @@ cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{
 writeLines(readLines("references.bib"))
 ```
 
-The p-value was `` `r t_test_result$p.value` ``.
+The p-value was `r t_test_result$p.value`.
+
+``.
 
 # Discussion
 
