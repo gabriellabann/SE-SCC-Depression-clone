@@ -1,4 +1,5 @@
-/LocalOnly
+/LocalOnly 
+# ignoring identified data on a local folder
 
 # History files
 .Rhistory
