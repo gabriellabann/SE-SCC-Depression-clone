@@ -318,6 +318,100 @@ t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Dep
 print(t_test_result)
 ```
 
+```{r}
+#| label: graph of CES-D score distribution
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  theme_minimal() +
+  labs(title = "Distribution of CES-D Scores", x = "CES-D Total Score", y = "Frequency")
+```
+
+```{r}
+#| label: graph of Rosenberg score distribution 
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  labs(title = "Rosenberg Self-Esteem Scale Distribution", x = "RSE Total Score", y = "Count") +
+  theme_minimal()
+```
+
+```{r}
+#| label: graph of IAT score distribution
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = IAT_Score)) +
+  geom_density(fill = "red", alpha = 0.5) +
+  labs(title = "Implicit Association Test Score Distribution", x = "IAT Score", y = "Density") +
+  theme_minimal()
+```
+
+```{r}
+#| label: graph of rosenberg score against depression level 
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
+  geom_boxplot() +
+  labs(title = "Rosenberg Scores by Depression Level", x = "Depression Level", y = "Rosenberg Total Score")
+```
+
+```{r}
+#| label: graph of rosenberg score against depression total score
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
+  geom_point() +
+  labs(title = "Rosenberg Scores vs. CES-D Scores", x = "CES-D Total Score", y = "Rosenberg Total Score")
+```
+
+```{r}
+#| label: graph of disribution of CES-D scores by depression level
+#| echo: FALSE
+ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
+  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
+  facet_wrap(~ Depression_Level) +
+  labs(title = "Distribution of CES-D Scores by Depression Level", x = "CES-D Total Score", y = "Frequency")
+```
+
+```{r}
+#| label: decriptive statistics
+#| echo: FALSE
+summary(wave1_cohort1_clean$CESD_Total)
+table(wave1_cohort1_clean$Depression_Level)
+
+  descriptive_stats <- wave1_cohort1_clean %>%
+  summarise(
+    Mean_CESD = mean(CESD_Total, na.rm = TRUE),
+    SD_CESD = sd(CESD_Total, na.rm = TRUE),
+    Mean_RSE = mean(RSE_Total, na.rm = TRUE),
+    SD_RSE = sd(RSE_Total, na.rm = TRUE),
+    Mean_IAT = mean(IAT_Score, na.rm = TRUE),
+    SD_IAT = sd(IAT_Score, na.rm = TRUE))
+```
+
+```{r}
+#| label: hypothesis testing
+#| echo: FALSE
+t_test_result <- t.test(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
+  print(t_test_result)
+
+t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
+print(t_test_result)
+
+cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
+print(cor_test_result)
+```
+
+```{r}
+#| label: presenting statistics
+#| echo: FALSE
+cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
+      "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
+      ". A t-test revealed a significant difference in CES-D scores between depression levels (t =", 
+      t_test_result$statistic, ", p =", t_test_result$p.value, ").")
+
+cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{Jiang2022}).")
+
+writeLines(readLines("references.bib"))
+```
+
 The p-value was `` `r t_test_result$p.value` ``.
 
 # Discussion
