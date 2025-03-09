@@ -208,10 +208,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 #| echo: false
 #calculate total CES-D score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
-           CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
-           CESDQ11 + CESDQ12 + CESDQ13 + CESDQ14 + CESDQ15 + 
-           CESDQ16 + CESDQ17 + CESDQ18 + CESDQ19 + CESDQ20)
+  mutate(CESD_Total = rowSums(select(., starts_with("CESDQ")), na.rm = TRUE))
 ```
 
 ```{r}
@@ -219,10 +216,11 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 #| echo: false
 #calculate score per depression level
 wave1_cohort1_clean <- wave1_cohort1_clean %>% 
-  {mutate(Depression_Level = case_when(
+  mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
-    CESD_Total >= 24 ~ "High Depression"))}
+    CESD_Total >= 24 ~ "High Depression"))
+
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
 ```
 
