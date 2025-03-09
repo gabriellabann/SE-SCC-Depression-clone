@@ -1,4 +1,4 @@
-#| label: loading required libraries
+#loading required libraries
 
 # ran quarto::quarto_use_template("wjschne/apaquarto", no_prompt = T) in console
 #if (!requireNamespace("quarto", quietly = TRUE)) install.packages("tidyverse")
@@ -43,31 +43,29 @@ library(broom)
 library(papaja)
 library(flextable)
 
-#| label: setup
+#setup
 
 library(tidyverse)
 set.seed(1234)
 
-#| label: setting working directory
+#setting working directory
 
-setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
-getwd()
+#setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
+#getwd()
 
-#| label: reading in data
-
-library(readr)
+#reading in data
 wave1_cohort1 <- readr::read_csv("Wave1_Cohort1.csv",
                           trim_ws = FALSE, 
                           name_repair = "minimal", 
                           col_types = cols(.default = col_character()))
 
-#| label: inspecting the data
+#inspecting the data
 
 head(wave1_cohort1)
 str(wave1_cohort1)
 glimpse(wave1_cohort1)
 
-#| label: cleaning the data
+#cleaning the data
 
 wave1_cohort1_clean <- wave1_cohort1 #%>%
   #rename_with(~ str_replace_all(., " ", "_")) %>%
@@ -90,6 +88,9 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
          CESDQ13 = `CES-D Q1_13`, CESDQ14 = `CES-D Q1_14`, CESDQ15 = `CES-D Q1_15`, 
          CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
          CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
+
+write.csv(wave1_cohort1_clean, "wave1_cohort1_clean.csv", row.names = FALSE)
+
 #make sure to also clean SCC
 #SCC was forgotten for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
 
@@ -105,11 +106,11 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   #group_by(Question) %>%
   #summarise(Mean_Response = mean(Response, na.rm = TRUE))
 
-#| label: cleaning and scoring self-IAT
+#cleaning and scoring self-IAT
 
-available.packages("iatgen")
-install.packages("remotes")
-remotes::install_github("iatgen/iatgen", force = TRUE)
+#available.packages("iatgen")
+#install.packages("remotes")
+#remotes::install_github("iatgen/iatgen", force = TRUE)
 library(iatgen)
 
 wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
@@ -172,8 +173,6 @@ s_iat_cohens_d <- function(x, y) {
 d_value <- s_iat_cohens_d(clean$D, rep(0, length(clean$D)))
 
 # plotting IAT data
-
-library(ggplot2)
 ggplot(wave1_cohort1_IAT, aes(x=D))+
   geom_density(color="black", fill="light blue")+
   theme_light()
@@ -190,15 +189,10 @@ sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
 sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
 sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 
-#| label: cleaning and scoring the CES-D
-
-write.csv(wave1_cohort1_clean, "wave1_cohort1_clean.csv", row.names = FALSE)
-
-library(dplyr)
-
-str(wave1_cohort1_clean$CESDQ2)
-unique(wave1_cohort1_clean$CESDQ2)
-table(wave1_cohort1_clean$CESDQ2, useNA = "always")
+#cleaning and scoring the CES-D
+#str(wave1_cohort1_clean$CESDQ2)
+#unique(wave1_cohort1_clean$CESDQ2)
+#table(wave1_cohort1_clean$CESDQ2, useNA = "always")
 
 
 #recoding character responses to numeric values
@@ -211,11 +205,7 @@ table(wave1_cohort1_clean$CESDQ2, useNA = "always")
     #is.na(.) ~ NA_real_,
     #TRUE ~ NA_real_))) 
 
-library(tidyverse)
-
 #second option converting CES-D responses using forcats
-levels(as.factor(wave1_cohort1_clean$CESDQ1)) #1
-
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
 
@@ -233,34 +223,31 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 
 #calculate total score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  rowwise() %>%
-  mutate(CESD_Total = sum(c_across(starts_with("CESDQ")), na.rm = TRUE)) %>%
-  ungroup() 
+  mutate(CESD_Total = rowSums(select(., starts_with("CESDQ")), na.rm = TRUE))
 
 #alternate way to calculate total score
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
-           CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
-           CESDQ11 + CESDQ12 + CESDQ13 + CESDQ14 + CESDQ15 + 
-           CESDQ16 + CESDQ17 + CESDQ18 + CESDQ19 + CESDQ20)
+#wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  #mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
+           #CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
+           #CESDQ11 + CESDQ12 + CESDQ13 + CESDQ14 + CESDQ15 + 
+           #CESDQ16 + CESDQ17 + CESDQ18 + CESDQ19 + CESDQ20)
 
 #interpreting score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
-    CESD_Total >= 24 ~ "High Depression",
-    TRUE ~ NA_character_))
+    CESD_Total >= 24 ~ "High Depression"))
 
 #alternate way to interpret the score
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(Depression_Level = fct_relevel(Depression_Level, "No Depression", 
-                                        "Mild Depression", "High Depression"))
+#wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  #mutate(Depression_Level = fct_relevel(Depression_Level, "No Depression", 
+                                        #"Mild Depression", "High Depression"))
 
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])  #viewing the totaled scores
 write_csv(wave1_cohort1_clean, "CESD_Scored.csv", row.names = FALSE)  #saving as a CSV
 
-#| label: cleaning and scoring the RSES
+#cleaning and scoring the RSES
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(starts_with("RosenbergQ"), ~ case_when(
     . == "Strongly Agree" ~ 3,
@@ -290,7 +277,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])  #viewing the totaled scores
 write_csv(wave1_cohort1_clean, "RSES_Scored.csv")  #saving as a CSV
 
-#| label: data visualization
+#data visualization
 
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
@@ -320,7 +307,7 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   facet_wrap(~ Depression_Level) +
   labs(title = "Distribution of CES-D Scores by Depression Level", x = "CES-D Total Score", y = "Frequency")
 
-#| label: decriptive statistics
+#decriptive statistics
 
 summary(wave1_cohort1_clean$CESD_Total)
 table(wave1_cohort1_clean$Depression_Level)
@@ -334,7 +321,7 @@ table(wave1_cohort1_clean$Depression_Level)
     Mean_IAT = mean(IAT_Score, na.rm = TRUE),
     SD_IAT = sd(IAT_Score, na.rm = TRUE))
 
-#| label: hypothesis testing
+#hypothesis testing
 
 t_test_result <- t.test(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
   print(t_test_result)
@@ -346,7 +333,7 @@ cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$C
 print(cor_test_result)
 
 
-#| label: presenting statistics
+#presenting statistics
 
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
