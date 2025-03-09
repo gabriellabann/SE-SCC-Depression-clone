@@ -44,14 +44,7 @@ library(papaja)
 library(flextable)
 
 #setup
-
-library(tidyverse)
 set.seed(1234)
-
-#setting working directory
-
-#setwd("C:/Users/gabri/repos/SE-SCC-Depression/LocalOnly")
-#getwd()
 
 #reading in data
 wave1_cohort1 <- readr::read_csv("Wave1_Cohort1.csv",
@@ -89,7 +82,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
          CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
          CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
 
-write.csv(wave1_cohort1_clean, "wave1_cohort1_clean.csv", row.names = FALSE)
+write.csv(wave1_cohort1_clean, "wave1_cohort1_clean.csv")
 
 #make sure to also clean SCC
 #SCC was forgotten for cohort 1, it is included in wave 2, wave 3, and will be included in subsequent cohorts of wave 1
@@ -207,37 +200,44 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 
 #second option converting CES-D responses using forcats
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
-
-wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
-  mutate(across(starts_with("CESDQ"), ~ as.numeric(fct_recode(as.factor(.),
-                                                   "0" = "Rarely or none of the time (less than 1 day)",
-                                                   "1" = "Some or a little of the time (1-2 days)",
-                                                   "2" = "Occasionally or a moderate amount of time (3-4 days)",
-                                                   "3" = "Most or all of the time (5-7 days)"))))
+  mutate(across(c(CESDQ1, CESDQ2, CESDQ3, CESDQ5, CESDQ6, CESDQ7, CESDQ9, CESDQ10, 
+                  CESDQ11, CESDQ13, CESDQ14, CESDQ15, CESDQ17, CESDQ18, CESDQ19, CESDQ20), 
+                .fns = ~ case_when(
+                  . == "Rarely or none of the time (less than 1 day)" ~ 0,
+                  . == "Some or a little of the time (1-2 days)" ~ 1,
+                  . == "Occasionally or a moderate amount of time (3-4 days)" ~ 2,
+                  . == "Most or all of the time (5-7 days)" ~ 3,
+                  TRUE ~ NA_real_)))
 
 
 #reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .)) 
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), 
+                .fns = ~ case_when(
+                  . == "Rarely or none of the time (less than 1 day)" ~ 3,
+                  . == "Some or a little of the time (1-2 days)" ~ 2,
+                  . == "Occasionally or a moderate amount of time (3-4 days)" ~ 1,
+                  . == "Most or all of the time (5-7 days)" ~ 0,
+                  TRUE ~ NA_real_)))
 
-#calculate total score
+#converting to numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(CESD_Total = rowSums(select(., starts_with("CESDQ")), na.rm = TRUE))
+  mutate(across(starts_with("CESDQ"), as.numeric))
 
-#alternate way to calculate total score
-#wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  #mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
-           #CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
-           #CESDQ11 + CESDQ12 + CESDQ13 + CESDQ14 + CESDQ15 + 
-           #CESDQ16 + CESDQ17 + CESDQ18 + CESDQ19 + CESDQ20)
+#calculate total CES-D score
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rowwise() %>%
+  mutate(CESD_Total = sum(c_across(CESDQ1:CESDQ20), na.rm = TRUE) %>%
+           ungroup())
 
 #interpreting score
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
+wave1_cohort1_clean <- wave1_cohort1_clean %>% 
   mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
     CESD_Total >= 24 ~ "High Depression"))
+
+head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
 
 #alternate way to interpret the score
 #wave1_cohort1_clean <- wave1_cohort1_clean %>%
