@@ -83,7 +83,9 @@ set.seed(1234)
 #| label: loading-data
 #| echo: false
 #loading general data
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+wave1_cohort1 <- read_csv("Wave1_Cohort1.csv")
+#loading clean data
+#wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
 #loading depression data
 cesd_scored <- read_csv("CESD_Scored.csv")
 #loading explicit self esteem data
@@ -92,6 +94,27 @@ RSES_Scored <- read_csv("RSES_Scored.csv")
 wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
 #loading implicit self esteem data
 selfIAT_scored <- read_csv("SelfIATOutput.csv")
+```
+
+```{r}
+#| label: renaming-variables
+#| echo: false
+#creating new dataset
+wave1_cohort1_clean <- wave1_cohort1
+#renaming RSES and CES-D variables
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rename(RosenbergQ1 = `Rosenberg Q1_1`, RosenbergQ2 = `Rosenberg Q1_2`, 
+         RosenbergQ3 = `Rosenberg Q1_3`, RosenbergQ4 = `Rosenberg Q1_4`, 
+         RosenbergQ5 = `Rosenberg Q1_5`, RosenbergQ6 = `Rosenberg Q1_6`, 
+         RosenbergQ7 = `Rosenberg Q1_7`, RosenbergQ8 = `Rosenberg Q1_8`, 
+         RosenbergQ9 = `Rosenberg Q1_9`, RosenbergQ10 = `Rosenberg Q1_10`) %>%
+  rename(CESDQ1 = `CES-D Q1_1`, CESDQ2 = `CES-D Q1_2`, CESDQ3 = `CES-D Q1_3`, 
+         CESDQ4 = `CES-D Q1_4`, CESDQ5 = `CES-D Q1_5`, CESDQ6 = `CES-D Q1_6`, 
+         CESDQ7 = `CES-D Q1_7`, CESDQ8 = `CES-D Q1_8`, CESDQ9 = `CES-D Q1_9`, 
+         CESDQ10 = `CES-D Q1_10`, CESDQ11 = `CES-D Q1_11`, CESDQ12 = `CES-D Q1_12`, 
+         CESDQ13 = `CES-D Q1_13`, CESDQ14 = `CES-D Q1_14`, CESDQ15 = `CES-D Q1_15`, 
+         CESDQ16 = `CES-D Q1_16`, CESDQ17 = `CES-D Q1_17`, CESDQ18 = `CES-D Q1_18`, 
+         CESDQ19 = `CES-D Q1_19`, CESDQ20 = `CES-D Q1_20`)
 ```
 
 ## Depression
@@ -182,17 +205,17 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 #| label: CESD-cleaning-step-one
 #| echo: false
 #converting CES-D responses using forcats
-levels(as.factor(wave1_cohort1_clean$CESDQ1)) 
+#wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  #mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
 
-wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
-
-wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
-  mutate(across(starts_with("CESDQ"), ~ as.numeric(fct_recode(as.factor(.),
+wave1_cohort1_clean <- wave1_cohort1 %>% #this gives errors, fix!!
+  mutate(across(c(CESDQ1, CESDQ2, CESDQ3, CESDQ5, CESDQ6, CESDQ7, 
+                  CESDQ9, CESDQ10,CESDQ11, CESDQ13, CESDQ14, CESDQ15, 
+                  CESDQ17, CESDQ18, CESDQ19, CESDQ20)), ~ as.numeric(fct_recode(as.factor(.),
                                                    "0" = "Rarely or none of the time (less than 1 day)",
                                                    "1" = "Some or a little of the time (1-2 days)",
                                                    "2" = "Occasionally or a moderate amount of time (3-4 days)",
-                                                   "3" = "Most or all of the time (5-7 days)"))))
+                                                   "3" = "Most or all of the time (5-7 days)")))
 ```
 
 ```{r}
@@ -200,7 +223,11 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
 #| echo: false
 #reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .))
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ as.numeric(fct_recode(as.factor(.),
+                                       "3" = "Rarely or none of the time (less than 1 day)",
+                                       "2" = "Some or a little of the time (1-2 days)",
+                                       "1" = "Occasionally or a moderate amount of time (3-4 days)",
+                                       "0" = "Most or all of the time (5-7 days)"))))
 ```
 
 ```{r}
@@ -272,12 +299,12 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 #| label: summary-of-measures 
 #| echo: false
 papaja::apa_table(
-  cesd_scored %>% select(CESD_Total, Depression_Level) %>% head(),
-  caption = "Summary of Depression Scores")
+  wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head(),
+  caption = "Summary of Depression Scores and Explicit Self Esteem Scores")
   
 #papaja::apa_table(
  # RSES_Scored %>%
-  #select(RSE_Total)  %>% head(), 
+  #select(Rosenberg_Total)  %>% head(), 
   #caption = "Summary of Rosenberg Scores")
   
 #papaja::apa_table(
@@ -295,13 +322,6 @@ knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```
 
 ```{r}
-#| label: t-test 
-#| echo: false
-t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
-print(t_test_result)
-```
-
-```{r}
 #| label: CESD-score-distribution
 #| echo: false
 #graph of CES-D score distribution
@@ -315,7 +335,7 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 #| label: RSES-score-distribution
 #| echo: false
 #graph of Rosenberg score distribution 
-ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
+ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
   geom_histogram(binwidth = 1, fill = "blue", color = "black") +
   labs(title = "Rosenberg Self-Esteem Scale Distribution", x = "RSE Total Score", y = "Count") +
   theme_minimal()
@@ -325,7 +345,7 @@ ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
 #| label: IAT-score-distribution
 #| echo: false
 #graph of IAT score distribution
-ggplot(wave1_cohort1_clean, aes(x = IAT_Score)) +
+ggplot(selfIAT_scored, aes(x = IAT_Score)) +
   geom_density(fill = "red", alpha = 0.5) +
   labs(title = "Implicit Association Test Score Distribution", x = "IAT Score", y = "Density") +
   theme_minimal()
@@ -360,6 +380,17 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```
 
 ```{r}
+#| label: CESD-total-versus-age
+#| echo: false
+#scatter plot with regression line for depression total versus age
+ggplot(wave1_cohort1_clean, aes(x = Demo_Q1, y = CESD_Total)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  labs(title = "Regression of CESD Total on Age", x = "Age", y = "CESD Total Score") +
+  theme_minimal()
+```
+
+```{r}
 #| label: decriptive-statistics
 #| echo: false
 #CESD total summary table
@@ -370,8 +401,10 @@ table(wave1_cohort1_clean$Depression_Level)
   summarise(
     Mean_CESD = mean(CESD_Total, na.rm = TRUE),
     SD_CESD = sd(CESD_Total, na.rm = TRUE),
-    Mean_RSE = mean(RSE_Total, na.rm = TRUE),
-    SD_RSE = sd(RSE_Total, na.rm = TRUE),
+    Mean_RSE = mean(Rosenberg_Total, na.rm = TRUE),
+    SD_RSE = sd(Rosenberg_Total, na.rm = TRUE))
+ descriptive_stats <- selfIAT_scored %>%
+  summarise(   
     Mean_IAT = mean(IAT_Score, na.rm = TRUE),
     SD_IAT = sd(IAT_Score, na.rm = TRUE))
 #present results in narrative text, table, or plot
@@ -381,17 +414,20 @@ table(wave1_cohort1_clean$Depression_Level)
 #| label: hypothesis-testing
 #| echo: false
 #hypothesis test for numeric data
-t_test_result <- t.test(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
-  print(t_test_result)
-#alternative way to hypothesis test for numeric data
-t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
-print(t_test_result)
+anova_result <- aov(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
+summary(anova_result)
+#linear regression
+lm_model <- lm(CESD_Total ~ Demo_Q1, data = wave1_cohort1_clean)
+summary(lm_model)
 #hypothesis test for factor data
-cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
+cor_test_result <- cor.test(wave1_cohort1_clean$Rosenberg_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
 print(cor_test_result)
-#maybe add another hypothesis test for factor data (chi-square, ANOVA)
+#association between depression level and gender
+chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$Gender))
+print(chisq_test)
 #present results in narrative text, table, or plot
-#(can be met with only numeric or factor data analyses if they are sufficiently complex)
+
+table(wave1_cohort1_clean$Depression_Level)
 ```
 
 ```{r}
@@ -400,22 +436,31 @@ print(cor_test_result)
 #printing mean, sd, and t-test for CESD
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
-      ". A t-test revealed a significant difference in CES-D scores between depression levels (t =", 
-      t_test_result$statistic, ", p =", t_test_result$p.value, ").")
-#printing t-test with source
-cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{Jiang2022}).")
-#unsure what this does, double check
-writeLines(readLines("references.bib"))
+      ". An ANOVA demonstrated a significant impact of depression level on CES-D scores (F =", 
+      anova_summary[[1]]["F value"][1, 1], ", p =", p_value, ").",
+      "The effect size (Eta-squared) was", eta_squared_value, ".")
 #calculate effect size, p-value, and confidence interval
 ```
-
-The p-value was `r t_test_result$p.value`.
 
 ``.
 
 # Discussion
 
-The results suggest a significant relationship between depression and self-esteem.
+The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD`in the CES-D, signifying moderate levels of depressive symptoms present in this sample. The results of ANOVA (F = `r summary(anova_result)[[1]]$F value[1]`, *p* = `r summary(anova_result)[[1]]$Pr(>F)[1]`) demonstrated that higher levels of depression is correlated with severity of depression symptoms, udnerstandably as both come from the same CES-D data. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
+
+This cohort measured:
+
+-   Depression
+
+-   Implicit Self-Esteem
+
+-   Explicit Self-Esteem
+
+Future cohorts will also measure: 
+
+-   Self-Concept Clarity
+
+**only use bold to highlight specific data in a table or figure**
 
 # References
 
