@@ -20,16 +20,11 @@ editor: visual
 ---
 
 ```{r}
-#| label: setting seed
+#| label: loading-packages
 #| echo: false
-library(tidyverse)
-set.seed(1234)
-```
-
-```{r}
-#| label: loading packages
-#| echo: false
-options(repos = c(CRAN = "https://cloud.r-project.org"))  # Set CRAN mirror
+#setting CRAN mirror
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+#commented out package installation for reproducibility
 #install.packages("quarto")
 #install.packages("tidyverse")
 #install.packages("readr")
@@ -50,6 +45,10 @@ options(repos = c(CRAN = "https://cloud.r-project.org"))  # Set CRAN mirror
 #install.packages("broom")
 #install.packages("papaja")
 #install.packages("flextable")
+#available.packages("iatgen")
+#install.packages("remotes")
+#remotes::install_github("iatgen/iatgen", force = TRUE)
+#loading libraries
 library(quarto)
 library(tidyverse)
 library(readr)
@@ -70,28 +69,30 @@ library(rempsyc)
 library(broom)
 library(papaja)
 library(flextable)
-available.packages("iatgen")
-install.packages("remotes")
-remotes::install_github("iatgen/iatgen", force = TRUE)
 library(iatgen)
 ```
 
 ```{r}
-#| label: loading data in
+#| label: setting-seed
 #| echo: false
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
-cesd_scored <- read_csv("CESD_Scored.csv")
-selfIAT_scored <- read_csv("SelfIATOutput.csv")
+#setting seed
+set.seed(1234)
 ```
 
 ```{r}
-#| label: knitting to pdf 
-#| echo: FALSE
-#quarto::quarto_render(input = "SE-SCC-Depression-Markdown.Rmd", output_format = "pdf")
+#| label: loading-data
+#| echo: false
+#loading general data
+wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+#loading depression data
+cesd_scored <- read_csv("CESD_Scored.csv")
+#loading explicit self esteem data
+RSES_Scored <- read_csv("RSES_Scored.csv")
+#loading raw IAT data
+wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
+#loading implicit self esteem data
+selfIAT_scored <- read_csv("SelfIATOutput.csv")
 ```
-
-
-# Introduction
 
 ## Depression
 
@@ -101,7 +102,7 @@ Depression is a highly common mental health condition impacting 18.4% of the adu
 
 ## Participants
 
-Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included 14 participants. In total, `r nrow(wave1_cohort1_clean)` participants completed the measures.
+Approval has been received from the University of Chicago Biological Sciences Division IRB (#24-1945). Participants will be recruited through Prolific (Prolific.com) and will comprise of 60 US-based adults, both male and female sex, between the ages of 18 and 65. Over-recruitment may be needed to ensure that 60 participants complete each of the three sessions. We will request Prolific to provide a racially and ethnically representative sample of participants based on U.S. census data. Participants and their respective responses will be screened by Prolific for data quality. Prolific.com will identify and select participants with one inclusion criteria; having provided valid responses to previous surveys on their website. The cohort 1 wave 1 sample included `r nrow(wave1_cohort1_clean)` participants.
 
 ## Procedures & Measures
 
@@ -112,46 +113,27 @@ Demographic information, questionnaires, and online testing assessments will be 
 The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 
 ```{r}
-#| label: writing results into .csv 
-#| echo: FALSE
-#write_csv(wave1_cohort1_clean, "Wave1_Cohort1_Scored_Measures.csv") #already did in .R script
-```
-
-```{r}
-#| label: loading data 
-#| echo: FALSE 
-library(readr) 
-
-wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
-
-#wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
-
-#cesd_scored <- read_csv("CESD_Scored.csv")
-
-#selfIAT_scored <- read_csv("SelfIATOutput.csv")
-
-#RSES_Scored <- read_csv("RSES_Scored.csv")
-```
-
-```{r}
-#| label: collapsing IAT data down 
-#| echo: FALSE 
+#| label: IAT-collapsing-step-one
+#| echo: false 
+#collapsing IAT data down 
 wave1_cohort1_IAT$compatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q4.RP4, wave1_cohort1_IAT$Q18.LP4, wave1_cohort1_IAT$Q14.RN7, wave1_cohort1_IAT$Q28.LN7)
 wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7.RP7, wave1_cohort1_IAT$Q21.LP7, wave1_cohort1_IAT$Q11.RN4, wave1_cohort1_IAT$Q25.LN4)
 
 ```
 
 ```{r}
-#| label: collapsing IAT practice blocks 
-#| echo: FALSE 
+#| label: IAT-collapsing-step-two
+#| echo: false 
+#collapsing IAT practice blocks 
 wave1_cohort1_IAT$compatible.prac<- combineIATfourblocks(wave1_cohort1_IAT$Q3.RP3, wave1_cohort1_IAT$Q17.LP3, wave1_cohort1_IAT$Q13.RN6, wave1_cohort1_IAT$Q27.LN6)
 wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6.RP6, wave1_cohort1_IAT$Q20.LP6, wave1_cohort1_IAT$Q10.RN3, wave1_cohort1_IAT$Q24.LN3)
 
 ```
 
 ```{r}
-#| label: cleaning the IAT
-#| echo: FALSE
+#| label: cleaning-the-IAT
+#| echo: false
+#cleaning the IAT
 clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac, 
                   crit1=wave1_cohort1_IAT$compatible.crit, 
                   prac2=wave1_cohort1_IAT$incompatible.prac, 
@@ -171,8 +153,8 @@ clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac,
 ```
 
 ```{r}
-#| label: beginning statistics
-#| echo: FALSE
+#| label: beginning-statistics
+#| echo: false
 IATreliability(clean)$reliability #internal consistency (0.8902007)
 IATalpha(clean)$alpha.total #reliability of IAT D-score (raw_alpha = 0.7397427)
 wave1_cohort1_IAT$D <- clean$D
@@ -183,8 +165,9 @@ mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 ```
 
 ```{r}
-#| label: reaction time descriptives by block
-#| echo: FALSE
+#| label: continuing-statistics
+#| echo: false
+#reaction time descriptives by block
 mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
 mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
 mean(clean$clean.means.prac1, na.rm=T) #(1114.787)
@@ -196,8 +179,9 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 ```
 
 ```{r}
-#| label: converting CES-D responses using forcats
-#| echo: FALSE
+#| label: CESD-cleaning-step-one
+#| echo: false
+#converting CES-D responses using forcats
 levels(as.factor(wave1_cohort1_clean$CESDQ1)) 
 
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
@@ -212,15 +196,17 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
 ```
 
 ```{r}
-#| label: reverse scoring positive items
-#| echo: FALSE
+#| label: CESD-cleaning-step-two
+#| echo: false
+#reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ 3 - .))
 ```
 
 ```{r}
-#| label: calculate total CES-D score
-#| echo: FALSE
+#| label: CESD-total-score
+#| echo: false
+#calculate total CES-D score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(CESD_Total = CESDQ1 + CESDQ2 + CESDQ3 + CESDQ4 + CESDQ5 + 
            CESDQ6 + CESDQ7 + CESDQ8 + CESDQ9 + CESDQ10 +
@@ -229,8 +215,9 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 ```
 
 ```{r}
-#| label: calculate score per depression level
-#| echo: FALSE
+#| label: CESD-depression-level
+#| echo: false
+#calculate score per depression level
 wave1_cohort1_clean <- wave1_cohort1_clean %>% 
   {mutate(Depression_Level = case_when(
     CESD_Total < 16 ~ "No Depression",
@@ -240,8 +227,9 @@ head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
 ```
 
 ```{r}
-#| label: cleaning and scoring the RSES
-#| echo: FALSE
+#| label: RSES-cleaning-step-one
+#| echo: false
+#coding RSES into numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(starts_with("RosenbergQ"), ~ case_when(
     . == "Strongly Agree" ~ 3,
@@ -252,15 +240,17 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 ```
 
 ```{r}
-#| label: reverse scoring RSES negative items
-#| echo: FALSE
+#| label: RSES-cleaning-step-two
+#| echo: false
+#reverse scoring RSES negative items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), ~ 3 - .)) 
 ```
 
 ```{r}
-#| label: calculate total RSES score
-#| echo: FALSE
+#| label: RSES-total-score
+#| echo: false
+#calculate total RSES score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(Rosenberg_Total = sum(c_across(starts_with("RosenbergQ")), na.rm = TRUE)) %>%
@@ -269,8 +259,9 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 ```
 
 ```{r}
-#| label: interpreting RSES score
-#| echo: FALSE
+#| label: RSES-self-esteem-level
+#| echo: false
+#interpreting RSES score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(Explicit_SE_Level = case_when(
     Rosenberg_Total < 15 ~ "Low Self-Esteem",
@@ -280,14 +271,8 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 ```
 
 ```{r}
-#| label: descriptive statistics 
-#| echo: FALSE
-summary(wave1_cohort1_clean$CESD_Total)
-```
-
-```{r results='asis'}
-#| label: summary of measures 
-#| echo: FALSE
+#| label: summary-of-measures 
+#| echo: false
 papaja::apa_table(
   cesd_scored %>% select(CESD_Total, Depression_Level) %>% head(),
   caption = "Summary of Depression Scores")
@@ -303,9 +288,9 @@ papaja::apa_table(
   #caption = "Summary of Self-IAT Scores")
 ```
 
-```{r setup, include=FALSE}
-#| label: data table 
-#| echo: FALSE
+```{r}
+#| label: data-table 
+#| echo: false
 knitr::opts_chunk$set(echo = TRUE)
 
 knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
@@ -313,14 +298,15 @@ knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 
 ```{r}
 #| label: t-test 
-#| echo: FALSE
+#| echo: false
 t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
 print(t_test_result)
 ```
 
 ```{r}
-#| label: graph of CES-D score distribution
-#| echo: FALSE
+#| label: CESD-score-distribution
+#| echo: false
+#graph of CES-D score distribution
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   theme_minimal() +
@@ -328,8 +314,9 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```
 
 ```{r}
-#| label: graph of Rosenberg score distribution 
-#| echo: FALSE
+#| label: RSES-score-distribution
+#| echo: false
+#graph of Rosenberg score distribution 
 ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
   geom_histogram(binwidth = 1, fill = "blue", color = "black") +
   labs(title = "Rosenberg Self-Esteem Scale Distribution", x = "RSE Total Score", y = "Count") +
@@ -337,8 +324,9 @@ ggplot(wave1_cohort1_clean, aes(x = RSE_Total)) +
 ```
 
 ```{r}
-#| label: graph of IAT score distribution
-#| echo: FALSE
+#| label: IAT-score-distribution
+#| echo: false
+#graph of IAT score distribution
 ggplot(wave1_cohort1_clean, aes(x = IAT_Score)) +
   geom_density(fill = "red", alpha = 0.5) +
   labs(title = "Implicit Association Test Score Distribution", x = "IAT Score", y = "Density") +
@@ -346,24 +334,27 @@ ggplot(wave1_cohort1_clean, aes(x = IAT_Score)) +
 ```
 
 ```{r}
-#| label: graph of rosenberg score against depression level 
-#| echo: FALSE
+#| label: RSES-versus-CESD-level
+#| echo: false
+#graph of rosenberg score against depression level 
 ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
   geom_boxplot() +
   labs(title = "Rosenberg Scores by Depression Level", x = "Depression Level", y = "Rosenberg Total Score")
 ```
 
 ```{r}
-#| label: graph of rosenberg score against depression total score
-#| echo: FALSE
+#| label: RSES-versus-CESD-total
+#| echo: false
+#graph of rosenberg score against depression total score
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
   geom_point() +
   labs(title = "Rosenberg Scores vs. CES-D Scores", x = "CES-D Total Score", y = "Rosenberg Total Score")
 ```
 
 ```{r}
-#| label: graph of disribution of CES-D scores by depression level
-#| echo: FALSE
+#| label: CESD-total-versus-level
+#| echo: false
+#graph of disribution of CES-D scores by depression level
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   facet_wrap(~ Depression_Level) +
@@ -371,11 +362,12 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```
 
 ```{r}
-#| label: decriptive statistics
-#| echo: FALSE
+#| label: decriptive-statistics
+#| echo: false
+#CESD total summary table
 summary(wave1_cohort1_clean$CESD_Total)
 table(wave1_cohort1_clean$Depression_Level)
-
+#descriptive statistics of numeric variables
   descriptive_stats <- wave1_cohort1_clean %>%
   summarise(
     Mean_CESD = mean(CESD_Total, na.rm = TRUE),
@@ -384,32 +376,39 @@ table(wave1_cohort1_clean$Depression_Level)
     SD_RSE = sd(RSE_Total, na.rm = TRUE),
     Mean_IAT = mean(IAT_Score, na.rm = TRUE),
     SD_IAT = sd(IAT_Score, na.rm = TRUE))
+#present results in narrative text, table, or plot
 ```
 
 ```{r}
-#| label: hypothesis testing
-#| echo: FALSE
+#| label: hypothesis-testing
+#| echo: false
+#hypothesis test for numeric data
 t_test_result <- t.test(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
   print(t_test_result)
-
+#alternative way to hypothesis test for numeric data
 t_test_result <- t.test(wave1_cohort1_clean$CESD_Total ~ wave1_cohort1_clean$Depression_Level)
 print(t_test_result)
-
+#hypothesis test for factor data
 cor_test_result <- cor.test(wave1_cohort1_clean$RSE_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
 print(cor_test_result)
+#maybe add another hypothesis test for factor data (chi-square, ANOVA)
+#present results in narrative text, table, or plot
+#(can be met with only numeric or factor data analyses if they are sufficiently complex)
 ```
 
 ```{r}
-#| label: presenting statistics
+#| label: presenting-statistics
 #| echo: FALSE
+#printing mean, sd, and t-test for CESD
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       ". A t-test revealed a significant difference in CES-D scores between depression levels (t =", 
       t_test_result$statistic, ", p =", t_test_result$p.value, ").")
-
+#printing t-test with source
 cat("The results of the t-test were significant (t(13) = 7.03, p < .001; \\cite{Jiang2022}).")
-
+#unsure what this does, double check
 writeLines(readLines("references.bib"))
+#calculate effect size, p-value, and confidence interval
 ```
 
 The p-value was `r t_test_result$p.value`.
@@ -419,12 +418,6 @@ The p-value was `r t_test_result$p.value`.
 # Discussion
 
 The results suggest a significant relationship between depression and self-esteem.
-
-```{r}
-#| label: rendering pdf
-#| echo: FALSE
-#quarto::quarto_render("manuscript.qmd", output_format = "pdf")
-```
 
 # References
 
