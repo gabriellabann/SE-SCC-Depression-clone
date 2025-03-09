@@ -217,12 +217,12 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(CESD_Total = sum(c_across(CESDQ1:CESDQ20), na.rm = TRUE)) %>%
   ungroup()
 #remove below once bug is fixed
-# Check if CESDQ columns exist
+#checking if CESDQ columns exist in data set
 if (!all(paste0("CESDQ", 1:20) %in% colnames(wave1_cohort1_clean))) {
   stop("Some CESDQ columns are missing. Please check the dataset.")
 }
 
-# Print the first few rows of CESDQ columns to verify
+#printing to verify CESDQ columns
 head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
 #checking that CES-D scores match for participants as scored in SPSS
 expected_scores <- c(16.00, 27.00, 26.00, 30.00, 7.00, 15.00, 0.00, 14.00, 37.00, 4.00, 3.00, 7.00, 7.00, 26.00)
@@ -234,6 +234,9 @@ data.frame(Expected = expected_scores, Actual = actual_scores, Match = expected_
 #printing to verify
 head(wave1_cohort1_clean$CESD_Total)
 head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
+
+#ensuring as numeric (remove if bugs)
+wave1_cohort1_clean$CESD_Total <- as.numeric(wave1_cohort1_clean$CESD_Total)
 ```
 
 ```{r}
@@ -263,25 +266,21 @@ if (!"Depression_Level" %in% colnames(wave1_cohort1_clean)) {
 #coding RSES into numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(RosenbergQ1, RosenbergQ3, RosenbergQ4, RosenbergQ7, RosenbergQ10), ~ case_when(
-    . == "Strongly Agree" ~ 3,
+    . == "Strongly agree" ~ 3,
     . == "Agree" ~ 2,
     . == "Disagree" ~ 1,
-    . == "Strongly Disagree" ~ 0,
-    TRUE ~ NA_real_)))
-```
-
-```{r}
-#| label: RSES-cleaning-step-two
-#| echo: false
+    . == "Strongly disagree" ~ 0)))
 #reverse scoring RSES negative items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), 
                 ~ case_when(
-                 . == "Strongly Agree" ~ 0,
+                 . == "Strongly agree" ~ 0,
                  . == "Agree" ~ 1,
                  . == "Disagree" ~ 2,
-                 . == "Strongly Disagree" ~ 3,
-                 TRUE ~ NA_real_)))
+                 . == "Strongly disagree" ~ 3)))
+
+#printing to verify RSES columns exist in data set
+head(wave1_cohort1_clean %>% select(starts_with("RosenbergQ")))
 ```
 
 ```{r}
@@ -292,6 +291,9 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(Rosenberg_Total = sum(c_across(starts_with("RosenbergQ")), na.rm = TRUE)) %>%
   ungroup()
+
+#printing to verify
+head(wave1_cohort1_clean[, c("Rosenberg_Total")])
   
 ```
 
@@ -305,8 +307,25 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     Rosenberg_Total >= 15 & Rosenberg_Total <= 25 ~ "Normal Self-Esteem",
     Rosenberg_Total > 25 ~ "High Self-Esteem",
     TRUE ~ NA_character_)) 
-
+#printing to verify
 head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])
+```
+
+```{r}
+#| label: gender-cleaning
+#| echo: false
+#renaming variable
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  rename(Gender = `Demo Q2`)
+
+#converting to numeric
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(Gender = case_when(
+    Gender == "Female" ~ 0,
+    Gender == "Male" ~ 1))
+
+#printing to verify
+head(wave1_cohort1_clean$Gender)
 ```
 
 ```{r}
@@ -437,7 +456,7 @@ summary(lm_model)
 cor_test_result <- cor.test(wave1_cohort1_clean$Rosenberg_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
 print(cor_test_result)
 #association between depression level and gender
-chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$`Demo Q2`))
+chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$Gender))
 print(chisq_test)
 
 str(wave1_cohort1_clean[, c("Depression_Level", "Gender")])
@@ -459,6 +478,15 @@ cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRU
       ". An ANOVA demonstrated a significant impact of depression level on CES-D scores (F =", 
       anova_summary[[1]]["F value"][1, 1], ", p =", p_value, ").",
       "The effect size (Eta-squared) was", eta_squared_value, ".")
+#summary statistics
+summary_stats <- wave1_cohort1_clean %>%
+  summarise(
+    Mean_CESD = mean(CESD_Total, na.rm = TRUE),
+    SD_CESD = sd(CESD_Total, na.rm = TRUE),
+    Mean_RSE = mean(Rosenberg_Total, na.rm = TRUE),
+    SD_RSE = sd(Rosenberg_Total, na.rm = TRUE)
+  )
+print(summary_stats)
 #calculate effect size, p-value, and confidence interval
 ```
 
@@ -466,7 +494,7 @@ cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRU
 
 # Discussion
 
-The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD`in the CES-D, signifying moderate levels of depressive symptoms present in this sample. The results of ANOVA (F = `r summary(anova_result)[[1]]$F value[1]`, *p* = `r summary(anova_result)[[1]]$Pr(>F)[1]`) demonstrated that higher levels of depression is correlated with severity of depression symptoms, udnerstandably as both come from the same CES-D data. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
+The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD`in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
 
 This cohort measured:
 
