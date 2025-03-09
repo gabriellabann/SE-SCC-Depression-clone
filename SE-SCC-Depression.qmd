@@ -181,40 +181,59 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 ```
 
 ```{r}
-#| label: CESD-cleaning-step-one
+#| label: CESD-cleaning
 #| echo: false
 #converting CES-D responses using forcats
 #wave1_cohort1_clean <- wave1_cohort1_clean %>%
   #mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
-
-wave1_cohort1_clean <- wave1_cohort1_clean %>% #this gives errors, fix!!
-  mutate(across(c(CESDQ1, CESDQ2, CESDQ3, CESDQ5, CESDQ6, CESDQ7, 
-                  CESDQ9, CESDQ10,CESDQ11, CESDQ13, CESDQ14, CESDQ15, 
-                  CESDQ17, CESDQ18, CESDQ19, CESDQ20)), ~ as.numeric(fct_recode(as.factor(.),
-                                                   "0" = "Rarely or none of the time (less than 1 day)",
-                                                   "1" = "Some or a little of the time (1-2 days)",
-                                                   "2" = "Occasionally or a moderate amount of time (3-4 days)",
-                                                   "3" = "Most or all of the time (5-7 days)")))
-```
-
-```{r}
-#| label: CESD-cleaning-step-two
-#| echo: false
+#converting CES-D responses to numeric and scoring negative items
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(c(CESDQ1, CESDQ2, CESDQ3, CESDQ5, CESDQ6, CESDQ7, CESDQ9, CESDQ10, 
+                 CESDQ11, CESDQ13, CESDQ14, CESDQ15, CESDQ17, CESDQ18, CESDQ19, CESDQ20), 
+               .fns = ~ case_when(
+                 . == "Rarely or none of the time (less than 1 day)" ~ 0,
+                 . == "Some or a little of the time (1-2 days)" ~ 1,
+                 . == "Occasionally or a moderate amount of time (3-4 days)" ~ 2,
+                 . == "Most or all of the time (5-7 days)" ~ 3)))
 #reverse scoring positive items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), ~ as.numeric(fct_recode(as.factor(.),
-                                       "3" = "Rarely or none of the time (less than 1 day)",
-                                       "2" = "Some or a little of the time (1-2 days)",
-                                       "1" = "Occasionally or a moderate amount of time (3-4 days)",
-                                       "0" = "Most or all of the time (5-7 days)"))))
+  mutate(across(c(CESDQ4, CESDQ8, CESDQ12, CESDQ16), 
+               .fns = ~ case_when(
+                 . == "Rarely or none of the time (less than 1 day)" ~ 3,
+                 . == "Some or a little of the time (1-2 days)" ~ 2,
+                 . == "Occasionally or a moderate amount of time (3-4 days)" ~ 1,
+                 . == "Most or all of the time (5-7 days)" ~ 0)))
 ```
 
 ```{r}
 #| label: CESD-total-score
 #| echo: false
+#converting to numeric
+wave1_cohort1_clean <- wave1_cohort1_clean %>%
+  mutate(across(starts_with("CESDQ"), as.numeric))
 #calculate total CES-D score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(CESD_Total = rowSums(select(., starts_with("CESDQ")), na.rm = TRUE))
+  rowwise() %>%
+  mutate(CESD_Total = sum(c_across(CESDQ1:CESDQ20), na.rm = TRUE)) %>%
+  ungroup()
+#remove below once bug is fixed
+# Check if CESDQ columns exist
+if (!all(paste0("CESDQ", 1:20) %in% colnames(wave1_cohort1_clean))) {
+  stop("Some CESDQ columns are missing. Please check the dataset.")
+}
+
+# Print the first few rows of CESDQ columns to verify
+head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
+#checking that CES-D scores match for participants as scored in SPSS
+expected_scores <- c(16.00, 27.00, 26.00, 30.00, 7.00, 15.00, 0.00, 14.00, 37.00, 4.00, 3.00, 7.00, 7.00, 26.00)
+actual_scores <- wave1_cohort1_clean$CESD_Total[1:length(expected_scores)]
+
+#comparing R and SPSS total scores
+data.frame(Expected = expected_scores, Actual = actual_scores, Match = expected_scores == actual_scores)
+
+#printing to verify
+head(wave1_cohort1_clean$CESD_Total)
+head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
 ```
 
 ```{r}
@@ -226,8 +245,16 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
     CESD_Total >= 24 ~ "High Depression"))
-
+#printing to verify
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
+#remove below once bug is fixed
+if (!"CESD_Total" %in% colnames(wave1_cohort1_clean)) {
+  stop("CESD_Total column is missing. Please check the CESD-total-score chunk.")
+}
+
+if (!"Depression_Level" %in% colnames(wave1_cohort1_clean)) {
+  stop("Depression_Level column is missing. Please check the CESD-depression-level chunk.")
+}
 ```
 
 ```{r}
@@ -235,7 +262,7 @@ head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
 #| echo: false
 #coding RSES into numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(starts_with("RosenbergQ"), ~ case_when(
+  mutate(across(c(RosenbergQ1, RosenbergQ3, RosenbergQ4, RosenbergQ7, RosenbergQ10), ~ case_when(
     . == "Strongly Agree" ~ 3,
     . == "Agree" ~ 2,
     . == "Disagree" ~ 1,
@@ -248,7 +275,13 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 #| echo: false
 #reverse scoring RSES negative items
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
-  mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), ~ 3 - .)) 
+  mutate(across(c(RosenbergQ2, RosenbergQ5, RosenbergQ6, RosenbergQ8, RosenbergQ9), 
+                ~ case_when(
+                 . == "Strongly Agree" ~ 0,
+                 . == "Agree" ~ 1,
+                 . == "Disagree" ~ 2,
+                 . == "Strongly Disagree" ~ 3,
+                 TRUE ~ NA_real_)))
 ```
 
 ```{r}
@@ -272,6 +305,8 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     Rosenberg_Total >= 15 & Rosenberg_Total <= 25 ~ "Normal Self-Esteem",
     Rosenberg_Total > 25 ~ "High Self-Esteem",
     TRUE ~ NA_character_)) 
+
+head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])
 ```
 
 ```{r}
@@ -362,7 +397,7 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 #| label: CESD-total-versus-age
 #| echo: false
 #scatter plot with regression line for depression total versus age
-ggplot(wave1_cohort1_clean, aes(x = Demo_Q1, y = CESD_Total)) +
+ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
   labs(title = "Regression of CESD Total on Age", x = "Age", y = "CESD Total Score") +
@@ -396,14 +431,16 @@ table(wave1_cohort1_clean$Depression_Level)
 anova_result <- aov(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
 summary(anova_result)
 #linear regression
-lm_model <- lm(CESD_Total ~ Demo_Q1, data = wave1_cohort1_clean)
+lm_model <- lm(CESD_Total ~ `Demo Q1`, data = wave1_cohort1_clean)
 summary(lm_model)
 #hypothesis test for factor data
 cor_test_result <- cor.test(wave1_cohort1_clean$Rosenberg_Total, wave1_cohort1_clean$CESD_Total, use = "complete.obs")
 print(cor_test_result)
 #association between depression level and gender
-chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$Gender))
+chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$`Demo Q2`))
 print(chisq_test)
+
+str(wave1_cohort1_clean[, c("Depression_Level", "Gender")])
 #present results in narrative text, table, or plot
 
 table(wave1_cohort1_clean$Depression_Level)
@@ -412,6 +449,10 @@ table(wave1_cohort1_clean$Depression_Level)
 ```{r}
 #| label: presenting-statistics
 #| echo: FALSE
+#calculating the ANOA summary
+anova_summary <- summary(anova_result)
+p_value <- anova_summary[[1]]$`Pr(>F)`[1]
+eta_squared_value <- anova_summary[[1]]$`Sum Sq`[1] / sum(anova_summary[[1]]$`Sum Sq`)
 #printing mean, sd, and t-test for CESD
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
