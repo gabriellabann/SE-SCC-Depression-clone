@@ -4,19 +4,25 @@ author:
   name: "Gabriella Bann"
   affiliation: "University of Chicago"
 date: "`r format(Sys.Date(), '%B %d, %Y')`"
-format:
-  pdf:
-    documentclass: article
-    keep_tex: true
-    toc: true
-    number-sections: true
-    citation-package: natbib
-    latex-engine: pdflatex
-    includes:
-      in-header: preamble.tex
+abstract: |
+  This study explores the relationship between depressive symptoms, implicit self esteem, and explicit self esteem. Self-concept clarity was intended to be measured but left out of cohort 1, it has been included in further waves of cohort 1 and will be inclued in further cohorts tested. This manuscript uses data from a sample of 14 US-based adults to examine how depression relates to implicit and explicit self-esteem. The preliminary results suggest a significant relationship between self-esteem and depression, with the implication for the early detection and treatment of depressive symptoms. 
+# format:
+#   pdf:
+#     #documentclass: article
+#     keep_tex: true
+#     toc: true
+#     number-sections: true
+#     citation-package: natbib
+#     latex-engine: pdflatex
+#     includes:
+#       in-header: preamble.tex
 bibliography: references.bib
-#csl: apa.csl
 editor: visual
+format:
+  apaquarto-docx: default
+  #apaquarto-html: default
+  apaquarto-pdf: default
+  apaquarto-typst: default
 ---
 
 ```{r}
@@ -122,7 +128,7 @@ Demographic information, questionnaires, and online testing assessments will be 
 
 # Results
 
-The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
+The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total)`.
 
 ```{r}
 #| label: IAT-collapsing-step-one
@@ -371,21 +377,23 @@ head(wave1_cohort1_clean$Gender)
 ```
 
 ```{r}
-#| label: summary-of-measures 
+#| label: tbl-summary-of-measures 
+#| tbl-cap: Summary of Depression Scores and Explicit Self Esteem Scores
 #| echo: false
-papaja::apa_table(
-  wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head(),
-  caption = "Summary of Depression Scores and Explicit Self Esteem Scores")
-  
-papaja::apa_table(
- RSES_Scored %>%
-  select(Rosenberg_Total)  %>% head(), 
-  caption = "Summary of Rosenberg Scores")
+  wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head()
   
 #papaja::apa_table(
   #selfIAT_scored %>%
   #select(IAT_Score)  %>% head(), 
   #caption = "Summary of Self-IAT Scores")
+```
+
+```{r}
+#| label: tbl-table2
+#| tbl-cap: Summary of Rosenberg Scores
+#| echo: false
+ RSES_Scored %>%
+  select(Rosenberg_Total)  %>% head()
 ```
 
 ```{r}
@@ -399,7 +407,7 @@ papaja::apa_table(
 ```
 
 ```{r}
-#| label: CESD-score-distribution
+#| label: fig-CESD-score-distribution
 #| echo: false
 #| warning: false
 #| message: false
@@ -411,7 +419,7 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```
 
 ```{r}
-#| label: RSES-score-distribution
+#| label: fig-RSES-score-distribution
 #| echo: false
 #| warning: false
 #| message: false
@@ -423,7 +431,7 @@ ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
 ```
 
 ```{r}
-#| label: IAT-score-distribution
+#| label: fig-IAT-score-distribution
 #| echo: false
 #| warning: false
 #| message: false
@@ -435,7 +443,7 @@ ggplot(selfIAT_scored, aes(x = IAT_Score)) +
 ```
 
 ```{r}
-#| label: RSES-versus-CESD-level
+#| label: fig-RSES-versus-CESD-level
 #| echo: false
 #| warning: false
 #| message: false
@@ -561,7 +569,7 @@ print(summary_stats)
 
 # Discussion
 
-The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD` in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
+The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD` in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms ($\beta$ = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
 
 This cohort measured:
 
