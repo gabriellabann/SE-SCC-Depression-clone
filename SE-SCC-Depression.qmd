@@ -377,7 +377,7 @@ head(wave1_cohort1_clean$Gender)
 ```
 
 ```{r}
-#| label: tbl-summary-of-measures 
+#| label: tbl-summary-of-depression-and-self-esteem 
 #| tbl-cap: Summary of Depression Scores and Explicit Self Esteem Scores
 #| echo: false
   wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head()
@@ -389,7 +389,7 @@ head(wave1_cohort1_clean$Gender)
 ```
 
 ```{r}
-#| label: tbl-table2
+#| label: tbl-explicit-self-esteem
 #| tbl-cap: Summary of Rosenberg Scores
 #| echo: false
  RSES_Scored %>%
@@ -408,6 +408,7 @@ head(wave1_cohort1_clean$Gender)
 
 ```{r}
 #| label: fig-CESD-score-distribution
+#| fig-cap: Distribution of CES-D Scores
 #| echo: false
 #| warning: false
 #| message: false
@@ -415,57 +416,62 @@ head(wave1_cohort1_clean$Gender)
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   theme_minimal() +
-  labs(title = "Distribution of CES-D Scores", x = "CES-D Total Score", y = "Frequency")
+  labs(x = "CES-D Total Score", y = "Frequency")
 ```
 
 ```{r}
 #| label: fig-RSES-score-distribution
+#| fig-cap: Rosenberg Self-Esteem Scale Distribution
 #| echo: false
 #| warning: false
 #| message: false
 #graph of Rosenberg score distribution 
 ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
   geom_histogram(binwidth = 1, fill = "blue", color = "black") +
-  labs(title = "Rosenberg Self-Esteem Scale Distribution", x = "RSE Total Score", y = "Count") +
+  labs(x = "RSE Total Score", y = "Count") +
   theme_minimal()
 ```
 
 ```{r}
 #| label: fig-IAT-score-distribution
+#| fig-cap: Implicit Association Test Score Distribution
 #| echo: false
 #| warning: false
 #| message: false
 #graph of IAT score distribution
 ggplot(selfIAT_scored, aes(x = IAT_Score)) +
   geom_density(fill = "red", alpha = 0.5) +
-  labs(title = "Implicit Association Test Score Distribution", x = "IAT Score", y = "Density") +
+  labs(x = "IAT Score", y = "Density") +
   theme_minimal()
 ```
 
 ```{r}
 #| label: fig-RSES-versus-CESD-level
+#| fig-cap: Rosenberg Scores by Depression Level
 #| echo: false
 #| warning: false
 #| message: false
 #graph of rosenberg score against depression level 
 ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
   geom_boxplot() +
-  labs(title = "Rosenberg Scores by Depression Level", x = "Depression Level", y = "Rosenberg Total Score")
+  labs(x = "Depression Level", y = "Rosenberg Total Score")
 ```
 
 ```{r}
-#| label: RSES-versus-CESD-total
+#| label: fig-RSES-versus-CESD-total
+#| fig-cap: Rosenberg Scores vs. CES-D Scores
 #| echo: false
 #| warning: false
 #| message: false
 #graph of rosenberg score against depression total score
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
   geom_point() +
-  labs(title = "Rosenberg Scores vs. CES-D Scores", x = "CES-D Total Score", y = "Rosenberg Total Score")
+  labs(x = "CES-D Total Score", y = "Rosenberg Total Score")
 ```
 
 ```{r}
-#| label: CESD-total-versus-level
+#| label: fig-CESD-total-versus-level
+#| fig-cap: Distribution of CES-D Scores by Depression Level
 #| echo: false
 #| warning: false
 #| message: false
@@ -473,11 +479,12 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Dep
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
   facet_wrap(~ Depression_Level) +
-  labs(title = "Distribution of CES-D Scores by Depression Level", x = "CES-D Total Score", y = "Frequency")
+  labs(x = "CES-D Total Score", y = "Frequency")
 ```
 
 ```{r}
-#| label: CESD-total-versus-age
+#| label: fig-CESD-total-versus-age
+#| fig-cap: Regression of CESD Total on Age
 #| echo: false
 #| warning: false
 #| message: false
@@ -485,7 +492,7 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
-  labs(title = "Regression of CESD Total on Age", x = "Age", y = "CESD Total Score") +
+  labs(x = "Age", y = "CESD Total Score") +
   theme_minimal()
 ```
 
