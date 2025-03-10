@@ -22,6 +22,8 @@ editor: visual
 ```{r}
 #| label: loading-packages
 #| echo: false
+#| warning: false
+#| message: false
 #setting CRAN mirror
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 #commented out package installation for reproducibility
@@ -75,6 +77,8 @@ library(iatgen)
 ```{r}
 #| label: setting-seed
 #| echo: false
+#| warning: false
+#| message: false
 #setting seed
 set.seed(1234)
 ```
@@ -82,6 +86,8 @@ set.seed(1234)
 ```{r}
 #| label: loading-data
 #| echo: false
+#| warning: false
+#| message: false
 #loading general data
 #wave1_cohort1 <- read_csv("Wave1_Cohort1.csv")
 #loading clean data
@@ -98,7 +104,11 @@ selfIAT_scored <- read_csv("SelfIATOutput.csv")
 
 ## Depression
 
-Depression is a highly common mental health condition impacting 18.4% of the adult US population in 2020, with impact defined as ever having been diagnosed by a healthcare provider [@Lee2023]. Currently, the typical treatment for depression is a combination of psychotherapy and medication, or just one of the two. Psychotherapy itself has been shown to have a large impact on the reduction of depression symptom severity and a moderate impact on self-esteem (SE) associated with depression post-treatment [@bhattacharya_effect_2023]. This begins to demonstrate the relationship between SE and depressive symptoms. Clinically, in patients with major depressive disorder (MDD) with suicidal ideation (SI), explicit (conscious) SE was significantly lower than in healthy controls and patients with MDD without SI [@yin_relationship_2022]. It was also demonstrated that both the size and direction of the discrepancy in SE were significantly associated with the severity of depressive symptoms [@yin_relationship_2022]. These findings demonstrated that diminished SE, meaning high implicit (unconscious) and low explicit SE, was associated with the highest SI scores and thus could aid in the early detection of depression and SI formation. In general, lower SE in individuals with depressive symptoms is often associated with SI [@franck_implicit_2007]. These results especially make it distinct that the discrepancy between implicit and explicit SE, more specifically high implicit and low explicit SE, might be only shown in currently depressed individuals with SI. Alternatively, low implicit and low explicit SE is shown in currently depressed individuals without SI. Although our current study employs the Center for Epidemiologic Studies Depression Scale (CES-D), which does not test for SI, it will be informative to see how the differences in depressive symptoms as measured impact the discrepancies between implicit and explicit SE. Typically, difference score models have been used to analyze the discrepancy between implicit and explicit SE measures; @visser_beyond_2024 used polynomial regression analysis to delve further into these predictors of depressive symptoms. Their results demonstrate that depression increases while explicit SE decreases; however, depressive symptoms are almost unaffected by variations in implicit SE [@visser_beyond_2024]. This complicates the findings of previous research in terms of the role of implicit SE, we hope to resolve this convolution through the measurement of an additional covariate. Through the use of the implicit association test (IAT), differences in unconscious perceptions of both the self and others have been demonstrated in people with depression. In prior research on the self-IAT, healthy controls responded faster to both positive self and others than negative self and others but participants with MDD did not show this pattern [@Yao2023]. Instead, the MDD participants exhibited significantly smaller later-positive potential under positive self and other schema. This suggests that depression in general leads patients not only to negative patterns of thinking but associations in regards to the self and others. Another form of implicit association common to depression is that of self-depressed associations, in which the individual associates themselves with elements of depression. Higher self-depressed associations are a risk factor for the recurrence of MDD and pose a potential treatment target [@rnic_predicting_2023]. In individuals with depression currently and remitted individuals, the remitted individuals demonstrated a weaker automatic self-association with depression than people currently experiencing the disorder, however, the remitted individuals still exhibited stronger automatic self-depressed associations than the healthy controls [@glashouwer_disorder-specific_2010]. This demonstrates the importance of identifying the covariate in SE since automatic self-association is influential in the development and maintenance of depressive symptoms. \## Self-esteem and self-concept clarity Explicit SE is the deliberate and conscious evaluation a person conducts of themselves, and can be indicative of positive mental health when relevant to their intrapersonal environment. In contrast, implicit SE is the often unconscious automatic way in which a person feels about themselves. Differentiating implicit and explicit SE is important since they have separate underlying mechanisms and thus may have different effects on one’s SE as a whole. Two models have been proposed in how SE relates to depression called the scar and vulnerability models of depression. The former hypothesis is that depressive symptoms leave a scar on the implicated individual, and the latter is that low SE contributes to depressive symptoms (Steiger et al., 2015). Prior research, however, demonstrated that the vulnerability model is susceptible to inaccurately portraying causal effects due to their correlational nature [@sorjonen_questioning_2022]. Further, a third model called reciprocal risk, in which SE and depressive symptoms influence each other, conflates the generalizable results on predictors of depressive symptoms [@johnson_vulnerability_2016]. In general, findings have not been consistent with any singular model of predicting depressive symptoms, producing variable literature on SE. This discourse is intriguing, suggesting there may be a covariate in the relationship between depressive systems and SE. We are proposing self-concept clarity (SCC) as this covariate. SCC is a structural component of the self-concept; the degree to which self-beliefs are internally consistent, stable, and confidently defined. Individually, SCC can mediate depression and upward social comparison [@butzer_relationships_2006], and correlate with increased levels of psychological adjustment (Bigler et al., 2001). Additionally, a low score of SCC is independently associated with low SE (Campbell et al., 1996). Since inconsistencies between explicit and implicit SE can be accounted for by simultaneously evaluating self-deception as shown by recent research (Uziel & Cohen, 2020), SCC may represent the other end as a mediator of SE and depressive symptoms. A disagreement in SE distinguished by low implicit and high explicit SE may be predictive of both low SCC as well as depressive symptoms through multivariate modeling. This suggests that SCC may be the missing variable in the explanation of SE differences for people with depressive symptoms. Our aim to analyze SE discrepancy and SCC may prove to supply a target for the treatment of depression symptoms prior to the formation of a mental health condition.
+Depression is a highly common mental health condition impacting 18.4% of the adult US population in 2020, with impact defined as ever having been diagnosed by a healthcare provider (Lee et al., 2023). Currently, the typical treatment for depression is a combination of psychotherapy and medication, or just one of the two. Psychotherapy itself has been shown to have a large impact on the reduction of depression symptom severity and a moderate impact on self-esteem (SE) associated with depression post-treatment [@bhattacharya_effect_2023]. This begins to demonstrate the relationship between SE and depressive symptoms. Clinically, in patients with major depressive disorder (MDD) with suicidal ideation (SI), explicit (conscious) SE was significantly lower than in healthy controls and patients with MDD without SI [@yin_relationship_2022]. It was also demonstrated that both the size and direction of the discrepancy in SE were significantly associated with the severity of depressive symptoms [@yin_relationship_2022]. These findings demonstrated that diminished SE, meaning high implicit (unconscious) and low explicit SE, was associated with the highest SI scores and thus could aid in the early detection of depression and SI formation. In general, lower SE in individuals with depressive symptoms is often associated with SI [@franck_implicit_2007]. These results especially make it distinct that the discrepancy between implicit and explicit SE, more specifically high implicit and low explicit SE, might be only shown in currently depressed individuals with SI. Alternatively, low implicit and low explicit SE is shown in currently depressed individuals without SI. Although our current study employs the Center for Epidemiologic Studies Depression Scale (CES-D), which does not test for SI, it will be informative to see how the differences in depressive symptoms as measured impact the discrepancies between implicit and explicit SE. Typically, difference score models have been used to analyze the discrepancy between implicit and explicit SE measures; @visser_beyond_2024 used polynomial regression analysis to delve further into these predictors of depressive symptoms. Their results demonstrate that depression increases while explicit SE decreases; however, depressive symptoms are almost unaffected by variations in implicit SE [@visser_beyond_2024]. This complicates the findings of previous research in terms of the role of implicit SE, we hope to resolve this convolution through the measurement of an additional covariate. Through the use of the implicit association test (IAT), differences in unconscious perceptions of both the self and others have been demonstrated in people with depression. In prior research on the self-IAT, healthy controls responded faster to both positive self and others than negative self and others but participants with MDD did not show this pattern [@yao_electrophysiological_2023]. Instead, the MDD participants exhibited significantly smaller later-positive potential under positive self and other schema. This suggests that depression in general leads patients not only to negative patterns of thinking but associations in regards to the self and others. Another form of implicit association common to depression is that of self-depressed associations, in which the individual associates themselves with elements of depression. Higher self-depressed associations are a risk factor for the recurrence of MDD and pose a potential treatment target [@rnic_predicting_2023]. In individuals with depression currently and remitted individuals, the remitted individuals demonstrated a weaker automatic self-association with depression than people currently experiencing the disorder, however, the remitted individuals still exhibited stronger automatic self-depressed associations than the healthy controls [@glashouwer_disorder-specific_2010]. This demonstrates the importance of identifying the covariate in SE since automatic self-association is influential in the development and maintenance of depressive symptoms. 
+
+## Self-esteem and self-concept clarity
+
+Explicit SE is the deliberate and conscious evaluation a person conducts of themselves, and can be indicative of positive mental health when relevant to their intrapersonal environment. In contrast, implicit SE is the often unconscious automatic way in which a person feels about themselves. Differentiating implicit and explicit SE is important since they have separate underlying mechanisms and thus may have different effects on one’s SE as a whole. Two models have been proposed in how SE relates to depression called the scar and vulnerability models of depression. The former hypothesis is that depressive symptoms leave a scar on the implicated individual, and the latter is that low SE contributes to depressive symptoms (Steiger et al., 2015). Prior research, however, demonstrated that the vulnerability model is susceptible to inaccurately portraying causal effects due to their correlational nature [@sorjonen_questioning_2022]. Further, a third model called reciprocal risk, in which SE and depressive symptoms influence each other, conflates the generalizable results on predictors of depressive symptoms [@johnson_vulnerability_2016]. In general, findings have not been consistent with any singular model of predicting depressive symptoms, producing variable literature on SE. This discourse is intriguing, suggesting there may be a covariate in the relationship between depressive systems and SE. We are proposing self-concept clarity (SCC) as this covariate. SCC is a structural component of the self-concept; the degree to which self-beliefs are internally consistent, stable, and confidently defined. Individually, SCC can mediate depression and upward social comparison [@butzer_relationships_2006], and correlate with increased levels of psychological adjustment (Bigler et al., 2001). Additionally, a low score of SCC is independently associated with low SE (Campbell et al., 1996). Since inconsistencies between explicit and implicit SE can be accounted for by simultaneously evaluating self-deception as shown by recent research (Uziel & Cohen, 2020), SCC may represent the other end as a mediator of SE and depressive symptoms. A disagreement in SE distinguished by low implicit and high explicit SE may be predictive of both low SCC as well as depressive symptoms through multivariate modeling. This suggests that SCC may be the missing variable in the explanation of SE differences for people with depressive symptoms. Our aim to analyze SE discrepancy and SCC may prove to supply a target for the treatment of depression symptoms prior to the formation of a mental health condition.
 
 # Methods
 
@@ -117,6 +127,8 @@ The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE)`.
 ```{r}
 #| label: IAT-collapsing-step-one
 #| echo: false 
+#| warning: false
+#| message: false
 #collapsing IAT data down 
 wave1_cohort1_IAT$compatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q4.RP4, wave1_cohort1_IAT$Q18.LP4, wave1_cohort1_IAT$Q14.RN7, wave1_cohort1_IAT$Q28.LN7)
 wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7.RP7, wave1_cohort1_IAT$Q21.LP7, wave1_cohort1_IAT$Q11.RN4, wave1_cohort1_IAT$Q25.LN4)
@@ -126,6 +138,8 @@ wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7
 ```{r}
 #| label: IAT-collapsing-step-two
 #| echo: false 
+#| warning: false
+#| message: false
 #collapsing IAT practice blocks 
 wave1_cohort1_IAT$compatible.prac<- combineIATfourblocks(wave1_cohort1_IAT$Q3.RP3, wave1_cohort1_IAT$Q17.LP3, wave1_cohort1_IAT$Q13.RN6, wave1_cohort1_IAT$Q27.LN6)
 wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6.RP6, wave1_cohort1_IAT$Q20.LP6, wave1_cohort1_IAT$Q10.RN3, wave1_cohort1_IAT$Q24.LN3)
@@ -135,6 +149,8 @@ wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6
 ```{r}
 #| label: cleaning-the-IAT
 #| echo: false
+#| warning: false
+#| message: false
 #cleaning the IAT
 clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac, 
                   crit1=wave1_cohort1_IAT$compatible.crit, 
@@ -157,6 +173,9 @@ clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac,
 ```{r}
 #| label: beginning-statistics
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 IATreliability(clean)$reliability #internal consistency (0.8902007)
 IATalpha(clean)$alpha.total #reliability of IAT D-score (raw_alpha = 0.7397427)
 wave1_cohort1_IAT$D <- clean$D
@@ -169,6 +188,9 @@ mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 ```{r}
 #| label: continuing-statistics
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #reaction time descriptives by block
 mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
 mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
@@ -183,6 +205,8 @@ sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 ```{r}
 #| label: CESD-cleaning
 #| echo: false
+#| warning: false
+#| message: false
 #converting CES-D responses using forcats
 #wave1_cohort1_clean <- wave1_cohort1_clean %>%
   #mutate(across(starts_with("CESDQ"), ~ str_trim(.)))
@@ -208,6 +232,9 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
 ```{r}
 #| label: CESD-total-score
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #converting to numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(starts_with("CESDQ"), as.numeric))
@@ -242,6 +269,9 @@ wave1_cohort1_clean$CESD_Total <- as.numeric(wave1_cohort1_clean$CESD_Total)
 ```{r}
 #| label: CESD-depression-level
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #calculate score per depression level
 wave1_cohort1_clean <- wave1_cohort1_clean %>% 
   mutate(Depression_Level = case_when(
@@ -263,6 +293,9 @@ if (!"Depression_Level" %in% colnames(wave1_cohort1_clean)) {
 ```{r}
 #| label: RSES-cleaning-step-one
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #coding RSES into numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(across(c(RosenbergQ1, RosenbergQ3, RosenbergQ4, RosenbergQ7, RosenbergQ10), ~ case_when(
@@ -286,6 +319,9 @@ head(wave1_cohort1_clean %>% select(starts_with("RosenbergQ")))
 ```{r}
 #| label: RSES-total-score
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #calculate total RSES score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
@@ -300,6 +336,9 @@ head(wave1_cohort1_clean[, c("Rosenberg_Total")])
 ```{r}
 #| label: RSES-self-esteem-level
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #interpreting RSES score
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(Explicit_SE_Level = case_when(
@@ -314,6 +353,9 @@ head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])
 ```{r}
 #| label: gender-cleaning
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #renaming variable
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rename(Gender = `Demo Q2`)
@@ -335,10 +377,10 @@ papaja::apa_table(
   wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head(),
   caption = "Summary of Depression Scores and Explicit Self Esteem Scores")
   
-#papaja::apa_table(
- # RSES_Scored %>%
-  #select(Rosenberg_Total)  %>% head(), 
-  #caption = "Summary of Rosenberg Scores")
+papaja::apa_table(
+ RSES_Scored %>%
+  select(Rosenberg_Total)  %>% head(), 
+  caption = "Summary of Rosenberg Scores")
   
 #papaja::apa_table(
   #selfIAT_scored %>%
@@ -349,14 +391,18 @@ papaja::apa_table(
 ```{r}
 #| label: data-table 
 #| echo: false
-knitr::opts_chunk$set(echo = TRUE)
+#| warning: false
+#| message: false
+#knitr::opts_chunk$set(echo = TRUE)
 
-knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
+#knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```
 
 ```{r}
 #| label: CESD-score-distribution
 #| echo: false
+#| warning: false
+#| message: false
 #graph of CES-D score distribution
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
@@ -367,6 +413,8 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```{r}
 #| label: RSES-score-distribution
 #| echo: false
+#| warning: false
+#| message: false
 #graph of Rosenberg score distribution 
 ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
   geom_histogram(binwidth = 1, fill = "blue", color = "black") +
@@ -377,6 +425,8 @@ ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
 ```{r}
 #| label: IAT-score-distribution
 #| echo: false
+#| warning: false
+#| message: false
 #graph of IAT score distribution
 ggplot(selfIAT_scored, aes(x = IAT_Score)) +
   geom_density(fill = "red", alpha = 0.5) +
@@ -387,6 +437,8 @@ ggplot(selfIAT_scored, aes(x = IAT_Score)) +
 ```{r}
 #| label: RSES-versus-CESD-level
 #| echo: false
+#| warning: false
+#| message: false
 #graph of rosenberg score against depression level 
 ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
   geom_boxplot() +
@@ -396,6 +448,8 @@ ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
 ```{r}
 #| label: RSES-versus-CESD-total
 #| echo: false
+#| warning: false
+#| message: false
 #graph of rosenberg score against depression total score
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
   geom_point() +
@@ -405,6 +459,8 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Dep
 ```{r}
 #| label: CESD-total-versus-level
 #| echo: false
+#| warning: false
+#| message: false
 #graph of disribution of CES-D scores by depression level
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "blue", color = "black") +
@@ -415,6 +471,8 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ```{r}
 #| label: CESD-total-versus-age
 #| echo: false
+#| warning: false
+#| message: false
 #scatter plot with regression line for depression total versus age
 ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
   geom_point(alpha = 0.6) +
@@ -426,6 +484,9 @@ ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
 ```{r}
 #| label: decriptive-statistics
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #CESD total summary table
 summary(wave1_cohort1_clean$CESD_Total)
 table(wave1_cohort1_clean$Depression_Level)
@@ -446,6 +507,9 @@ table(wave1_cohort1_clean$Depression_Level)
 ```{r}
 #| label: hypothesis-testing
 #| echo: false
+#| warning: false
+#| message: false
+#| include: false
 #hypothesis test for numeric data
 anova_result <- aov(CESD_Total ~ Depression_Level, data = wave1_cohort1_clean)
 summary(anova_result)
@@ -468,6 +532,9 @@ table(wave1_cohort1_clean$Depression_Level)
 ```{r}
 #| label: presenting-statistics
 #| echo: FALSE
+#| warning: false
+#| message: false
+#| include: false
 #calculating the ANOA summary
 anova_summary <- summary(anova_result)
 p_value <- anova_summary[[1]]$`Pr(>F)`[1]
@@ -494,7 +561,7 @@ print(summary_stats)
 
 # Discussion
 
-The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD`in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
+The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD` in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms (*β* = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
 
 This cohort measured:
 
