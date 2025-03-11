@@ -111,15 +111,15 @@ set.seed(1234)
 #loading general data
 #wave1_cohort1 <- read_csv("Wave1_Cohort1.csv")
 #loading clean data
-wave1_cohort1_clean <- read_csv("Wave1_Cohort1_Clean.csv")
+wave1_cohort1_clean <- read_csv("Data/Wave1_Cohort1_Clean.csv")
 #loading depression data
-cesd_scored <- read_csv("CESD_Scored.csv")
+cesd_scored <- read_csv("Data/CESD_Scored.csv")
 #loading explicit self esteem data
-RSES_Scored <- read_csv("RSES_Scored.csv")
+RSES_Scored <- read_csv("Data/RSES_Scored.csv")
 #loading raw IAT data
-wave1_cohort1_IAT <- read.csv("Wave1_Cohort1_SelfIAT.csv", header=T)
+wave1_cohort1_IAT <- read.csv("Data/Wave1_Cohort1_SelfIAT.csv", header=T)
 #loading implicit self esteem data
-selfIAT_scored <- read_csv("SelfIATOutput.csv")
+selfIAT_scored <- read_csv("Data/SelfIATOutput.csv")
 ```
 
 ## Depression
