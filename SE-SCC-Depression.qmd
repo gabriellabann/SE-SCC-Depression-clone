@@ -31,7 +31,7 @@ author-note:
 #     includes:
 #       in-header: preamble.tex
 bibliography: references.bib
-editor: visual
+#editor: visual
 format:
   apaquarto-docx: default
   #apaquarto-html: default
@@ -46,7 +46,7 @@ format:
 #| message: false
 #setting CRAN mirror
 options(repos = c(CRAN = "https://cloud.r-project.org"))
-#commented out package installation for reproducibility
+#commented out package installation for reproducibility/to avoid errors
 #install.packages("quarto")
 #install.packages("tidyverse")
 #install.packages("readr")
@@ -138,11 +138,9 @@ Approval has been received from the University of Chicago Biological Sciences Di
 
 ## Procedures & Measures
 
-Demographic information, questionnaires, and online testing assessments will be gathered by Prolific.com after it identifies eligible participants. The independent factors tested will be self-concept clarity measured by the Self-Concept Clarity Scale (Campbell et al., 1996), implicit self-esteem measured by the Self-Esteem Implicit Association Test (IAT) (@franck_implicit_2007; Greenwald & Farnham, 2000), and explicit self-esteem measured by the Rosenberg Self-Esteem Scale (Rosenberg, 1965). The Self-Concept Clarity Scale measures participants' self-beliefs by indicating on a Likert scale of 1 being strongly disagreeing to 5 strongly agreeing, a series of 12 statements such as ‘My beliefs about myself seem to change very frequently’. The Self-Esteem IAT assesses self-esteem implicitly by measuring the automatic associations of the self with negative and positive valences. The Rosenberg Self-Esteem Scale measures participants’ self-esteem explicitly by designating whether they agree with, on a Likert scale of 1 being strongly agree to 4 being strongly disagree, a series of 10 statements including ‘On a whole, I am satisfied with myself’. The dependent factor tested will be depression symptoms as measured by the Center for Epidemiologic Studies Depression Scale (CES-D) (Radloff, 1977). The CES-D evaluates the severity of depression symptoms during the past week through a series of 20 statements rated on a Likert scale from ‘rarely or none of the time’ to ‘most or all of the time’. Both dependent and independent variables will be measured at three time points: baseline (time 1), one-week past baseline (time 2), and two-weeks past baseline (time 3). Participants will receive \$12 an hour for their participation in each wave of this study, with participants who complete all three waves receiving a \$12 bonus. Strengths include time efficiency in recruitment and study administration through the use of Prolific, as well as access to a more diverse pool of participants. Further strength is in the repeated measures, which control for individual sources of variance in the data. Limitations of this study are that it will be conducted remotely, therefore environmental factors influencing participants' completion, and the quality of responses cannot be controlled for. Additionally, the large amount of measures included may prove to exhaust participants leading to some failing to complete all three time points. This potential limitation is accounted for in participant recruitment by over-recruiting. Further, there being no eligibility criteria regarding mental health conditions and not collecting lifetime/current mental health conditions in demographics limits our ability to conduct a subgroup analysis regarding diagnosis.
+Demographic information, questionnaires, and online testing assessments will be gathered by Prolific.com after it identifies eligible participants. The independent factors tested will be self-concept clarity measured by the Self-Concept Clarity Scale (Campbell et al., 1996), implicit self-esteem measured by the Self-Esteem Implicit Association Test (IAT) ([@franck_implicit_2007]; Greenwald & Farnham, 2000), and explicit self-esteem measured by the Rosenberg Self-Esteem Scale (Rosenberg, 1965). The Self-Concept Clarity Scale measures participants' self-beliefs by indicating on a Likert scale of 1 being strongly disagreeing to 5 strongly agreeing, a series of 12 statements such as ‘My beliefs about myself seem to change very frequently’. The Self-Esteem IAT assesses self-esteem implicitly by measuring the automatic associations of the self with negative and positive valences. The Rosenberg Self-Esteem Scale measures participants’ self-esteem explicitly by designating whether they agree with, on a Likert scale of 1 being strongly agree to 4 being strongly disagree, a series of 10 statements including ‘On a whole, I am satisfied with myself’. The dependent factor tested will be depression symptoms as measured by the Center for Epidemiologic Studies Depression Scale (CES-D) (Radloff, 1977). The CES-D evaluates the severity of depression symptoms during the past week through a series of 20 statements rated on a Likert scale from ‘rarely or none of the time’ to ‘most or all of the time’. Both dependent and independent variables will be measured at three time points: baseline (time 1), one-week past baseline (time 2), and two-weeks past baseline (time 3). Participants will receive \$12 an hour for their participation in each wave of this study, with participants who complete all three waves receiving a \$12 bonus. Strengths include time efficiency in recruitment and study administration through the use of Prolific, as well as access to a more diverse pool of participants. Further strength is in the repeated measures, which control for individual sources of variance in the data. Limitations of this study are that it will be conducted remotely, therefore environmental factors influencing participants' completion, and the quality of responses cannot be controlled for. Additionally, the large amount of measures included may prove to exhaust participants leading to some failing to complete all three time points. This potential limitation is accounted for in participant recruitment by over-recruiting. Further, there being no eligibility criteria regarding mental health conditions and not collecting lifetime/current mental health conditions in demographics limits our ability to conduct a subgroup analysis regarding diagnosis.
 
 # Results
-
-The mean CES-D score was `r mean(wave1_cohort1_clean$CESD_Total)`.
 
 ```{r}
 #| label: IAT-collapsing-step-one
@@ -212,10 +210,12 @@ mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 #| message: false
 #| include: false
 #reaction time descriptives by block
+#means
 mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
 mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
 mean(clean$clean.means.prac1, na.rm=T) #(1114.787)
 mean(clean$clean.means.prac2, na.rm=T) #(1487.6)
+#standard deviations
 sd(clean$clean.means.crit1, na.rm=T) #(280.7861)
 sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
 sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
@@ -263,25 +263,20 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(CESD_Total = sum(c_across(CESDQ1:CESDQ20), na.rm = TRUE)) %>%
   ungroup()
-#remove below once bug is fixed
 #checking if CESDQ columns exist in data set
 if (!all(paste0("CESDQ", 1:20) %in% colnames(wave1_cohort1_clean))) {
   stop("Some CESDQ columns are missing. Please check the dataset.")
 }
-
 #printing to verify CESDQ columns
 head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
 #checking that CES-D scores match for participants as scored in SPSS
 expected_scores <- c(16.00, 27.00, 26.00, 30.00, 7.00, 15.00, 0.00, 14.00, 37.00, 4.00, 3.00, 7.00, 7.00, 26.00)
 actual_scores <- wave1_cohort1_clean$CESD_Total[1:length(expected_scores)]
-
 #comparing R and SPSS total scores
 data.frame(Expected = expected_scores, Actual = actual_scores, Match = expected_scores == actual_scores)
-
 #printing to verify
 head(wave1_cohort1_clean$CESD_Total)
 head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
-
 #ensuring as numeric (remove if bugs)
 wave1_cohort1_clean$CESD_Total <- as.numeric(wave1_cohort1_clean$CESD_Total)
 ```
@@ -300,7 +295,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     CESD_Total >= 24 ~ "High Depression"))
 #printing to verify
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
-#remove below once bug is fixed
+#further printing to verify existence
 if (!"CESD_Total" %in% colnames(wave1_cohort1_clean)) {
   stop("CESD_Total column is missing. Please check the CESD-total-score chunk.")
 }
@@ -331,7 +326,6 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
                  . == "Agree" ~ 1,
                  . == "Disagree" ~ 2,
                  . == "Strongly disagree" ~ 3)))
-
 #printing to verify RSES columns exist in data set
 head(wave1_cohort1_clean %>% select(starts_with("RosenbergQ")))
 ```
@@ -347,10 +341,8 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(Rosenberg_Total = sum(c_across(starts_with("RosenbergQ")), na.rm = TRUE)) %>%
   ungroup()
-
 #printing to verify
 head(wave1_cohort1_clean[, c("Rosenberg_Total")])
-  
 ```
 
 ```{r}
@@ -379,13 +371,11 @@ head(wave1_cohort1_clean[, c("Rosenberg_Total", "Explicit_SE_Level")])
 #renaming variable
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rename(Gender = `Demo Q2`)
-
 #converting to numeric
 wave1_cohort1_clean <- wave1_cohort1_clean %>%
   mutate(Gender = case_when(
     Gender == "Female" ~ 0,
     Gender == "Male" ~ 1))
-
 #printing to verify
 head(wave1_cohort1_clean$Gender)
 ```
@@ -394,8 +384,18 @@ head(wave1_cohort1_clean$Gender)
 #| label: tbl-summary-of-depression-and-self-esteem 
 #| tbl-cap: Summary of Depression Scores and Explicit Self Esteem Scores
 #| echo: false
-  wave1_cohort1_clean %>% select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>% head()
-  
+#creating table one
+  wave1_cohort1_clean %>%
+  select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>%
+  head() %>%
+  flextable() %>%
+  theme_apa() %>%
+  add_footer_row(
+    values = "Note. CES-D = Center for Epidemiologic Studies Depression Scale; SE = Self-Esteem.",
+    colwidths = 4
+  ) %>%
+  autofit()
+#other format of table, does not run correctly so commenting out
 #papaja::apa_table(
   #selfIAT_scored %>%
   #select(IAT_Score)  %>% head(), 
@@ -406,8 +406,13 @@ head(wave1_cohort1_clean$Gender)
 #| label: tbl-explicit-self-esteem
 #| tbl-cap: Summary of Rosenberg Scores
 #| echo: false
- RSES_Scored %>%
-  select(Rosenberg_Total)  %>% head()
+#creating table 2
+  wave1_cohort1_clean %>%
+  select(Depression_Level, Explicit_SE_Level) %>%
+  head() %>%
+  flextable() %>%
+  theme_apa() %>%
+  autofit()
 ```
 
 ```{r}
@@ -415,8 +420,8 @@ head(wave1_cohort1_clean$Gender)
 #| echo: false
 #| warning: false
 #| message: false
+#created this but then realized it shows all the data and renders horribly, leaving in to show effort put forth
 #knitr::opts_chunk$set(echo = TRUE)
-
 #knitr::kable(head(wave1_cohort1_clean), caption = "Cohort 1 Data")
 ```
 
@@ -551,10 +556,9 @@ print(cor_test_result)
 #association between depression level and gender
 chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohort1_clean$Gender))
 print(chisq_test)
-
+#printing to verify
 str(wave1_cohort1_clean[, c("Depression_Level", "Gender")])
 #present results in narrative text, table, or plot
-
 table(wave1_cohort1_clean$Depression_Level)
 ```
 
@@ -586,7 +590,7 @@ print(summary_stats)
 #calculate effect size, p-value, and confidence interval
 ```
 
-``.
+The mean CES-D score was `r summary_stats$Mean_CESD`. The mean Rosenberg score was `r summary_stats$Mean_RSE`.
 
 # Discussion
 
@@ -604,7 +608,7 @@ Future cohorts will also measure:
 
 -   Self-Concept Clarity
 
-**only use bold to highlight specific data in a table or figure**
+**bold does not belong in APA7 lol**
 
 # References
 
