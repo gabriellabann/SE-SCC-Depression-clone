@@ -386,7 +386,13 @@ head(wave1_cohort1_clean$Gender)
 #| echo: false
 #creating table one
   wave1_cohort1_clean %>%
-  select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>%
+    rename(
+    `CES-D Total Score` = CESD_Total,
+    `Depression Level` = Depression_Level,
+    `Rosenberg Total Score` = Rosenberg_Total,
+    `Explicit Self-Esteem Level` = Explicit_SE_Level
+  ) %>%
+    select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>%
   head() %>%
   flextable() %>%
   theme_apa() %>%
@@ -408,7 +414,11 @@ head(wave1_cohort1_clean$Gender)
 #| echo: false
 #creating table 2
   wave1_cohort1_clean %>%
-  select(Depression_Level, Explicit_SE_Level) %>%
+    rename(
+    `Depression Level` = Depression_Level,
+    `Explicit Self-Esteem Level` = Explicit_SE_Level
+  ) %>%
+    select(Depression_Level, Explicit_SE_Level) %>%
   head() %>%
   flextable() %>%
   theme_apa() %>%
@@ -431,11 +441,20 @@ head(wave1_cohort1_clean$Gender)
 #| echo: false
 #| warning: false
 #| message: false
-#graph of CES-D score distribution
+#graph of CES-D score distribution with facet
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
-  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
-  theme_minimal() +
-  labs(x = "CES-D Total Score", y = "Frequency")
+  geom_histogram(binwidth = 5, fill = "steelblue", color = "black") +
+  facet_wrap(~ Depression_Level, ncol = 2, scales = "free") +
+  labs(x = "CES-D Total Score", y = "Frequency") +
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+    axis.title.x = element_text(size = 12, face = "bold"),  
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -446,9 +465,17 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 #| message: false
 #graph of Rosenberg score distribution 
 ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
-  geom_histogram(binwidth = 1, fill = "blue", color = "black") +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "black") +
   labs(x = "RSE Total Score", y = "Count") +
-  theme_minimal()
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+    axis.title.x = element_text(size = 12, face = "bold"),  
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -459,9 +486,17 @@ ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
 #| message: false
 #graph of IAT score distribution
 ggplot(selfIAT_scored, aes(x = IAT_Score)) +
-  geom_density(fill = "red", alpha = 0.5) +
+  geom_density(fill = "maroon", alpha = 0.5) +
   labs(x = "IAT Score", y = "Density") +
-  theme_minimal()
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+    axis.title.x = element_text(size = 12, face = "bold"),  
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -472,8 +507,18 @@ ggplot(selfIAT_scored, aes(x = IAT_Score)) +
 #| message: false
 #graph of rosenberg score against depression level 
 ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
-  geom_boxplot() +
-  labs(x = "Depression Level", y = "Rosenberg Total Score")
+  geom_boxplot(fill = "lightgreen", color = "black", alpha = 0.8) +
+  facet_grid(. ~ Gender, scales = "free_x") +
+  labs(x = "Depression Level", y = "Rosenberg Total Score") +
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -484,8 +529,18 @@ ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
 #| message: false
 #graph of rosenberg score against depression total score
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
-  geom_point() +
-  labs(x = "CES-D Total Score", y = "Rosenberg Total Score")
+  geom_point(size = 3, alpha = 0.7) +
+  facet_wrap(~ Gender, nrow = 2, scales = "free") +
+  labs(x = "CES-D Total Score", y = "Rosenberg Total Score (Range: 0-30)", caption = "Note: higher Rosenberg total scores indicate higher self-esteem.") +
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -496,9 +551,18 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Dep
 #| message: false
 #graph of disribution of CES-D scores by depression level
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
-  geom_histogram(binwidth = 5, fill = "blue", color = "black") +
-  facet_wrap(~ Depression_Level) +
-  labs(x = "CES-D Total Score", y = "Frequency")
+  geom_histogram(binwidth = 5, fill = "steelblue", color = "black", alpha = 0.8) +
+  facet_wrap(~ Depression_Level, ncol = 2, scales = "free") +
+  labs(x = "CES-D Total Score (0-60)", y = "Frequency", caption = "Note. CES-D = Center for Epidemiologic Studies Depression Scale.") +
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+    axis.title.x = element_text(size = 12, face = "bold"),  
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
@@ -510,9 +574,17 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 #scatter plot with regression line for depression total versus age
 ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
   geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, color = "steelblue") +
   labs(x = "Age", y = "CESD Total Score") +
-  theme_minimal()
+  theme_minimal(base_size = 12, base_family = "Arial") +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+    axis.title.x = element_text(size = 12, face = "bold"),  
+    axis.title.y = element_text(size = 12, face = "bold"),
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank())
 ```
 
 ```{r}
