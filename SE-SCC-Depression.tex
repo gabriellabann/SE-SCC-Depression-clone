@@ -1,5 +1,6 @@
 \documentclass[
   man,
+  floatsintext,
   longtable,
   nolmodern,
   notxfonts,
@@ -144,8 +145,7 @@
 Self-Esteem: Connection with Self-Concept Clarity}
 
 
-\shorttitle{Intrapersonal Interplay between Depressive Symptoms and
-Self-Esteem: Connection with Self-Concept Clarity}
+\shorttitle{Depression and Self-Esteem}
 
 
 \usepackage{etoolbox}
@@ -160,14 +160,13 @@ Self-Esteem: Connection with Self-Concept Clarity}
 
 
 \affiliation{
-{University of Chicago}}
+{Division of the Social Sciences, University of Chicago}}
 
 
 
 
 \leftheader{Bann}
 
-\date{2025-03-10}
 
 
 \abstract{This study explores the relationship between depressive
@@ -180,12 +179,15 @@ explicit self-esteem. The preliminary results suggest a significant
 relationship between self-esteem and depression, with the implication
 for the early detection and treatment of depressive symptoms. }
 
+\keywords{depression, self-esteem, self-concept clarity}
 
-
-\authornote{ 
+\authornote{\par{\addORCIDlink{Gabriella Bann}{0009-0009-6511-4774}} 
 
 \par{       }
-\par{Correspondence concerning this article should be addressed to }
+\par{Correspondence concerning this article should be addressed
+to Gabriella Bann, Division of the Social Sciences, University of
+Chicago, 5848 S. University
+Avenue, Chicago, IL 60637, Email: gabriellabann@uchicago.edu}
 }
 
 \makeatletter
@@ -195,8 +197,6 @@ for the early detection and treatment of depressive symptoms. }
 \endoldlt
 }
 \makeatother
-\RequirePackage{longtable}
-\DeclareDelayedFloatFlavor{longtable}{table}
 
 \urlstyle{same}
 
@@ -216,6 +216,12 @@ for the early detection and treatment of depressive symptoms. }
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{multicol}
+\usepackage{hhline}
+\newlength\Oldarrayrulewidth
+\newlength\Oldtabcolsep
+\usepackage{hyperref}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -473,73 +479,277 @@ limits our ability to conduct a subgroup analysis regarding diagnosis.
 
 \section{Results}\label{results}
 
-The mean CES-D score was NA.
+\begin{table}
 
-\begin{table}[tbp]
+{\caption{{Summary of Depression Scores and Explicit Self Esteem
+Scores}{\label{tbl-summary-of-depression-and-self-esteem}}}
+\vspace{-20pt}}
 
-\begin{center}
-\begin{threeparttable}
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
-\caption{Summary of Depression Scores and Explicit Self Esteem Scores}
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
 
-\begin{tabular}{llll}
-\toprule
-CESD\_Total & \multicolumn{1}{c}{Depression\_Level} & \multicolumn{1}{c}{Rosenberg\_Total} & \multicolumn{1}{c}{Explicit\_SE\_Level}\\
-\midrule
-16.00 & Mild Depression & 22.00 & Normal Self-Esteem\\
-27.00 & High Depression & 20.00 & Normal Self-Esteem\\
-26.00 & High Depression & 21.00 & Normal Self-Esteem\\
-30.00 & High Depression & 14.00 & Low Self-Esteem\\
-7.00 & No Depression & 28.00 & High Self-Esteem\\
-15.00 & No Depression & 17.00 & Normal Self-Esteem\\
-\bottomrule
-\end{tabular}
+\setlength{\tabcolsep}{2pt}
 
-\end{threeparttable}
-\end{center}
+\renewcommand*{\arraystretch}{1.5}
+
+
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable*}[c]{|p{1.07in}|p{1.40in}|p{1.34in}|p{1.54in}}
+
+
+
+\ascline{0.75pt}{000000}{1-4}
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{CESD\_Total}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Depression\_Level}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Rosenberg\_Total}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Explicit\_SE\_Level}}}} \\
+
+\ascline{0.75pt}{000000}{1-4}\endfirsthead 
+
+\ascline{0.75pt}{000000}{1-4}
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{CESD\_Total}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Depression\_Level}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Rosenberg\_Total}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Explicit\_SE\_Level}}}} \\
+
+\ascline{0.75pt}{000000}{1-4}\endhead
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{16.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Mild\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{22.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{27.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{20.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{26.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{21.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{30.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{14.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Low\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{7.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{No\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{28.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.07in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{15.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{No\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.34in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{17.00}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+\ascline{0.75pt}{000000}{1-4}
+
+
+
+\multicolumn{4}{>{\raggedright}m{\dimexpr 5.35in+6\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{11}\selectfont{\global\setmainfont{Arial}{Note.\ CES-D\ =\ Center\ for\ Epidemiologic\ Studies\ Depression\ Scale;\ SE\ =\ Self-Esteem.}}}} \\
+
+
+
+
+
+\end{longtable*}
+
+
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
 
 \end{table}
 
-\begin{table}[tbp]
+\begin{table}
 
-\begin{center}
-\begin{threeparttable}
+{\caption{{Summary of Rosenberg
+Scores}{\label{tbl-explicit-self-esteem}}}
+\vspace{-20pt}}
 
-\caption{Summary of Rosenberg Scores}
+\global\setlength{\Oldarrayrulewidth}{\arrayrulewidth}
 
-\begin{tabular}{l}
-\toprule
-Rosenberg\_Total\\
-\midrule
-10.00\\
-17.00\\
-15.00\\
-8.00\\
-4.00\\
-14.00\\
-\bottomrule
-\end{tabular}
+\global\setlength{\Oldtabcolsep}{\tabcolsep}
 
-\end{threeparttable}
-\end{center}
+\setlength{\tabcolsep}{2pt}
+
+\renewcommand*{\arraystretch}{1.5}
+
+
+
+\providecommand{\ascline}[3]{\noalign{\global\arrayrulewidth #1}\arrayrulecolor[HTML]{#2}\cline{#3}}
+
+\begin{longtable*}[c]{|p{1.40in}|p{1.54in}}
+
+
+
+\ascline{0.75pt}{000000}{1-2}
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Depression\_Level}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Explicit\_SE\_Level}}}} \\
+
+\ascline{0.75pt}{000000}{1-2}\endfirsthead 
+
+\ascline{0.75pt}{000000}{1-2}
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Depression\_Level}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Explicit\_SE\_Level}}}} \\
+
+\ascline{0.75pt}{000000}{1-2}\endhead
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Mild\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Low\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{No\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{High\ Self-Esteem}}}} \\
+
+
+
+
+
+\multicolumn{1}{>{\centering}m{\dimexpr 1.4in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{No\ Depression}}}} & \multicolumn{1}{>{\centering}m{\dimexpr 1.54in+0\tabcolsep}}{\textcolor[HTML]{000000}{\fontsize{11}{22}\selectfont{\global\setmainfont{Times New Roman}{Normal\ Self-Esteem}}}} \\
+
+\ascline{0.75pt}{000000}{1-2}
+
+
+
+\end{longtable*}
+
+
+
+\arrayrulecolor[HTML]{000000}
+
+\global\setlength{\arrayrulewidth}{\Oldarrayrulewidth}
+
+\global\setlength{\tabcolsep}{\Oldtabcolsep}
+
+\renewcommand*{\arraystretch}{1}
 
 \end{table}
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/CESD-score-distribution-1.pdf}
+\begin{figure}
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/RSES-score-distribution-1.pdf}
+\caption{\label{fig-CESD-score-distribution}Distribution of CES-D
+Scores}
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/IAT-score-distribution-1.pdf}
+\centering{
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/RSES-versus-CESD-level-1.pdf}
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-CESD-score-distribution-1.pdf}
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/RSES-versus-CESD-total-1.pdf}
+}
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/CESD-total-versus-level-1.pdf}
+\end{figure}%
 
-\includegraphics{SE-SCC-Depression_files/figure-pdf/CESD-total-versus-age-1.pdf}
+\begin{figure}
 
-``.
+\caption{\label{fig-RSES-score-distribution}Rosenberg Self-Esteem Scale
+Distribution}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-RSES-score-distribution-1.pdf}
+
+}
+
+\end{figure}%
+
+\begin{figure}
+
+\caption{\label{fig-IAT-score-distribution}Implicit Association Test
+Score Distribution}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-IAT-score-distribution-1.pdf}
+
+}
+
+\end{figure}%
+
+\begin{figure}
+
+\caption{\label{fig-RSES-versus-CESD-level}Rosenberg Scores by
+Depression Level}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-RSES-versus-CESD-level-1.pdf}
+
+}
+
+\end{figure}%
+
+\begin{figure}
+
+\caption{\label{fig-RSES-versus-CESD-total}Rosenberg Scores vs.~CES-D
+Scores}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-RSES-versus-CESD-total-1.pdf}
+
+}
+
+\end{figure}%
+
+\begin{figure}
+
+\caption{\label{fig-CESD-total-versus-level}Distribution of CES-D Scores
+by Depression Level}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-CESD-total-versus-level-1.pdf}
+
+}
+
+\end{figure}%
+
+\begin{figure}
+
+\caption{\label{fig-CESD-total-versus-age}Regression of CESD Total on
+Age}
+
+\centering{
+
+\includegraphics{SE-SCC-Depression_files/figure-pdf/fig-CESD-total-versus-age-1.pdf}
+
+}
+
+\end{figure}%
+
+The mean CES-D score was 15.6428571. The mean Rosenberg score was
+22.0714286.
 
 \section{Discussion}\label{discussion}
 
@@ -549,8 +759,9 @@ signifying moderate levels of depressive symptoms present in this
 sample. In regards to a relationship between age and depressive
 symptoms, a linear regression analysis was performed. This demonstrated
 that age was not a significant predictor of depression symptoms
-(\emph{β} = -0.1935682, \emph{p} = 0.497248). This demonstrates that age
-is not significantly predictive of depressive symptoms in this sample.
+(\(\beta\) = -0.1935682, \emph{p} = 0.497248). This demonstrates that
+age is not significantly predictive of depressive symptoms in this
+sample.
 
 This cohort measured:
 
@@ -571,7 +782,7 @@ Future cohorts will also measure:
   Self-Concept Clarity
 \end{itemize}
 
-\textbf{only use bold to highlight specific data in a table or figure}
+\textbf{bold does not belong in APA7 lol}
 
 \section{References}\label{references}
 
