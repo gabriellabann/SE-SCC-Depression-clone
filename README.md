@@ -14,6 +14,7 @@ of potential treatment options for depressive symptoms.
 
 ##Repo Structure:
 (insert repo structure here)
+![image](https://github.com/user-attachments/assets/963c2b7a-8f50-4640-8020-be2641f289c1)
 
 ##How to Use
 1. Clone the repository:
