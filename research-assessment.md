@@ -32,25 +32,23 @@ Section: 2
 
 Research project title: SE-SCC-Depression
 
-Submission date: 2/26
+Submission date: 3/11
 
-Submission number (1-4): 1
+Submission number (1-4): 2
 
 Project GitHub repository URL: https://github.com/gabriellabann/SE-SCC-Depression.git
 
 Filename of manuscript .qmd: SE-SCC-Depression.qmd
 
-Filename of knitted .pdf: experincing significant difficulties knitting to pdf, would appreciate support on this, will be coming to office hours
+Filename of knitted .pdf: SE-SCC-Depression.pdf
 
 ## AI Statement
 
 Describe whether and how you used AI/LLMs when completing this project: 
-I used ChatGPT and Deepseek to help with writing code after parsing the class presentations/notes/provided readings, especially when it came to de-bugging.
+I used ChatGPT and Deepseek to help with writing code after parsing the class presentations/notes/provided readings, especially when it came to de-bugging. Substantially used when de-bugging to get the qmd to render as a pdf.
 
 Optionally (for engagement points) reflect on your use of AI:
-This was the first time I heavily engaged with AI tools. Prior to this class I'm not sure if I've ever used AI, for sure never for school work. This was an additional learning curve as it is yet another tool to learn.
-I was a bit frustrated by how much I had to use it since coding is very new to me, never having used R before this course. I wish we had been given more instruction on best practices with AI tools, and further tips on how to debug 
-to lessen reliance on this tool.
+I felt that I had to rely heavily on AI, googling my error messages did not always prove to be helpful, AI would usally give a quicker more comprehensive (especially Deepseek more than ChatGPT) response as to what was wrong and how to fix it. Another classmate recommended Google's AI but I did not find it as comprehensive as Deepseek.
 
 
 ## Overall requirements
@@ -100,7 +98,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2.  Uses relative paths correctly
     3.  Does not have duplicate/redundant elements
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments: 
             - Repo should not contain any files unrelated to the project (e.g, files from the example apaquarto manuscript)
@@ -112,7 +110,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1.  Includes description of repo purpose, data use, research questions, etc.
     2.  Outlines the repo structure with file tree or similar
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - README should minimally contain 1) description of project objective and data and 2) description of repo structure or file tress
@@ -122,7 +120,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     1.  All scripts run and all notebooks render if the repo is cloned to another location
     2.  .gitingore comprehensively excludes unnecessary, private, and very large files and are commented appropriately
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - .gitignore should include (minimally) a localonly folder and pdf render files (e.g., the *_files folder, .ttt, .tex., .log, etc.), as well as comments describing the ignored items (in addition to the default ignored items if you’re using a template)
@@ -145,9 +143,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
         2. When a reader opts-in to installing packages by uncommenting the code, it runs without errors 
     2. Uses more than one function to install/load/require packages (including those used in commented code)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+        -   Grader comments:
             - all install/require functions should be commented out; if they run when you render the document it can cause errors. Same for the .R script -- let your user decide whether they want to install the packages.
             - Refer to the d2mr resources page for a list of the packages you can load without a commented out install line.
         
@@ -166,9 +164,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. User-defined function(s) run(s) without error and produces expected output in at least 2 contexts
     3. Functions are well-documented with comments
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in SE-SCC-Depression.R
+        -   Grader comments: 
             - needs more documentation in comments
 
 8.  Parse and write conditional statements and/or loops
@@ -178,7 +176,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
 
         -   [X] Objective attempt
         -   [x] Objective met
-        -   Grader comments: in SE-SCC-Depression.R
+        -   Grader comments: 
         
 
 9.  Use `readr` functions to read in and write out data
@@ -187,9 +185,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Writes out intermediate and/or final datasets in code chunks or sourced scripts
     3. Uses only relative paths that run without error when repo is cloned
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in SE-SCC-Depression.R
+        -   Grader comments:
             - Does not run as written because of absolute paths
 
 10. Use `dplyr` and `tidyr` functions to transform data
@@ -248,9 +246,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Combines facets with other dynamic grouping aesthetics
       1. If data only includes 1 sensible grouping variable, it may be used for both the faceting and groupin aes.  
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in SE-SCC-Depression.R
+        -   Grader comments:
             - Needs to do one of the two options listed in the first bullet point
         
 16. Create publication-quality plots using `theme` and `labs` layers
@@ -260,9 +258,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Variables and labels display in plain English (e.g., "Age (years)" not "child_age_yrs"
     4. Uses at least 1 static aesthetic (e.g., color, shape, size) that improves visual clarity without mapping to data
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+        -   Grader comments:
             - cannot assess because documents do not run/render
 
 ### Data analysis
@@ -274,9 +272,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Presents results in narrative text, table, or plot
     - NOTE: This objective may be met with only numeric or non-numeric summaries if they are sufficiently complex (at Dr. Dowling's discretion)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+        -   Grader comments:
             - cannot assess because documents do not run/render
 
 
@@ -287,9 +285,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Presents results in narrative text, table, or plot
     - NOTE: This objective may be met with only numeric or factor data analyses if they are sufficiently complex (at Dr. Dowling's discretion)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression.R
+        -   Grader comments:
             - cannot assess because documents do not run/render 
 
 19. Present and interpret statistics in manuscript narrative
@@ -299,7 +297,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. Discriminates between informative and non-informative statistics and presents only the former in narrative text
     4. Uses dynamic inline R code to render data-dependent text
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - cannot assess because documents do not run/render
@@ -324,7 +322,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. May include R and R package citations with `cite_r()`
     5. May include references not cited in-text
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - cannot assess because documents do not run/render
@@ -338,7 +336,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3.  Follows the "1-chunk-1-thing" rule
     4.  Chunks are distributed throughout the manuscript, sensibly placed near the text they support
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments: 
             - .R scripts are code only, you can't include code chunks so there should not be any chunk options (e.g., label assignment)
@@ -364,7 +362,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     5. References render without error and link to the correct table/figure in pdf/html output
     - NOTE: Ideally your table(s) should be produced in APA7 style, but this is not a strict requirement. At a minimum, they should render as formatted tables (not raw output), have readable and correctly formatted text (e.g., column headers should be capitalized and in plain english, not literal variable names), and the table must be dynamically referenced in the text.
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - cannot assess because documents do not run/render
@@ -377,7 +375,7 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. Results are not displayed as raw R output
     5. Chunks are organized sensibly and appear near the text they support
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
         -   Grader comments:
             - cannot assess because documents do not run/render
@@ -388,9 +386,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     
     1. Includes all necessary metadata, output options, and formatting options necessary to render an APA styled document (or other specified style if appropriate for the project)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+        -   Grader comments: 
             - cannot assess because documents do not run/render
         
 27. Use quarto R Markdown to compose an academic manuscript
@@ -401,9 +399,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     4. Includes at least 1 footnote
     - NOTE: This is going to be one of the most flexible objectives to demonstrate.  You need to demonstrate a range of markdown skills and use them to make a readable, informative manuscript. Hitting the four points above should do that, but you can use your judgment about what kind of markdown features will best serve your project. No matter what, you should use markdown to follow APA7 guidelines.
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+        -   Grader comments: 
             - cannot assess because documents do not run/render
 
 28. Use inline R variables to replace static text
@@ -412,18 +410,18 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     2. Replaces static text with inline R references in at least 1 character context
     3. Ideally, uses inline R references for *all* data-dependent text
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+        -   Grader comments: 
             - cannot assess because documents do not run/render
 
 29. Run inline R functions to render dynamic data-dependent text
 
     1. Uses inline R functions to render at least 3 unique data-dependent text outputs (e.g., performs rounding, calculates means, subtracts one list length from another, etc. -- inline rather than in a code chunk)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: in addition to .qmd, in SE-SCC-Depression-Markdown.Rmd
+        -   Grader comments:
             - cannot assess because documents do not run/render
         
 30. Use `knitr` and quarto to produce an APA7 formatted 1-click PDF manuscript
@@ -433,9 +431,9 @@ Refer to the website for general tips on meeting these objectives and an FAQ.
     3. PDF renders without error and includes all text, tables, and figures
     4. No additional steps are needed (e.g., finding data, determining necessary packages to install and load, running unsourced scripts, correcting aboslute paths)
 
-        -   [X] Objective attempt
+        -   [X] Objective attempt - new attempt
         -   [ ] Objective met
-        -   Grader comments: Need help with this, I'm completely lost     
+        -   Grader comments:    
             - cannot assess because documents do not run/render
             - We'll figure it out!! 
    
@@ -475,6 +473,10 @@ issues I experienced I may go back to just using SPSS for further thesis work si
 more of a polished final product. Once the bugs are worked out, if they even can be, this manuscript will be beneficial if reproducible and dynamic since the data I'm using is coming from cohort one of wave one of an ongoing 
 study. Feeding in the data from cohort one wave 2 and 3, and the next/final cohort would be greatly beneficial to saving time in data analysis. One thing I do feel I have the hang of it fully comitting to best practices for 
 version control and GitHub integration/organization. In general I feel I'm a highly organized person, so I greatly appreciate the level of version control given by GitHub, being someone who often goes back into GoogleDocs history or keeps a running extra document with changes/deletions.
+
+NEW REFLECTION:
+
+The pdf still issues to render, the .qmd from the cloned repo did not render either, and uninstalling and reinstalling APA quarto did not work either, and I do not have the brain space to start a new repo one day before the deadline. Since it does render to .docx I hope you can assess the majority of objectives from there, but I understand if the final objective #30 is shot. Thank you again for your help in office hours and your helpful comments in this assessment file. Rendering to pdf was definetely the hardest part of this assessment by far. I wish I could write a longer reflection but frankly I'm exhausted after trying to resolve this for 8 some hours straight. Take care.
 
 ## Grading
 
