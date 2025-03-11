@@ -1,11 +1,25 @@
 ---
 title: "Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: Connection with Self-Concept Clarity"
+shorttitle: "Depression and Self-Esteem"
 author: 
-  name: "Gabriella Bann"
-  affiliation: "University of Chicago"
-date: "`r format(Sys.Date(), '%B %d, %Y')`"
-abstract: |
-  This study explores the relationship between depressive symptoms, implicit self esteem, and explicit self esteem. Self-concept clarity was intended to be measured but left out of cohort 1, it has been included in further waves of cohort 1 and will be inclued in further cohorts tested. This manuscript uses data from a sample of 14 US-based adults to examine how depression relates to implicit and explicit self-esteem. The preliminary results suggest a significant relationship between self-esteem and depression, with the implication for the early detection and treatment of depressive symptoms. 
+  name: Gabriella Bann
+  corresponding: true
+  orcid: 0009-0009-6511-4774
+  email: gabriellabann@uchicago.edu
+  affiliations: 
+    name: University of Chicago
+    department: Division of the Social Sciences
+    address: 5848 S. University Avenue
+    city: Chicago
+    region: IL
+    postal-code: 60637
+#date: "`r format(Sys.Date(), '%B %d, %Y')`"
+abstract: "This study explores the relationship between depressive symptoms, implicit self esteem, and explicit self esteem. Self-concept clarity was intended to be measured but left out of cohort 1, it has been included in further waves of cohort 1 and will be inclued in further cohorts tested. This manuscript uses data from a sample of 14 US-based adults to examine how depression relates to implicit and explicit self-esteem. The preliminary results suggest a significant relationship between self-esteem and depression, with the implication for the early detection and treatment of depressive symptoms."
+keywords: [depression, self-esteem, self-concept clarity]
+floatsintext: true
+author-note:
+  disclosures:
+    conflict of interest: The author has no conflict of interest to declare
 # format:
 #   pdf:
 #     #documentclass: article
