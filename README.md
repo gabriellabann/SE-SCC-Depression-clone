@@ -1,5 +1,5 @@
-# SE-SCC-Depression
-Mini-project: Skeleton repo
+# Intrapersonal Interplay between Depressive Symptoms and Self-Esteem: Connection with Self-Concept Clarity"
+shorttitle: "Depression and Self-Esteem
 
 This project investigates the relationship between depressive symptoms with self esteem and self concept clarity.
 
@@ -12,4 +12,11 @@ and SCC among healthy adults across three points in time: baseline, one-week pas
 past baseline. Our aim is that outlining these relationships will lay the groundwork for the investigation 
 of potential treatment options for depressive symptoms. 
 
-Repo Structure:
+##Repo Structure:
+(insert repo structure here)
+
+##How to Use
+1. Clone the repository:
+git clone https://github.com/yourusername/SE-SCC-Depression.git
+2. Install the required R packages by un-commenting in SE-SCC-Depression.qmd
+3. Render the Quarto document
