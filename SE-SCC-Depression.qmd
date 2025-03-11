@@ -19,7 +19,7 @@ keywords: [depression, self-esteem, self-concept clarity]
 floatsintext: true
 author-note:
   disclosures:
-    conflict of interest: The author has no conflict of interest to declare
+  conflict of interest: The author has no conflict of interest to declare
 # format:
 #   pdf:
 #     #documentclass: article
@@ -40,7 +40,7 @@ format:
 ---
 
 ```{r}
-#| label: loading-packages
+#| label: loading-packages-and-libraries
 #| echo: false
 #| warning: false
 #| message: false
@@ -148,9 +148,9 @@ Demographic information, questionnaires, and online testing assessments will be 
 #| warning: false
 #| message: false
 #collapsing IAT data down 
+#combines four blocks of both practice and critical blocks of the IAT into a single variable one compatible and one incompatible
 wave1_cohort1_IAT$compatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q4.RP4, wave1_cohort1_IAT$Q18.LP4, wave1_cohort1_IAT$Q14.RN7, wave1_cohort1_IAT$Q28.LN7)
 wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7.RP7, wave1_cohort1_IAT$Q21.LP7, wave1_cohort1_IAT$Q11.RN4, wave1_cohort1_IAT$Q25.LN4)
-
 ```
 
 ```{r}
@@ -159,9 +159,9 @@ wave1_cohort1_IAT$incompatible.crit <- combineIATfourblocks(wave1_cohort1_IAT$Q7
 #| warning: false
 #| message: false
 #collapsing IAT practice blocks 
+#combines four blocks of both practice and critical blocks of the IAT into a single variable one compatible and one incompatible
 wave1_cohort1_IAT$compatible.prac<- combineIATfourblocks(wave1_cohort1_IAT$Q3.RP3, wave1_cohort1_IAT$Q17.LP3, wave1_cohort1_IAT$Q13.RN6, wave1_cohort1_IAT$Q27.LN6)
 wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6.RP6, wave1_cohort1_IAT$Q20.LP6, wave1_cohort1_IAT$Q10.RN3, wave1_cohort1_IAT$Q24.LN3)
-
 ```
 
 ```{r}
@@ -169,21 +169,25 @@ wave1_cohort1_IAT$incompatible.prac <- combineIATfourblocks(wave1_cohort1_IAT$Q6
 #| echo: false
 #| warning: false
 #| message: false
-#cleaning the IAT
+#cleaning the IAT practice and critical blocks (in order of arguments given)
+#drops trials that exceed a timeout threshold
+#defines the timeout threshold in milliseconds
+#does not drop fast trials
+#drops participants who have too many fast trials
+#too many fast trials defined as 0.10
+#fast trial defined in milliseconds
+#penalty given for incorrect responses
+#the penatly added is in milliseconds
 clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac, 
                   crit1=wave1_cohort1_IAT$compatible.crit, 
                   prac2=wave1_cohort1_IAT$incompatible.prac, 
                   crit2=wave1_cohort1_IAT$incompatible.crit, 
-                  
                   timeout.drop=TRUE, 
                   timeout.ms=10000, 
-                  
                   fasttrial.drop=FALSE, 
-                  
                   fastprt.drop=TRUE, 
                   fastprt.percent=.10, 
                   fastprt.ms=300, 
-                  
                   error.penalty=TRUE, 
                   error.penalty.ms=600)
 ```
@@ -194,12 +198,20 @@ clean <- cleanIAT(prac1=wave1_cohort1_IAT$compatible.prac,
 #| warning: false
 #| message: false
 #| include: false
+#calculating the internal consistency of the IAT scores using the custom function IATreliability
+#returns crobach's alpha as a reliability score for the cleaned IAT data
 IATreliability(clean)$reliability #internal consistency (0.8902007)
+#calculating the reliability of the IAT's D-score using IATalpha
+#returns raw alpha value to represent reliability
 IATalpha(clean)$alpha.total #reliability of IAT D-score (raw_alpha = 0.7397427)
 wave1_cohort1_IAT$D <- clean$D
+#mean of IAT
 mean(clean$D, na.rm=T) #(0.7055081)
+#standard deviation of IAT
 sd(clean$D, na.rm=T) #(0.3755495)
+#t-test of IAT
 t.test(clean$D) #one sample t-test (t = 7.0291, df = 13, p-value = 8.945e-06, CI(0.4886723, 0.9223440), mean of x = 0.7055081)
+#cohen's D
 mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 ```
 
@@ -211,14 +223,22 @@ mean(clean$D, na.rm=T) / sd(clean$D, na.rm=T) #cohen d (1.878)
 #| include: false
 #reaction time descriptives by block
 #means
+#critical block 1
 mean(clean$clean.means.crit1, na.rm=T) #(1028.404)
+#critical block 2
 mean(clean$clean.means.crit2, na.rm=T) #(1396.257)
+#practice block 1
 mean(clean$clean.means.prac1, na.rm=T) #(1114.787)
+#practice block 2
 mean(clean$clean.means.prac2, na.rm=T) #(1487.6)
 #standard deviations
+#critical block 1
 sd(clean$clean.means.crit1, na.rm=T) #(280.7861)
+#critical block 2
 sd(clean$clean.means.crit2, na.rm=T) #(440.4245)
+#practice block 1
 sd(clean$clean.means.prac1, na.rm=T) #(338.0655)
+#practice block 2
 sd(clean$clean.means.prac2, na.rm=T) #(296.3132)
 ```
 
@@ -263,6 +283,7 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
   rowwise() %>%
   mutate(CESD_Total = sum(c_across(CESDQ1:CESDQ20), na.rm = TRUE)) %>%
   ungroup()
+#below is work done to verify total score actually populated, experienced significant issues with it in debugging, which is why it's in the same block
 #checking if CESDQ columns exist in data set
 if (!all(paste0("CESDQ", 1:20) %in% colnames(wave1_cohort1_clean))) {
   stop("Some CESDQ columns are missing. Please check the dataset.")
@@ -272,7 +293,7 @@ head(wave1_cohort1_clean %>% select(starts_with("CESDQ")))
 #checking that CES-D scores match for participants as scored in SPSS
 expected_scores <- c(16.00, 27.00, 26.00, 30.00, 7.00, 15.00, 0.00, 14.00, 37.00, 4.00, 3.00, 7.00, 7.00, 26.00)
 actual_scores <- wave1_cohort1_clean$CESD_Total[1:length(expected_scores)]
-#comparing R and SPSS total scores
+#comparing scores calculated in R and SPSS (previosly calculated in SPSS for lab) 
 data.frame(Expected = expected_scores, Actual = actual_scores, Match = expected_scores == actual_scores)
 #printing to verify
 head(wave1_cohort1_clean$CESD_Total)
@@ -293,16 +314,14 @@ wave1_cohort1_clean <- wave1_cohort1_clean %>%
     CESD_Total < 16 ~ "No Depression",
     CESD_Total >= 16 & CESD_Total < 24 ~ "Mild Depression",
     CESD_Total >= 24 ~ "High Depression"))
+#below is work done to verify depression level actually populated, experienced significant issues with it in debugging, which is why it's in the same block
 #printing to verify
 head(wave1_cohort1_clean[, c("CESD_Total", "Depression_Level")])
 #further printing to verify existence
 if (!"CESD_Total" %in% colnames(wave1_cohort1_clean)) {
-  stop("CESD_Total column is missing. Please check the CESD-total-score chunk.")
-}
-
+  stop("CESD_Total column is missing. Please check the CESD-total-score chunk.")}
 if (!"Depression_Level" %in% colnames(wave1_cohort1_clean)) {
-  stop("Depression_Level column is missing. Please check the CESD-depression-level chunk.")
-}
+  stop("Depression_Level column is missing. Please check the CESD-depression-level chunk.")}
 ```
 
 ```{r}
@@ -384,22 +403,19 @@ head(wave1_cohort1_clean$Gender)
 #| label: tbl-summary-of-depression-and-self-esteem 
 #| tbl-cap: Summary of Depression Scores and Explicit Self Esteem Scores
 #| echo: false
-#creating table one
+#creating table one showing depression and self-esteem relationship
   wave1_cohort1_clean %>%
-    rename(
-    `CES-D Total Score` = CESD_Total,
+    rename(`CES-D Total Score` = CESD_Total,
     `Depression Level` = Depression_Level,
     `Rosenberg Total Score` = Rosenberg_Total,
-    `Explicit Self-Esteem Level` = Explicit_SE_Level
-  ) %>%
-    select(CESD_Total, Depression_Level, Rosenberg_Total, Explicit_SE_Level) %>%
+    `Explicit Self-Esteem Level` = Explicit_SE_Level) %>%
+    select(`CES-D Total Score`, `Depression Level`, `Rosenberg Total Score`, `Explicit Self-Esteem Level`) %>%
   head() %>%
   flextable() %>%
   theme_apa() %>%
   add_footer_row(
     values = "Note. CES-D = Center for Epidemiologic Studies Depression Scale; SE = Self-Esteem.",
-    colwidths = 4
-  ) %>%
+    colwidths = 4) %>%
   autofit()
 #other format of table, does not run correctly so commenting out
 #papaja::apa_table(
@@ -412,13 +428,11 @@ head(wave1_cohort1_clean$Gender)
 #| label: tbl-explicit-self-esteem
 #| tbl-cap: Summary of Rosenberg Scores
 #| echo: false
-#creating table 2
+#creating table 2 showing a summary of rosenberg scores
   wave1_cohort1_clean %>%
-    rename(
-    `Depression Level` = Depression_Level,
-    `Explicit Self-Esteem Level` = Explicit_SE_Level
-  ) %>%
-    select(Depression_Level, Explicit_SE_Level) %>%
+    rename(`Depression Level` = Depression_Level,
+    `Explicit Self-Esteem Level` = Explicit_SE_Level) %>%
+    select(`Depression Level`, `Explicit Self-Esteem Level`) %>%
   head() %>%
   flextable() %>%
   theme_apa() %>%
@@ -446,9 +460,8 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "steelblue", color = "black") +
   facet_wrap(~ Depression_Level, ncol = 2, scales = "free") +
   labs(x = "CES-D Total Score", y = "Frequency") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
     axis.title.x = element_text(size = 12, face = "bold"),  
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -467,9 +480,8 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
 ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
   geom_histogram(binwidth = 1, fill = "steelblue", color = "black") +
   labs(x = "RSE Total Score", y = "Count") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
     axis.title.x = element_text(size = 12, face = "bold"),  
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -488,9 +500,8 @@ ggplot(wave1_cohort1_clean, aes(x = Rosenberg_Total)) +
 ggplot(selfIAT_scored, aes(x = IAT_Score)) +
   geom_density(fill = "maroon", alpha = 0.5) +
   labs(x = "IAT Score", y = "Density") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
     axis.title.x = element_text(size = 12, face = "bold"),  
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -505,14 +516,13 @@ ggplot(selfIAT_scored, aes(x = IAT_Score)) +
 #| echo: false
 #| warning: false
 #| message: false
-#graph of rosenberg score against depression level 
+#graph of rosenberg score against depression level with facet
 ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
   geom_boxplot(fill = "lightgreen", color = "black", alpha = 0.8) +
-  facet_grid(. ~ Gender, scales = "free_x") +
+  facet_grid(. ~ factor(Gender, levels = c(0, 1), labels = c("Female", "Male")), scales = "free_x") +
   labs(x = "Depression Level", y = "Rosenberg Total Score") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
     axis.title.x = element_text(size = 12, face = "bold"),
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -530,11 +540,9 @@ ggplot(wave1_cohort1_clean, aes(x = Depression_Level, y = Rosenberg_Total)) +
 #graph of rosenberg score against depression total score
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Depression_Level)) +
   geom_point(size = 3, alpha = 0.7) +
-  facet_wrap(~ Gender, nrow = 2, scales = "free") +
-  labs(x = "CES-D Total Score", y = "Rosenberg Total Score (Range: 0-30)", caption = "Note: higher Rosenberg total scores indicate higher self-esteem.") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+  labs(x = "CES-D Total Score", y = "Rosenberg Total Score (Range: 0-30)", color = "Depression Level", caption = "Note: higher Rosenberg total scores indicate higher self-esteem.") +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
     axis.title.x = element_text(size = 12, face = "bold"),
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -549,14 +557,13 @@ ggplot(wave1_cohort1_clean, aes(x = CESD_Total, y = Rosenberg_Total, color = Dep
 #| echo: false
 #| warning: false
 #| message: false
-#graph of disribution of CES-D scores by depression level
+#graph of disribution of CES-D scores by depression level with facet
 ggplot(wave1_cohort1_clean, aes(x = CESD_Total)) +
   geom_histogram(binwidth = 5, fill = "steelblue", color = "black", alpha = 0.8) +
   facet_wrap(~ Depression_Level, ncol = 2, scales = "free") +
   labs(x = "CES-D Total Score (0-60)", y = "Frequency", caption = "Note. CES-D = Center for Epidemiologic Studies Depression Scale.") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
     axis.title.x = element_text(size = 12, face = "bold"),  
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -576,9 +583,8 @@ ggplot(wave1_cohort1_clean, aes(x = `Demo Q1`, y = CESD_Total)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE, color = "steelblue") +
   labs(x = "Age", y = "CESD Total Score") +
-  theme_minimal(base_size = 12, base_family = "Arial") +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5), 
     axis.title.x = element_text(size = 12, face = "bold"),  
     axis.title.y = element_text(size = 12, face = "bold"),
     strip.text = element_text(size = 12, face = "bold"),
@@ -607,7 +613,7 @@ table(wave1_cohort1_clean$Depression_Level)
   summarise(   
     Mean_IAT = mean(IAT_Score, na.rm = TRUE),
     SD_IAT = sd(IAT_Score, na.rm = TRUE))
-#present results in narrative text, table, or plot
+#presented results in narrative text
 ```
 
 ```{r}
@@ -630,7 +636,7 @@ chisq_test <- chisq.test(table(wave1_cohort1_clean$Depression_Level, wave1_cohor
 print(chisq_test)
 #printing to verify
 str(wave1_cohort1_clean[, c("Depression_Level", "Gender")])
-#present results in narrative text, table, or plot
+#presenting results in table
 table(wave1_cohort1_clean$Depression_Level)
 ```
 
@@ -644,29 +650,89 @@ table(wave1_cohort1_clean$Depression_Level)
 anova_summary <- summary(anova_result)
 p_value <- anova_summary[[1]]$`Pr(>F)`[1]
 eta_squared_value <- anova_summary[[1]]$`Sum Sq`[1] / sum(anova_summary[[1]]$`Sum Sq`)
+f_value <- anova_summary[[1]]["F value"][1, 1]
+#calculating further correlation tests but for ANOVA summary
+cor_test_p_value <- cor_test_result$p.value
+cor_test_estimate <- cor_test_result$estimate
+cor_test_conf_int <- cor_test_result$conf.int
+#calculating further linear regression but for ANOVA summary
+lm_summary <- summary(lm_model)
+lm_p_value <- lm_summary$coefficients[2, 4]
+lm_beta <- lm_summary$coefficients[2, 1]
+lm_conf_int <- confint(lm_model)[2, ]
 #printing mean, sd, and t-test for CESD
 cat("The mean CES-D score was", mean(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       "with a standard deviation of", sd(wave1_cohort1_clean$CESD_Total, na.rm = TRUE), 
       ". An ANOVA demonstrated a significant impact of depression level on CES-D scores (F =", 
       anova_summary[[1]]["F value"][1, 1], ", p =", p_value, ").",
       "The effect size (Eta-squared) was", eta_squared_value, ".")
-#summary statistics
+#calculate confidence interval
+```
+
+```{r}
+#| label: numeric-and-non-numeric-summary-statistics
+#| echo: FALSE
+#| warning: false
+#| message: false
+#| include: false
+#numeric summary statistics
 summary_stats <- wave1_cohort1_clean %>%
   summarise(
     Mean_CESD = mean(CESD_Total, na.rm = TRUE),
     SD_CESD = sd(CESD_Total, na.rm = TRUE),
     Mean_RSE = mean(Rosenberg_Total, na.rm = TRUE),
-    SD_RSE = sd(Rosenberg_Total, na.rm = TRUE)
-  )
+    SD_RSE = sd(Rosenberg_Total, na.rm = TRUE))
 print(summary_stats)
-#calculate effect size, p-value, and confidence interval
+#non-numeric numeric summary statistics
+non_numeric_summary_stats <- wave1_cohort1_clean %>%
+  count(Depression_Level) %>%
+  mutate(Proportion = n / sum(n))
 ```
 
-The mean CES-D score was `r summary_stats$Mean_CESD`. The mean Rosenberg score was `r summary_stats$Mean_RSE`.
+
+```{r}
+#| label: tbl-numeric-summary-stats
+#| tbl-cap: Descriptive Statistics for Numeric Variables
+#| echo: false
+#| warning: false
+#| message: false
+#table of numeric summary statistics
+numeric_table <- summary_stats %>%
+  rename(`Mean CES-D Score` = Mean_CESD,
+    `Standard Deviation of CES-D Score` = SD_CESD,
+    `Mean Rosenberg Self-Esteem Score` = Mean_RSE,
+    `Standard Deviation of Rosenberg Self-Esteem Score` = SD_RSE) %>%
+  pivot_longer(everything(), names_to = "Statistic", values_to = "Value") %>%
+  flextable() %>%
+  theme_apa() %>%
+  autofit()
+
+numeric_table
+```
+
+```{r}
+#| label: tbl-non-numeric-summary-stats
+#| tbl-cap: Frequency and Proportion of Depression Levels
+#| echo: false
+#| warning: false
+#| message: false
+#table of non-numeric summary statistics
+non_numeric_table <- non_numeric_summary_stats %>%
+  set_names(c("Depression Level", "Frequency", "Proportion")) %>%
+  flextable() %>%
+  theme_apa() %>%
+  autofit()
+
+non_numeric_table
+```
+
+The mean CES-D score was `r summary_stats$Mean_CESD` (*SD* = `r summary_stats$SD_CESD`). The mean Rosenberg score was `r summary_stats$Mean_RSE` (*SD* = `r summary_stats$SD_RSE`). An ANOVA was calculated to demonstrate the imapct of depression level on CES-D scores, results should be obvious since coming from the same measure (*F* = `r f_value`, *p* = `r p_value`, η² = `r eta_squared_value`). As anticipated and assumed, the effect size (η² = `r eta_squared_value`) shows a large effect of depression level on CES-D scores. A linear regression was perfomed which demonstrated that age `r ifelse(lm_p_value < 0.05, "was", "was not")` a significant predictor of the occurance of depressive symptoms (*β* = `r lm_beta`, *p* = `r lm_p_value`, 95% CI [`r lm_conf_int[1]`, `r lm_conf_int[2]`]). Finally, a correlation analyses was perfomed between the Rosenberg Self-Esteem scores and the CES-D scores, which portrayed a significant negative relationship (*r* = `r cor_test_estimate`, *p* = `r cor_test_p_value`, 95% CI [`r cor_test_conf_int[1]`, `r cor_test_conf_int[2]`]). This shows that lower depressive symptoms are associated with higher self-esteem.^[The CES-D is a scale that ranges from 0 to 60, with the higher scores indicating higher severity of depressive symptoms.]
+The CES-D score distribution by depression level is visualized in Figure @ref(fig-CESD-score-distribution). The relationship between CES-D scores and Rosenberg Self-Esteem scores is shown in Figure @ref(fig-RSES-versus-CESD-total). Descriptive statistics for this sample's numeric variables are presented in Table @ref(tbl-numeric-summary-stats), and the proportion and frequency of the demonstrated depression levels in the CES-D are given in Table @ref(tbl-non-numeric-summary-stats).The variety of Rosenberg Self-Esteem scores present in the sample is shown in Figure @ref(fig-RSES-score-distribution), and the Implicit Association Test (IAT) scores are exhibited in Figure @ref(fig-IAT-score-distribution). The connection between CES-D depression levels and Rosenberg scores, stratified by gender, is portrayed in Figure @ref(fig-RSES-versus-CESD-level). A regression of CES-D total scores on age is represented in Figure @ref(fig-CESD-total-versus-age).The summary of depression scores with corresponding explicit self-esteem scores is given in Table @ref(tbl-summary-of-depression-and-self-esteem), and the summary of Rosenberg scores with their corresponding CES-D depression level is given in Table @ref(tbl-explicit-self-esteem).
 
 # Discussion
 
-The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD` in the CES-D, signifying moderate levels of depressive symptoms present in this sample. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms ($\beta$ = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`
+The results suggest a significant relationship between depression and self-esteem. There was a mean score of `r summary_stats$Mean_CESD` in the CES-D, signifying moderate levels of depressive symptoms present in this sample. This effect size (η² = `r eta_squared_value`) shows a huge impact of depression level on overall CES-D scores. In regards to a relationship between age and depressive symptoms, a linear regression analysis was performed. This demonstrated that age `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "was", "was not")` a significant predictor of depression symptoms ($\beta$ = `r summary(lm_model)$coefficients[2, 1]`, *p* = `r summary(lm_model)$coefficients[2, 4]`). This demonstrates that `r ifelse(summary(lm_model)$coefficients[2, 4] < 0.05, "older individuals may be disposed to higher levels of depressive symptoms.", "age is not significantly predictive of depressive symptoms in this sample.")`. The correlation analysis showed a negative relationship between CES-D scores and Rosenberg Self-Esteem values (*r* = `r cor_test_estimate`, *p* = `r cor_test_p_value`, 95% CI [`r cor_test_conf_int[1]`, `r cor_test_conf_int[2]`]). This is consistent with prior research [@franck_implicit_2007; @yin_relationship_2022].
+
 Psychedelic-assisted psychotherapy, particularly those employing the use of 5-HT2A receptor agonists, for individuals with NPD is a long-term objective of the study this proposal is branching off of. The multivariate analysis of depression symptoms alongside self-esteem and self-deception can aid in justifying of this intervention for individuals with NPD. Previous research on how this intervention can be beneficial for individuals with depression symptoms can further support these suggestions. Public data from the National Survey on Drug Use and Health demonstrates that recreational LSD usage in US adults with major depression in the past calendar year significantly increased in comparison to adults without major depression (Walsh et al., 2023). This indicates through government-obtained data how many individuals may be self-medicating their depressive symptoms through the use of LSD, a 5-HT2A receptor agonist, pointing toward the potential psychiatric benefits the hallucinogenic substance possesses. LSD has also been shown to have the potential to be used in conjunction with psychotherapy by a placebo-controlled trial whose results indicated suggestibility is enhanced while under the influence of this hallucinogen (Carhart-Harris et al., 2014). This source points towards the benefits of LSD when used in psychotherapy for more significant outcomes for patients. In regards to the easing of NPD symptoms, classic serotonergic psychedelics like LSD have been demonstrated to increase the experience of empathy and connectedness, however, it should be noted that the participants in this study were not people with NPD (van Mulukom et al., 2020). This demonstrates the potential of 5-HT2A receptor agonists to be a potential treatment for people with NPD. The use of this intervention has the potential to achieve improvement of both depression and NPD symptoms. 
 
 This cohort measured:
